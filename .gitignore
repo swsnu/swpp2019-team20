@@ -127,3 +127,7 @@ pickle/
 
 # Django
 db.sqlite3
+
+
+# vscode
+.vscode/
