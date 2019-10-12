@@ -130,4 +130,4 @@ db.sqlite3
 
 
 # vscode
-.vscode/
+/.vscode
