@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+  <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+  여기엔 로그인 후 index page(servicable)를 보여줄 것
+
+{% else %}
+
+  <p>Welcome, new user. Please log in.</p>
+  여기엔 demo index page를 보여줄 것
+
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% if user.is_authenticated %}
+
+  <p>이 곳은 {{ user.username }} 의 마이페이지 입니다.</p>
+  여기엔 my page 내용을 보여줄 것...!
+
+{% else %}
+
+  <p> 잘못된 접근 </p>
+
+{% endif %}

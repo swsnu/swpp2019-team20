@@ -3,7 +3,7 @@ from .forms import SignUpForm, SignInForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 
 from django.http import HttpResponse, JsonResponse
@@ -12,8 +12,17 @@ from django.template import RequestContext
 
 from .models import Profile
 
+from django.contrib.auth.decorators import login_required
+
+from django.urls.base import reverse
+
+from django.http.response import HttpResponseRedirect
+
+
 def index(request):
-    return HttpResponse("Account page")
+    #return HttpResponse("Account page")
+    return render(request, 'account/index.html')
+
 
 def signup(request):
     # if it is POST request, register a new user with the info in UserForm
@@ -58,3 +67,11 @@ def signin(request):
     return render(request, 'account/signin.html', {'form': form})
 
 
+def signout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
+@login_required
+def mypage(request):
+    return render(request, 'account/mypage.html')

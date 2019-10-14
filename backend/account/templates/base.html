@@ -1,0 +1,17 @@
+<span><a href="{% url 'index' %}">PayMeBack</a></span>
+
+<ul class="nav navbar-nav navbar-right">
+    {% if user.is_active %}
+        <li><a href="{% url 'mypage' %}">{{user.username}}</a> 님 안녕하세요. </li>
+        <li><a href="{% url 'signout' %}">Logout</a></li>
+
+    {% else %}
+    <li><a href="{% url 'signin' %}">Sign In</a></li>
+    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+    {% endif %}
+</ul>
+
+
+{% block content %}
+
+{% endblock content %}
