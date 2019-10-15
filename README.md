@@ -1,5 +1,7 @@
 # swpp2019-team20
 
+![logo](./frontend/src/logo.png)
+
 ## Sprint1: USER STORY
 
 ----
