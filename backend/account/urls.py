@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from . import views
 
@@ -9,4 +9,3 @@ urlpatterns = [
     path('signout/', views.signout, name='signout'),
     path('mypage/', views.mypage, name='mypage'),
 ]
-

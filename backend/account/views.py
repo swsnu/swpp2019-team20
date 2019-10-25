@@ -1,16 +1,14 @@
 from django.shortcuts import render, redirect
-from .forms import SignUpForm, SignInForm
-from django.contrib.auth.models import User
+
 from django.contrib import messages
 
+#from django.contrib.auth.models import User
+
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
 
 from django.http import HttpResponse, JsonResponse
 
-from django.template import RequestContext
-
-from .models import Profile
+#from .models import Profile
 
 from django.contrib.auth.decorators import login_required
 
@@ -18,11 +16,10 @@ from django.urls.base import reverse
 
 from django.http.response import HttpResponseRedirect
 
+from .forms import SignUpForm, SignInForm
+
 
 def index(request):
-    '''
-    
-    '''
     #return HttpResponse("Account page")
     return render(request, 'account/index.html')
 
@@ -46,8 +43,8 @@ def signup(request):
 
             messages.success(request, 'Your profile is successfully saved.')
             return redirect('index')
-        else:
-            messages.error(request, 'Please correct the error below.')
+
+        messages.error(request, 'Please correct the error below.')
     else:
         form = SignUpForm()
         #profile_form = ProfileForm(instance=request.user.profile)
@@ -58,14 +55,13 @@ def signin(request):
         form = SignInForm(request.POST)
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username = username, password = password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('index')
-        else:
-            return HttpResponse('Login failed. Try again.')
-    else:
-        form = SignInForm()
+        return HttpResponse('Login failed. Try again.')
+
+    form = SignInForm()
 
     return render(request, 'account/signin.html', {'form': form})
 

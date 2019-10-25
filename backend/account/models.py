@@ -22,6 +22,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+# pylint: disable=unused-argument
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     """If User instance is created, Profile instance that extends the User
@@ -35,6 +36,4 @@ def save_user_profile(sender, instance, **kwargs):
     """Save the Profile instance created
     """
     instance.profile.save()
-
-    def __str__(self):
-        return self.user.username
+# pylint: enable=unused-argument
