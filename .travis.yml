@@ -17,5 +17,5 @@ matrix:
       install:
         - pip install -r requirements-dev.txt
       script:
-        - pylint '**/*.py'
+        - pylint **/*.py
         - ./manage.py test
