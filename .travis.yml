@@ -18,4 +18,5 @@ matrix:
         - pip install -r requirements-dev.txt
       script:
         - pylint **/*.py
-        - ./manage.py test
+        - coverage run --branch --source='.' ./manage.py test
+        - coverage report -m --fail-under=90
