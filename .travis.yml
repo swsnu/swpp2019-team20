@@ -7,7 +7,7 @@ matrix:
       install:
         - yarn install
       script:
-        - yarn run eslint src/
+        - yarn run lint src/
         - yarn test --coverage --watchAll=false
 
     - language: python
