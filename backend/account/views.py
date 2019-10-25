@@ -20,6 +20,9 @@ from django.http.response import HttpResponseRedirect
 
 
 def index(request):
+    '''
+    
+    '''
     #return HttpResponse("Account page")
     return render(request, 'account/index.html')
 
