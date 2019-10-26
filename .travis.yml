@@ -17,6 +17,6 @@ matrix:
       install:
         - pip install -r requirements-dev.txt
       script:
-        - pylint **/*.py
-        - coverage run --branch --source='.' ./manage.py test
+        - pylint --load-plugins pylint_django **/*.py
+        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py' ./manage.py test
         - coverage report -m --fail-under=90
