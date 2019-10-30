@@ -27,44 +27,41 @@ import json
 def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
-    else:
-        return HttpResponseNotAllowed(['GET'])
+
+    return HttpResponseNotAllowed(['GET'])
 
 
-'''
+
 # This will not be used as API
-def index(request):
+#def index(request):
     #return HttpResponse("Account page")
-    return render(request, 'account/index.html')
-'''
+#    return render(request, 'account/index.html')
 
-'''
-def signup(request):
+#def signup(request):
     # if it is POST request, register a new user with the info in UserForm
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid(): #and profile_form.is_valid():
-            user = form.save()
-            user.refresh_from_db()   # load the profile instance created
+#    if request.method == "POST":
+#        form = SignUpForm(request.POST)
+#        if form.is_valid(): #and profile_form.is_valid():
+#           user = form.save()
+#            user.refresh_from_db()   # load the profile instance created
+#
+#            user.profile.kakao_id = form.cleaned_data.get('kakao_id')
+#            user.profile.phone = form.cleaned_data.get('phone')
+#            user.profile.bio = form.cleaned_data.get('bio')
+#            user.save()
 
-            user.profile.kakao_id = form.cleaned_data.get('kakao_id')
-            user.profile.phone = form.cleaned_data.get('phone')
-            user.profile.bio = form.cleaned_data.get('bio')
-            user.save()
+#            raw_password = form.cleaned_data.get('password1')
+#            user = authenticate(username=user.username, password=raw_password)
+#            login(request, user)
 
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
+#            messages.success(request, 'Your profile is successfully saved.')
+#            return redirect('index')
 
-            messages.success(request, 'Your profile is successfully saved.')
-            return redirect('index')
-
-        messages.error(request, 'Please correct the error below.')
-    else:
-        form = SignUpForm()
+#        messages.error(request, 'Please correct the error below.')
+#    else:
+#        form = SignUpForm()
         #profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'account/signup.html', {'form':form})
-'''
+#    return render(request, 'account/signup.html', {'form':form})
 
 def signup(request):
     """
@@ -112,10 +109,11 @@ def signin(request):
         req_data = json.loads(request.body.decode())
         username = req_data['username']
         password = req_data['password']
-        user = authenticate(username = username, password = password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse(status=204)     # request was responded successfully but without any content
+            # request was responded successfully but without any content
+            return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)     # unauthorized
     else:
@@ -134,6 +132,5 @@ def signout(request):
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)
-    else:
-        return HttpResponseNotAllowed(['GET'])
 
+    return HttpResponseNotAllowed(['GET'])
