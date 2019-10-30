@@ -11,7 +11,7 @@ import './App.css';
 
 function App() {
   const loggedIn = true;
-  console.log(loggedIn);
+  // console.log(loggedIn);
 
   const router = loggedIn ? (
     <Switch>
