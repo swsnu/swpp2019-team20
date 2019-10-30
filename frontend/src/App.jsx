@@ -15,25 +15,25 @@ function App() {
 
   const router = loggedIn ? (
     <Switch>
-      <Redirect exact from="/" to="/login"/>
+      <Redirect exact from="/" to="/login" />
       <Route
         path="/signup"
         exact
         component={withNavbar(SignupPage)}
       />
-      <Route path="/login" exact component={LoginPage}/>
-      <Route path="/profile" exact component={withNavbar(ProfilePage)}/>
+      <Route path="/login" exact component={LoginPage} />
+      <Route path="/profile" exact component={withNavbar(ProfilePage)} />
       <Route
         path="/index"
         exact
         component={withNavbar(IndexPage)}
       />
-      <Route render={() => <h1>Not Found</h1>}/>
+      <Route render={() => <h1>Not Found</h1>} />
     </Switch>
   ) : (
     <Switch>
-      <Route path="/login" exact component={LoginPage}/>
-      <Redirect from="/" to="/login"/>
+      <Route path="/login" exact component={LoginPage} />
+      <Redirect from="/" to="/login" />
     </Switch>
   );
   return (

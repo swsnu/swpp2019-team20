@@ -1,7 +1,6 @@
 import React from 'react';
 import Base from '../../components/Base/Base';
 
-function IndexPage() {
-  return <Base>Login Page</Base>;
-}
+const IndexPage = () => <Base>Index Page</Base>;
+
 export default IndexPage;

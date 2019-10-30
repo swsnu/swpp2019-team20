@@ -1,7 +1,6 @@
 import React from 'react';
 import Base from '../../components/Base/Base';
 
-function SignupPage() {
-  return <Base>Profile Page</Base>;
-}
+const SignupPage = () => <Base>Signup Page</Base>;
+
 export default SignupPage;
