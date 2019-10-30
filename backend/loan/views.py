@@ -6,3 +6,14 @@ from django.http import HttpResponse#, JsonResponse
 def index(request):
     return HttpResponse("loan page")
     #return render(request, 'account/index.html')
+
+def loan_list(request):
+    if request.method == 'GET':
+        # not implemented yet
+        pass
+
+    elif request.method == 'POST':
+        # not implemented yet
+        pass
+    
+    return HttpResponseNotAllowed(['GET', 'POST'])
