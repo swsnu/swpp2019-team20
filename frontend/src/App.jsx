@@ -1,27 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter, Route, Redirect, Switch,
+} from 'react-router-dom';
+import IndexPage from './pages/IndexPage/IndexPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import SignupPage from './pages/SignupPage/SignupPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 import './App.css';
 
 function App() {
+  const loggedIn = true;
+  // console.log(loggedIn);
+
+  const router = loggedIn ? (
+    <Switch>
+      <Redirect exact from="/" to="/login" />
+      <Route
+        path="/signup"
+        exact
+        component={SignupPage}
+      />
+      <Route path="/login" exact component={LoginPage} />
+      <Route path="/profile" exact component={ProfilePage} />
+      <Route
+        path="/index"
+        exact
+        component={IndexPage}
+      />
+      <Route render={() => <h1>Not Found</h1>} />
+    </Switch>
+  ) : (
+    <Switch>
+      <Route path="/login" exact component={LoginPage} />
+      <Redirect from="/" to="/login" />
+    </Switch>
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit
-          <code>src/App.js</code>
-          and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">{router}</div>
+    </BrowserRouter>
   );
 }
 
