@@ -1,25 +1,25 @@
-from django.shortcuts import render, redirect
+import json
 
-from django.contrib import messages
+#from django.shortcuts import render, redirect
+
+#from django.contrib import messages
 
 from django.contrib.auth.models import User
 
 from django.contrib.auth import login, authenticate, logout
 
-from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed#, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .models import Profile
+#from .models import Profile
 
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
 
-from django.urls.base import reverse
+#from django.urls.base import reverse
 
-from django.http.response import HttpResponseRedirect
+#from django.http.response import HttpResponseRedirect
 
-from .forms import SignUpForm, SignInForm
-
-import json
+#from .forms import SignUpForm, SignInForm
 
 
 
@@ -73,7 +73,7 @@ def signup(request):
         username = req_data['username']
         password = req_data['password']
         email = req_data['email']
-        user = User.objects.create_user(username, password, email)
+        user = User.objects.create_user(username=username, email=email, password=password)
         user.refresh_from_db()   # load the profile instance created
         user.profile.kakao_id = req_data['kakao_id']
         user.profile.phone = req_data['phone']
@@ -83,25 +83,23 @@ def signup(request):
 
         return HttpResponse(status=201)
 
-    else:
-        return HttpResponseNotAllowed(['POST'])
+    return HttpResponseNotAllowed(['POST'])
 
-'''
-def signin(request):
-    if request.method == "POST":
-        form = SignInForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        return HttpResponse('Login failed. Try again.')
 
-    form = SignInForm()
+#def signin(request):
+#    if request.method == "POST":
+#        form = SignInForm(request.POST)
+#        username = request.POST['username']
+#        password = request.POST['password']
+#        user = authenticate(username=username, password=password)
+#        if user is not None:
+#            login(request, user)
+#            return redirect('index')
+#        return HttpResponse('Login failed. Try again.')
 
-    return render(request, 'account/signin.html', {'form': form})
-'''
+#    form = SignInForm()
+
+#    return render(request, 'account/signin.html', {'form': form})
 
 
 def signin(request):
@@ -114,23 +112,23 @@ def signin(request):
             login(request, user)
             # request was responded successfully but without any content
             return HttpResponse(status=204)
-        else:
-            return HttpResponse(status=401)     # unauthorized
-    else:
-        return HttpResponseNotAllowed(['POST'])
+
+        return HttpResponse(status=401)     # unauthorized
+
+    return HttpResponseNotAllowed(['POST'])
 
 
-'''
-def signout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('index'))
-'''
+
+#def signout(request):
+#    logout(request)
+#    return HttpResponseRedirect(reverse('index'))
+
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)
-        else:
-            return HttpResponse(status=401)
+
+        return HttpResponse(status=401)
 
     return HttpResponseNotAllowed(['GET'])
