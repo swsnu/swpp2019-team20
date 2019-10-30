@@ -6,7 +6,8 @@ from django.contrib import messages
 
 from django.contrib.auth import login, authenticate, logout
 
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+#from django.http import HttpResponse, JsonResponse
 
 #from .models import Profile
 
