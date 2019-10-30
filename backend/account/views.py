@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect
 
 from django.contrib import messages
 
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 from django.contrib.auth import login, authenticate, logout
 
-from django.http import HttpResponse
-#from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-#from .models import Profile
+from .models import Profile
 
 from django.contrib.auth.decorators import login_required
 
@@ -19,12 +19,26 @@ from django.http.response import HttpResponseRedirect
 
 from .forms import SignUpForm, SignInForm
 
+import json
 
+
+
+@ensure_csrf_cookie
+def token(request):
+    if request.method == 'GET':
+        return HttpResponse(status=204)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+
+'''
+# This will not be used as API
 def index(request):
     #return HttpResponse("Account page")
     return render(request, 'account/index.html')
+'''
 
-
+'''
 def signup(request):
     # if it is POST request, register a new user with the info in UserForm
     if request.method == "POST":
@@ -50,7 +64,32 @@ def signup(request):
         form = SignUpForm()
         #profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'account/signup.html', {'form':form})
+'''
 
+def signup(request):
+    """
+    PUT method will be required afterward in order to update the user rating
+    (Or deal with this in another api)
+    """
+    if request.method == 'POST':
+        req_data = json.loads(request.body.decode())
+        username = req_data['username']
+        password = req_data['password']
+        email = req_data['email']
+        user = User.objects.create_user(username, password, email)
+        user.refresh_from_db()   # load the profile instance created
+        user.profile.kakao_id = req_data['kakao_id']
+        user.profile.phone = req_data['phone']
+        user.profile.bio = req_data['bio']
+        user.profile.profile_pic = req_data['profile_pic']
+        user.save()
+
+        return HttpResponse(status=201)
+
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+'''
 def signin(request):
     if request.method == "POST":
         form = SignInForm(request.POST)
@@ -65,13 +104,36 @@ def signin(request):
     form = SignInForm()
 
     return render(request, 'account/signin.html', {'form': form})
+'''
 
 
+def signin(request):
+    if request.method == "POST":
+        req_data = json.loads(request.body.decode())
+        username = req_data['username']
+        password = req_data['password']
+        user = authenticate(username = username, password = password)
+        if user is not None:
+            login(request, user)
+            return HttpResponse(status=204)     # request was responded successfully but without any content
+        else:
+            return HttpResponse(status=401)     # unauthorized
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+'''
 def signout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+'''
+def signout(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            logout(request)
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
-
-@login_required
-def mypage(request):
-    return render(request, 'account/mypage.html')
