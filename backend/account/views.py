@@ -75,5 +75,3 @@ def signout(request):
 @login_required
 def mypage(request):
     return render(request, 'account/mypage.html')
-
-
