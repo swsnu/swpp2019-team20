@@ -6,7 +6,6 @@ import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import withNavbar from './components/subcomponents/Header/Header';
 import './App.css';
 
 function App() {
@@ -19,14 +18,14 @@ function App() {
       <Route
         path="/signup"
         exact
-        component={withNavbar(SignupPage)}
+        component={SignupPage}
       />
       <Route path="/login" exact component={LoginPage} />
-      <Route path="/profile" exact component={withNavbar(ProfilePage)} />
+      <Route path="/profile" exact component={ProfilePage} />
       <Route
         path="/index"
         exact
-        component={withNavbar(IndexPage)}
+        component={IndexPage}
       />
       <Route render={() => <h1>Not Found</h1>} />
     </Switch>
