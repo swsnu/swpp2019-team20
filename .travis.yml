@@ -1,8 +1,6 @@
 addons:
   sonarcloud:
     organization: "swsnu"
-    token:
-      secure: "ajZ0NiuJJj3I7F9cfQlRQWniKrS1nGXeJYqUVcbxgro7bmsZwGDP8cWznt3lDeV1CS78CIL3ojlmVgF5RtFvS9xAocmcS437lZtM8l/GWtLJjv8HUpsdcCQtkoKa9HPtP48lpHNQtIjUbSPg2nu7z7AVW7CenWt0avuRQs+XP/C4Zhct8rS5a9nt96e4kXgeD24oeyg/hd5qkcSwZatJu5LMwnfH2HDyVS/FlEcPbAUwgApy/7fj0trTSx+2TR3XThy/VUv65+wkvY6vGdZDosNO83TTFMpI5cKFX43Tcj+06aMi2JCSBAb+nZ9Q+oucvLEjBTrf414OFn8kPDDvDVbQGVJN0qOV8fx5VJpVzvdFidB8NgC+q/Mo/HKy34F8275IjzXwUN+NWPZebwQaIvZWztoO3qvnBAw+IvfcPddFN8Iw2aya0gywlfPzcoxTYb/rt/N3g8cwfZVwBlPUW4TQgoDDHRr7A7YJF6MxvFN8EGmeAbjcb1S0baK4SR1g6ARjb/3v7QMoUMmd7HsCgp7v2oyVjUu6KVQrKCxxDWDMCXch/uiQjdDhTnPPPzWtGKZ+tBUSqh1ZIqsy46+lEpUBYn3qN+SjU8DWyEJCBWePjgo4MYDOWsz50c7PdxD0nzv+BJ+iIDGzEGZUez9+dfI8WlCkYAbtG0kRic0SScw="
 matrix:
   include:
     - language: node_js
