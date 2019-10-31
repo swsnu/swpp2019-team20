@@ -1,5 +1,5 @@
 #from django.shortcuts import render
-from django.http import HttpResponse#, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed#, JsonResponse
 
 
 # Create your views here.
@@ -15,5 +15,5 @@ def loan_list(request):
     elif request.method == 'POST':
         # not implemented yet
         pass
-    
+
     return HttpResponseNotAllowed(['GET', 'POST'])
