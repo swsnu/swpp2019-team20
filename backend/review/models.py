@@ -17,7 +17,7 @@
 #    def __str__(self):
 #        return f'Title: {self.title}'
 
-#    def get_author(self):
+#def get_author(self):
 #        """Returns the user who wrote this review or ``Anonymous``."""
 #        if self.reviewer:
 #            return self.reviewer.username
