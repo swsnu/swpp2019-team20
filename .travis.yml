@@ -7,7 +7,7 @@ matrix:
         sonarcloud:
           organization: "swsnu"
           token:
-            secure: "pCgjQ/56CUWRBtGvfG78uahtiImM4+FHYNUVGhAl88CK8xG2F5c7e1v5GILQIS394DboBCt2NKoD4fFyM1UHhKMk3i2IP+rU3Me9BxS9ztWYFba59Xau570yhF6QypFrLsVD58XSkoAVMSjdehW1bgdmnhHY4YujXeqfzJs0V0k8B853o8ih/v/xHwOiwqtYQM/gqb8QpKDumdFc5jwP4KzxBGsDmOx2DB3d4V/rBgWtWKkZ5FsMfaZSmmanY8MNJOIZ73JgqWEXUcBSrKH7DXpQ9TijE3w8KdV/OE4bEFshtQY3t7EpHDH+QlVDIrf612RV7PXz3XValZ4aicaxvTSVZkH3/jbqTMnWgdMARYxYWycWgzTYLDvdVhnIni6tBlaHIQreOQlJIvf1MLVdsGuciRGCbrE0/ys5EoN0Mi/RU04PgqlPxdJT++dlSOs0KknUwiMop6gtlzZo0kyWIyuTl7yjMYTDxJZG1gMWEE8umBC1rCxaVlvQHaSW9Yj9marxhq9Fj/pAcLCLMa171Fy25o3nMlJ75+yOTPA/QlkEak6VtbFbJPPNSXS2dyeK4GTTn4x2GYAq0kkyogMhF526IlSihMjNPel3fbf5Ef3oLnllMhR+HmLdS/DojxAqZwYqfaYCeJEhotShPxXI1+69e9bV7E90XtQmSdd863A="
+            secure: "ajZ0NiuJJj3I7F9cfQlRQWniKrS1nGXeJYqUVcbxgro7bmsZwGDP8cWznt3lDeV1CS78CIL3ojlmVgF5RtFvS9xAocmcS437lZtM8l/GWtLJjv8HUpsdcCQtkoKa9HPtP48lpHNQtIjUbSPg2nu7z7AVW7CenWt0avuRQs+XP/C4Zhct8rS5a9nt96e4kXgeD24oeyg/hd5qkcSwZatJu5LMwnfH2HDyVS/FlEcPbAUwgApy/7fj0trTSx+2TR3XThy/VUv65+wkvY6vGdZDosNO83TTFMpI5cKFX43Tcj+06aMi2JCSBAb+nZ9Q+oucvLEjBTrf414OFn8kPDDvDVbQGVJN0qOV8fx5VJpVzvdFidB8NgC+q/Mo/HKy34F8275IjzXwUN+NWPZebwQaIvZWztoO3qvnBAw+IvfcPddFN8Iw2aya0gywlfPzcoxTYb/rt/N3g8cwfZVwBlPUW4TQgoDDHRr7A7YJF6MxvFN8EGmeAbjcb1S0baK4SR1g6ARjb/3v7QMoUMmd7HsCgp7v2oyVjUu6KVQrKCxxDWDMCXch/uiQjdDhTnPPPzWtGKZ+tBUSqh1ZIqsy46+lEpUBYn3qN+SjU8DWyEJCBWePjgo4MYDOWsz50c7PdxD0nzv+BJ+iIDGzEGZUez9+dfI8WlCkYAbtG0kRic0SScw="
       before_install:
         - cd frontend
       install:
@@ -24,7 +24,7 @@ matrix:
         sonarcloud:
           organization: "swsnu"
           token:
-            secure: "pCgjQ/56CUWRBtGvfG78uahtiImM4+FHYNUVGhAl88CK8xG2F5c7e1v5GILQIS394DboBCt2NKoD4fFyM1UHhKMk3i2IP+rU3Me9BxS9ztWYFba59Xau570yhF6QypFrLsVD58XSkoAVMSjdehW1bgdmnhHY4YujXeqfzJs0V0k8B853o8ih/v/xHwOiwqtYQM/gqb8QpKDumdFc5jwP4KzxBGsDmOx2DB3d4V/rBgWtWKkZ5FsMfaZSmmanY8MNJOIZ73JgqWEXUcBSrKH7DXpQ9TijE3w8KdV/OE4bEFshtQY3t7EpHDH+QlVDIrf612RV7PXz3XValZ4aicaxvTSVZkH3/jbqTMnWgdMARYxYWycWgzTYLDvdVhnIni6tBlaHIQreOQlJIvf1MLVdsGuciRGCbrE0/ys5EoN0Mi/RU04PgqlPxdJT++dlSOs0KknUwiMop6gtlzZo0kyWIyuTl7yjMYTDxJZG1gMWEE8umBC1rCxaVlvQHaSW9Yj9marxhq9Fj/pAcLCLMa171Fy25o3nMlJ75+yOTPA/QlkEak6VtbFbJPPNSXS2dyeK4GTTn4x2GYAq0kkyogMhF526IlSihMjNPel3fbf5Ef3oLnllMhR+HmLdS/DojxAqZwYqfaYCeJEhotShPxXI1+69e9bV7E90XtQmSdd863A="
+            secure: "ajZ0NiuJJj3I7F9cfQlRQWniKrS1nGXeJYqUVcbxgro7bmsZwGDP8cWznt3lDeV1CS78CIL3ojlmVgF5RtFvS9xAocmcS437lZtM8l/GWtLJjv8HUpsdcCQtkoKa9HPtP48lpHNQtIjUbSPg2nu7z7AVW7CenWt0avuRQs+XP/C4Zhct8rS5a9nt96e4kXgeD24oeyg/hd5qkcSwZatJu5LMwnfH2HDyVS/FlEcPbAUwgApy/7fj0trTSx+2TR3XThy/VUv65+wkvY6vGdZDosNO83TTFMpI5cKFX43Tcj+06aMi2JCSBAb+nZ9Q+oucvLEjBTrf414OFn8kPDDvDVbQGVJN0qOV8fx5VJpVzvdFidB8NgC+q/Mo/HKy34F8275IjzXwUN+NWPZebwQaIvZWztoO3qvnBAw+IvfcPddFN8Iw2aya0gywlfPzcoxTYb/rt/N3g8cwfZVwBlPUW4TQgoDDHRr7A7YJF6MxvFN8EGmeAbjcb1S0baK4SR1g6ARjb/3v7QMoUMmd7HsCgp7v2oyVjUu6KVQrKCxxDWDMCXch/uiQjdDhTnPPPzWtGKZ+tBUSqh1ZIqsy46+lEpUBYn3qN+SjU8DWyEJCBWePjgo4MYDOWsz50c7PdxD0nzv+BJ+iIDGzEGZUez9+dfI8WlCkYAbtG0kRic0SScw="
       before_install:
         - cd backend
       install:
