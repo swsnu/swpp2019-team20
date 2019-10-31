@@ -3,9 +3,12 @@ addons:
     organization: "swsnu"
 matrix:
   include:
+    - dist: trusty
+      script:
+        - sonar-scanner
+
     - language: node_js
       node_js: 10
-      dist: trusty
       before_install:
         - cd frontend
       install:
@@ -13,11 +16,9 @@ matrix:
       script:
         - yarn run lint src/
         - yarn test --coverage --watchAll=false
-        - sonar-scanner -Dproject.settings=../sonar-project.properties
 
     - language: python
       python: 3.7
-      #dist: trusty
       before_install:
         - cd backend
       install:
@@ -27,4 +28,3 @@ matrix:
         - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py' ./manage.py test
         #- coverage report -m --fail-under=90
         - coverage report -m
-        - sonar-scanner -Dproject.settings=../sonar-project.properties
