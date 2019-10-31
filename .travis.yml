@@ -1,9 +1,9 @@
-addons:
-  sonarcloud:
-    organization: "swsnu"
 matrix:
   include:
     - dist: trusty
+      addons:
+        sonarcloud:
+          organization: "swsnu"
       script:
         - sonar-scanner
 
