@@ -15,11 +15,11 @@ matrix:
       script:
         - yarn run lint src/
         - yarn test --coverage --watchAll=false
-        - sonar-scanner
+        - sonar-scanner -Dproject.settings=../sonar-project.properties
 
     - language: python
       python: 3.7
-      dist: trusty
+      #dist: trusty
       addons:
         sonarcloud:
           organization: "swsnu"
@@ -34,4 +34,4 @@ matrix:
         - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py' ./manage.py test
         #- coverage report -m --fail-under=90
         - coverage report -m
-        - sonar-scanner
+        - sonar-scanner -Dproject.settings=../sonar-project.properties
