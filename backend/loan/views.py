@@ -3,6 +3,7 @@ import datetime
 #from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from pytz import timezone
 from dateutil.parser import isoparse
 from .models import Loan
 
@@ -43,6 +44,9 @@ def loan_list(request):
     try:
         deadline = isoparse(deadline_data)
     except ValueError:
+        return HttpResponse(status=400)
+
+    if deadline < datetime.datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
         return HttpResponse(status=400)
 
     interest_type_list = ['hour', 'day', 'week', 'month', 'year']
