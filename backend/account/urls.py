@@ -8,5 +8,6 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('signin', views.signin, name='signin'),
     path('signout', views.signout, name='signout'),
+    path('by-name/<str:username>', views.by_name, name='by name'),
     #path('mypage/', views.mypage, name='mypage'),
 ]
