@@ -35,19 +35,19 @@ class LoanTestCase(TestCase):
         # make invalid data array
         invalid_data = [
             {'participants': None,
-             'due_date': '2019-10-30T23:09:31Z', 'interest_rate': 1.5,
+             'deadline': '2019-12-31T23:59:59Z', 'interest_rate': 1.5,
              'interest_type': 'day', 'alert_frequency': 'high'},
             {'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-             'due_date': None, 'interest_rate': 1.5,
+             'deadline': None, 'interest_rate': 1.5,
              'interest_type': 'day', 'alert_frequency': 'high'},
             {'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-             'due_date': '2019-10-30T23:09:31Z', 'interest_rate': None,
+             'deadline': '2019-12-31T23:59:59Z', 'interest_rate': None,
              'interest_type': 'day', 'alert_frequency': 'high'},
             {'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-             'due_date': '2019-10-30T23:09:31Z', 'interest_rate': 1.5,
+             'deadline': '2019-12-31T23:59:59Z', 'interest_rate': 1.5,
              'interest_type': None, 'alert_frequency': 'high'},
             {'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-             'due_date': '2019-10-30T23:09:31Z', 'interest_rate': 1.5,
+             'deadline': '2019-12-31T23:59:59Z', 'interest_rate': 1.5,
              'interest_type': 'day', 'alert_frequency': None},
         ]
 
@@ -60,7 +60,7 @@ class LoanTestCase(TestCase):
 
         #make valid data
         valid_data = {'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-                      'due_date': '2019-10-30T23:09:31Z', 'interest_rate': 1.5,
+                      'deadline': '2019-12-31T23:59:59Z', 'interest_rate': 1.5,
                       'interest_type': 'day', 'alert_frequency': 'high'}
 
         # test - valid input data
@@ -76,7 +76,7 @@ class LoanTestCase(TestCase):
             self.fail("The data is not stored")
         valid_output = {'id': 1,
                         'participants': [{'id': 1, 'paid_money': 50}, {'id': 2, 'paid_money': 100}],
-                        'due_date': '2019-10-30T23:09:31Z', 'interest_rate': 1.5,
+                        'deadline': '2019-12-31T23:59:59Z', 'interest_rate': 1.5,
                         'interest_type': 'day', 'alert_frequency': 'high'}
         if loan != valid_output:
             self.fail("The data is not stored correctly")
