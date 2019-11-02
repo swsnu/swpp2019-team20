@@ -7,17 +7,19 @@ import Typography from '../Typography';
 
 function Copyright() {
   return (
-    <React.Fragment>
-      {'© '}
+    <fragment>
+      ©
+      {' '}
       <Link color="inherit" href="https://github.com/swsnu/swpp2019-team20">
         Pay Me Back
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
-    </React.Fragment>
+    </fragment>
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     backgroundColor: '#70a1ff',

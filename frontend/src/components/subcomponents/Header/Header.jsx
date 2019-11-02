@@ -1,25 +1,3 @@
-/*import React from "react";
-import { NavLink } from "react-router-dom";
-
-function Header() {
-  return (
-    <nav>
-      <NavLink exact activeClassName="active" to="/">
-        Home
-      </NavLink>
-      <NavLink activeClassName="active" to="/users">
-        Users
-      </NavLink>
-      <NavLink activeClassName="active" to="/contact">
-        Contact
-      </NavLink>
-    </nav>
-  );
-}
-export default Header;
-*/
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -28,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../AppBar';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
 
-const styles = theme => ({
+const styles = (theme) => ({
   title: {
     fontSize: 24,
   },
@@ -57,7 +35,7 @@ const styles = theme => ({
   },
 });
 
-function Header (props) {
+function Header(props) {
   const { classes } = props;
 
   return (
@@ -72,7 +50,7 @@ function Header (props) {
             className={classes.title}
             href="/"
           >
-            {'Pay Me Back'}
+            Pay Me Back
           </Link>
 
           <div className={classes.right}>
@@ -83,7 +61,7 @@ function Header (props) {
               className={classes.rightLink}
               href="/signin/"
             >
-              {'Sign In'}
+              Sign In
             </Link>
 
             <Link
@@ -92,7 +70,7 @@ function Header (props) {
               className={clsx(classes.rightLink, classes.linkSecondary)}
               href="/signup/"
             >
-              {'Sign Up'}
+              Sign Up
             </Link>
           </div>
         </Toolbar>
@@ -103,7 +81,7 @@ function Header (props) {
 }
 
 Header.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
 };
 
 export default withStyles(styles)(Header);
