@@ -1,18 +1,14 @@
 import json
 
 # from django.shortcuts import render, redirect
-
-# from django.contrib import messages
-
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
-
-from .models import Profile
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.forms.models import model_to_dict
+
+from .models import Profile
 
 # from django.contrib.auth.decorators import login_required
 
@@ -23,11 +19,11 @@ from django.forms.models import model_to_dict
 # from .forms import SignUpForm, SignInForm
 
 
-def profile(request, pk):
+def profile(request, user_pk):
     """This is for showing or updating user's Profile
 
     GET: get specific user
-        :param pk - user id
+        :param user_pk - user id
         :return User info on JsonResponse format or HttpResponse for Error control
 
     PUT: Change personal info
@@ -36,38 +32,37 @@ def profile(request, pk):
                                     "phone": "010-1234-1234",
                                     "bio": "hello, I am ming"
                                  }
-        :param pk - user id
+        :param user_pk - user id
         :return User info on JsonResponse format or HttpResponse for Error control
     """
-    profile = get_object_or_404(Profile, pk=pk)
+    prof = get_object_or_404(Profile, pk=user_pk)
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        dict_profile = model_to_dict(profile)
+        dict_profile = model_to_dict(prof)
         json_profile = json.dumps(dict_profile)
         return JsonResponse(json_profile, safe=False)
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            if request.user.pk == profile.user_id:
-                req_data = json.loads(request.body.decode())
-                if 'kakao_id' in req_data:
-                    kakao_id = req_data['kakao_id']
-                    setattr(profile, 'kakao_id', kakao_id)
-                if 'phone' in req_data:
-                    phone = req_data['phone']
-                    setattr(profile, 'phone', phone)
-                if 'bio' in req_data:
-                    bio = req_data['bio']
-                    setattr(profile, 'bio', bio)
-                profile.save()
-                dict_article = model_to_dict(profile)
-                json_article = json.dumps(dict_article)
-                return JsonResponse(json_article, safe=False)
-            else:
+            req_data = json.loads(request.body.decode())
+            if request.user.pk != prof.user_id:
                 return HttpResponse(status=403)
-        except (KeyError, json.JSONDecodeError) as e:
+            if 'kakao_id' in req_data:
+                kakao_id = req_data['kakao_id']
+                setattr(prof, 'kakao_id', kakao_id)
+            if 'phone' in req_data:
+                phone = req_data['phone']
+                setattr(prof, 'phone', phone)
+            if 'bio' in req_data:
+                bio = req_data['bio']
+                setattr(prof, 'bio', bio)
+            prof.save()
+            dict_article = model_to_dict(prof)
+            json_article = json.dumps(dict_article)
+            return JsonResponse(json_article, safe=False)
+        except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])

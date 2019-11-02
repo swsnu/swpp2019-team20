@@ -110,20 +110,26 @@ class AccountTestCase(TestCase):
 
 
 class ProfileTest(TestCase):
-    def set_up(self):
+    def setUp(self):
         self.client = Client(enforce_csrf_checks=True)
         self.user1 = User.objects.create_user(username='bill', password='evans')
         self.user2 = User.objects.create_user(username='ming', password='ming')
-        self.userProfile = Profile(user=self.user1, kakao_id="billKakao", phone="12345", bio="i'am bill")
-        self.userProfile.save()
-        self.user2Profile = Profile(user=self.user2, kakao_id="mingKakao", phone="6789", bio="i'am ming")
-        self.user2Profile.save()
+        self.user_profile = Profile(user=self.user1,
+                                    kakao_id="billKakao",
+                                    phone="12345",
+                                    bio="i'am bill")
+        self.user_profile.save()
+        self.user2_profile = Profile(user=self.user2,
+                                     kakao_id="mingKakao",
+                                     phone="6789",
+                                     bio="i'am ming")
+        self.user2_profile.save()
 
     def test_profile(self):
-        response = self.client.get('/profile/1')
+        response = self.client.get('/account/user/1')
         self.assertEqual(response.status_code, 401)
 
         self.client.login(username='bill', password='evans')
-        response = self.client.get('/profile/1')
+        response = self.client.get('/account/user/1')
         self.assertEqual(response.status_code, 200)
         self.client.logout()
