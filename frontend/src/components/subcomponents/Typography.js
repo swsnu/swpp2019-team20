@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { capitalize } from '@material-ui/core/utils';
 import MuiTypography from '@material-ui/core/Typography';
 
+
 const styles = theme => ({
   markedH2Center: {
     height: 4,
@@ -34,6 +35,7 @@ const styles = theme => ({
     background: 'currentColor',
   },
 });
+
 
 const variantMapping = {
   h1: 'h1',

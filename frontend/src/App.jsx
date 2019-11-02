@@ -14,13 +14,13 @@ function App() {
 
   const router = loggedIn ? (
     <Switch>
-      <Redirect exact from="/" to="/login" />
+      <Redirect exact from="/" to="/signin" />
       <Route
         path="/signup"
         exact
         component={SignupPage}
       />
-      <Route path="/login" exact component={LoginPage} />
+      <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
       <Route
         path="/index"
@@ -31,8 +31,8 @@ function App() {
     </Switch>
   ) : (
     <Switch>
-      <Route path="/login" exact component={LoginPage} />
-      <Redirect from="/" to="/login" />
+      <Route path="/signin" exact component={LoginPage} />
+      <Redirect from="/" to="/signin" />
     </Switch>
   );
   return (
