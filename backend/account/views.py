@@ -29,6 +29,7 @@ def profile(request, pk):
     GET: get specific user
         :param pk - user id
         :return User info on JsonResponse format or HttpResponse for Error control
+
     PUT: Change personal info
         :param request example - {
                                     "kakao_id": "mingkakao",
