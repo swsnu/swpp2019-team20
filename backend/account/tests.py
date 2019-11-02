@@ -1,6 +1,7 @@
 import json
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 # Create your tests here.
@@ -107,28 +108,22 @@ class AccountTestCase(TestCase):
         response = client.delete('/account/signout')
         self.assertEqual(response.status_code, 405)     # Request not allowed
 
-    def test_by_name(self):
-        client = self.client
 
-        # set up
-        user = User.objects.create_user(username='user', password='pass')
+class ProfileTest(TestCase):
+    def set_up(self):
+        self.client = Client(enforce_csrf_checks=True)
+        self.user1 = User.objects.create_user(username='bill', password='evans')
+        self.user2 = User.objects.create_user(username='ming', password='ming')
+        self.userProfile = Profile(user=self.user1, kakao_id="billKakao", phone="12345", bio="i'am bill")
+        self.userProfile.save()
+        self.user2Profile = Profile(user=self.user2, kakao_id="mingKakao", phone="6789", bio="i'am ming")
+        self.user2Profile.save()
 
-        # wrong method
-        response = client.post('/account/by-name/name')
-        self.assertEqual(response.status_code, 405)
-
-        # not authenticated
-        response = client.get('/account/by-name/chris')
+    def test_profile(self):
+        response = self.client.get('/profile/1')
         self.assertEqual(response.status_code, 401)
 
-        # log in
-        client.login(username='user', password='pass')
-
-        # not valid
-        response = client.get('/account/by-name/not-existing')
-        self.assertEqual(response.status_code, 404)
-
-        # valid
-        response = client.get('/account/by-name/user')
+        self.client.login(username='bill', password='evans')
+        response = self.client.get('/profile/1')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'id': user.id})
+        self.client.logout()
