@@ -1,20 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '../subcomponents/Header/Header';
 import Footer from '../subcomponents/Footer/Footer';
 
-const Base = ({input}) => {
+
+const Base = ({ input }) => {
   return (
     <div>
-      <Header></Header>
+      <Header />
       <div>
-        <div>Something like Header</div>
         {input}
-        <div>Base Page</div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };
 
+Base.propTypes = {
+  input: PropTypes.element,
+};
 
 export default Base;
