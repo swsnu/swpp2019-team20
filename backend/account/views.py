@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth import login, authenticate, logout
 
-from django.http import HttpResponse, HttpResponseNotAllowed#, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 #from .models import Profile
@@ -21,21 +21,12 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 #from .forms import SignUpForm, SignInForm
 
-
-
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
 
     return HttpResponseNotAllowed(['GET'])
-
-
-
-# This will not be used as API
-#def index(request):
-    #return HttpResponse("Account page")
-#    return render(request, 'account/index.html')
 
 #def signup(request):
     # if it is POST request, register a new user with the info in UserForm
@@ -132,3 +123,17 @@ def signout(request):
         return HttpResponse(status=401)
 
     return HttpResponseNotAllowed(['GET'])
+
+def by_name(request, username=None):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    return JsonResponse({'id': user.id})
