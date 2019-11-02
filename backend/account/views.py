@@ -29,7 +29,6 @@ def profile(request, pk):
     GET: get specific user
         :param pk - user id
         :return User info on JsonResponse format or HttpResponse for Error control
-
     PUT: Change personal info
         :param request example - {
                                     "kakao_id": "mingkakao",
@@ -41,51 +40,43 @@ def profile(request, pk):
     """
     profile = get_object_or_404(Profile, pk=pk)
     if request.method == 'GET':
-        if request.user.is_authenticated:
-            dict_profile = model_to_dict(profile)
-            json_profile = json.dumps(dict_profile)
-            return JsonResponse(json_profile, safe=False)
-        else:
+        if not request.user.is_authenticated:
             return HttpResponse(status=401)
+        dict_profile = model_to_dict(profile)
+        json_profile = json.dumps(dict_profile)
+        return JsonResponse(json_profile, safe=False)
     if request.method == 'PUT':
-        if request.user.is_authenticated:
-            try:
-                if request.user.pk == profile.user_id:
-                    req_data = json.loads(request.body.decode())
-                    if 'kakao_id' in req_data:
-                        kakao_id = req_data['kakao_id']
-                        setattr(profile, 'kakao_id', kakao_id)
-                    if 'phone' in req_data:
-                        phone = req_data['phone']
-                        setattr(profile, 'phone', phone)
-                    if 'bio' in req_data:
-                        bio = req_data['bio']
-                        setattr(profile, 'bio', bio)
-                    profile.save()
-                    dict_article = model_to_dict(profile)
-                    json_article = json.dumps(dict_article)
-                    return JsonResponse(json_article, safe=False)
-                else:
-                    return HttpResponse(status=403)
-            except (KeyError, json.JSONDecodeError) as e:
-                return HttpResponseBadRequest()
-        else:
+        if not request.user.is_authenticated:
             return HttpResponse(status=401)
+        try:
+            if request.user.pk == profile.user_id:
+                req_data = json.loads(request.body.decode())
+                if 'kakao_id' in req_data:
+                    kakao_id = req_data['kakao_id']
+                    setattr(profile, 'kakao_id', kakao_id)
+                if 'phone' in req_data:
+                    phone = req_data['phone']
+                    setattr(profile, 'phone', phone)
+                if 'bio' in req_data:
+                    bio = req_data['bio']
+                    setattr(profile, 'bio', bio)
+                profile.save()
+                dict_article = model_to_dict(profile)
+                json_article = json.dumps(dict_article)
+                return JsonResponse(json_article, safe=False)
+            else:
+                return HttpResponse(status=403)
+        except (KeyError, json.JSONDecodeError) as e:
+            return HttpResponseBadRequest()
     else:
         return HttpResponseNotAllowed(['GET', 'PUT'])
+
 
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
-
-#def signup(request):
-    # if it is POST request, register a new user with the info in UserForm
-# This will not be used as API
-# def index(request):
-# return HttpResponse("Account page")
-#    return render(request, 'account/index.html')
 
 # def signup(request):
 # if it is POST request, register a new user with the info in UserForm
