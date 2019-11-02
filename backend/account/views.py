@@ -47,17 +47,26 @@ def profile(request, user_pk):
             return HttpResponse(status=401)
         try:
             req_data = json.loads(request.body.decode())
-            if request.user.pk != prof.user_id:
-                return HttpResponse(status=403)
             if 'kakao_id' in req_data:
                 kakao_id = req_data['kakao_id']
-                setattr(prof, 'kakao_id', kakao_id)
+                if kakao_id:
+                    setattr(prof, 'kakao_id', kakao_id)
+                else:
+                    return HttpResponseBadRequest()
             if 'phone' in req_data:
                 phone = req_data['phone']
-                setattr(prof, 'phone', phone)
+                if phone:
+                    setattr(prof, 'phone', phone)
+                else:
+                    return HttpResponseBadRequest()
             if 'bio' in req_data:
                 bio = req_data['bio']
-                setattr(prof, 'bio', bio)
+                if bio:
+                    setattr(prof, 'bio', bio)
+                else:
+                    return HttpResponseBadRequest()
+            if request.user.pk != prof.user_id:
+                return HttpResponse(status=403)
             prof.save()
             dict_article = model_to_dict(prof)
             json_article = json.dumps(dict_article)

@@ -111,25 +111,80 @@ class AccountTestCase(TestCase):
 
 class ProfileTest(TestCase):
     def setUp(self):
-        self.client = Client(enforce_csrf_checks=True)
+        self.client = Client()
         self.user1 = User.objects.create_user(username='bill', password='evans')
-        self.user2 = User.objects.create_user(username='ming', password='ming')
         self.user_profile = Profile(user=self.user1,
                                     kakao_id="billKakao",
                                     phone="12345",
                                     bio="i'am bill")
         self.user_profile.save()
+        self.user2 = User.objects.create_user(username='ming', password='ming')
         self.user2_profile = Profile(user=self.user2,
                                      kakao_id="mingKakao",
                                      phone="6789",
                                      bio="i'am ming")
         self.user2_profile.save()
 
+    def test_model(self):
+        self.assertEqual(self.user_profile.__str__(), "bill")
+
     def test_profile(self):
+        # test - no such api
+        response = self.client.post('/account/user/1')
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete('/account/user/1')
+        self.assertEqual(response.status_code, 405)
+
+        # test - not logged in
         response = self.client.get('/account/user/1')
         self.assertEqual(response.status_code, 401)
+        response = self.client.put('/account/user/1')
+        self.assertEqual(response.status_code, 401)
 
+        # login
         self.client.login(username='bill', password='evans')
         response = self.client.get('/account/user/1')
         self.assertEqual(response.status_code, 200)
-        self.client.logout()
+
+        # test - no request body
+        response = self.client.put('/account/user/1')
+        self.assertEqual(response.status_code, 400)
+
+        # test - body is not json
+        response = self.client.put('/account/user/1',
+                                    'This is a string',
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+        # make valid data
+        valid_data = list()
+        valid_data.append({'kakao_id': 'newkaka'})
+        valid_data.append({'kakao_id': 'newkaka', 'phone': '010-2222-2222'})
+        valid_data.append({'kakao_id': 'newkaka', 'phone': '010-2222-2222', 'bio': "hello, I am bill"})
+
+        # test - valid data
+        for valid_datum in valid_data:
+            response = self.client.put('/account/user/1',
+                                       valid_datum,
+                                       content_type='application/json')
+            self.assertEqual(response.status_code, 200)
+
+        # make invalid data
+        invalid_data = list()
+        invalid_data.append({'kakao_id': None})
+        invalid_data.append({'phone': None})
+        invalid_data.append({'bio': None})
+
+        # test - invalid input data
+        for invalid_datum in invalid_data:
+            response = self.client.put('/account/user/1',
+                                       invalid_datum,
+                                       content_type='application/json')
+            self.assertEqual(response.status_code, 400)
+
+        # test - other user's profile
+        for valid_datum in valid_data:
+            response = self.client.put('/account/user/2',
+                                       valid_datum,
+                                       content_type='application/json')
+            self.assertEqual(response.status_code, 403)
