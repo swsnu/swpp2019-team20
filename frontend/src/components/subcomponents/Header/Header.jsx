@@ -81,7 +81,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.object()).isRequired,
+  classes: PropTypes.any.isRequired,
 };
 
 export default withStyles(styles)(Header);
