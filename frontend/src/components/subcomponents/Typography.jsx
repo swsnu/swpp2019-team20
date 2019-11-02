@@ -5,7 +5,7 @@ import { capitalize } from '@material-ui/core/utils';
 import MuiTypography from '@material-ui/core/Typography';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   markedH2Center: {
     height: 4,
     width: 73,
@@ -48,7 +48,9 @@ const variantMapping = {
 };
 
 function Typography(props) {
-  const { children, classes, marked = false, variant, ...other } = props;
+  const {
+    children, classes, marked = false, variant, ...other
+  } = props;
 
   return (
     <MuiTypography variantMapping={variantMapping} variant={variant} {...other}>
@@ -62,9 +64,14 @@ function Typography(props) {
 
 Typography.propTypes = {
   children: PropTypes.node,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.string.isRequired,
   marked: PropTypes.oneOf([false, 'center', 'left']),
   variant: PropTypes.string,
+};
+Typography.defaultProps = {
+  children: {},
+  marked: false,
+  variant: {},
 };
 
 export default withStyles(styles)(Typography);
