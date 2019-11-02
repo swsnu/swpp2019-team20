@@ -70,12 +70,9 @@ class AccountTestCase(TestCase):
         response = client.get('/account/signup')
         self.assertEqual(response.status_code, 405)     # Request not allowed
 
-
-
     def test_signin(self):
         client = Client()
         User.objects.create_user(username='chris', password='chris')
-
 
         # Succesful request
         response = client.post('/account/signin',
@@ -83,18 +80,14 @@ class AccountTestCase(TestCase):
                                content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
-
         response = client.post('/account/signin',
                                json.dumps({'username': 'brown', 'password': 'brown'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
-
         # GET is not allowed request method
         response = client.get('/account/signin')
         self.assertEqual(response.status_code, 405)     # Request not allowed
-
-
 
     def test_signout(self):
         client = Client()
@@ -103,7 +96,6 @@ class AccountTestCase(TestCase):
         response = client.get('/account/signout')
         self.assertEqual(response.status_code, 401)
 
-
         # Successfully signout after login
         response = client.post('/account/signin',
                                json.dumps({'username': 'chris', 'password': 'chris'}),
@@ -111,7 +103,6 @@ class AccountTestCase(TestCase):
         self.assertEqual(response.status_code, 204)
         response = client.get('/account/signout')
         self.assertEqual(response.status_code, 204)
-
 
         response = client.delete('/account/signout')
         self.assertEqual(response.status_code, 405)     # Request not allowed
