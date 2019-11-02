@@ -1,7 +1,9 @@
 import React from 'react';
+/*
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Base from '../../components/Base/Base';
+
 import Button from '../../components/subcomponents/Button';
 import Typography from '../../components/subcomponents/Typography';
 import IndexPageLayout from './IndexPageLayout';
@@ -30,14 +32,28 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
   },
 });
+*/
+import Loan_list from '../../components/components/Loan_list/Loan_list'
+import Create_loan from '../../components/components/Create_loan/Create_loan'
+import Loan_information from '../../components/components/Loan_information/Loan_information'
 
+const IndexPage = () => (
+    <div>
+        <Loan_list/>
+        <Create_loan/>
+        <Loan_information/>
+    </div>
+)
+
+export default IndexPage;
+/*
 function IndexPage(props) {
   const { classes } = props;
 
   return (
     <fragment>
       <IndexPageLayout backgroundClassName={classes.background}>
-        {/* Increase the network loading priority of the background image. */}
+        {/* Increase the network loading priority of the background image. *//*}
         <img style={{ display: 'none' }} src={backgroundImage} alt="increase priority" />
         <Typography color="inherit" align="center" variant="h2" marked="center">
           Get Your Money Back
@@ -69,3 +85,4 @@ IndexPage.propTypes = {
 };
 
 export default Base(withStyles(styles)(IndexPage));
+*/
