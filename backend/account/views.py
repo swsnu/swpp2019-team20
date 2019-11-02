@@ -47,24 +47,20 @@ def profile(request, user_pk):
             return HttpResponse(status=401)
         try:
             req_data = json.loads(request.body.decode())
+            kakao_id = "a"
+            phone = "1"
+            bio = "a"
             if 'kakao_id' in req_data:
                 kakao_id = req_data['kakao_id']
-                if kakao_id:
-                    setattr(prof, 'kakao_id', kakao_id)
-                else:
-                    return HttpResponseBadRequest()
+                setattr(prof, 'kakao_id', kakao_id)
             if 'phone' in req_data:
                 phone = req_data['phone']
-                if phone:
-                    setattr(prof, 'phone', phone)
-                else:
-                    return HttpResponseBadRequest()
+                setattr(prof, 'phone', phone)
             if 'bio' in req_data:
                 bio = req_data['bio']
-                if bio:
-                    setattr(prof, 'bio', bio)
-                else:
-                    return HttpResponseBadRequest()
+                setattr(prof, 'bio', bio)
+            if (not kakao_id) or (not phone) or (not bio):
+                return HttpResponseBadRequest()
             if request.user.pk != prof.user_id:
                 return HttpResponse(status=403)
             prof.save()
@@ -108,6 +104,7 @@ def token(request):
 #        form = SignUpForm()
 # profile_form = ProfileForm(instance=request.user.profile)
 #    return render(request, 'account/signup.html', {'form':form})
+
 
 def signup(request):
     """
@@ -177,6 +174,7 @@ def signout(request):
         return HttpResponse(status=401)
 
     return HttpResponseNotAllowed(['GET'])
+
 
 def by_name(request, username=None):
     if request.method != 'GET':

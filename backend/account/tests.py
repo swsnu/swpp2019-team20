@@ -152,15 +152,17 @@ class ProfileTest(TestCase):
 
         # test - body is not json
         response = self.client.put('/account/user/1',
-                                    'This is a string',
-                                    content_type='application/json')
+                                   'This is a string',
+                                   content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         # make valid data
         valid_data = list()
         valid_data.append({'kakao_id': 'newkaka'})
         valid_data.append({'kakao_id': 'newkaka', 'phone': '010-2222-2222'})
-        valid_data.append({'kakao_id': 'newkaka', 'phone': '010-2222-2222', 'bio': "hello, I am bill"})
+        valid_data.append({'kakao_id': 'newkaka',
+                           'phone': '010-2222-2222',
+                           'bio': "hello, I am bill"})
 
         # test - valid data
         for valid_datum in valid_data:
