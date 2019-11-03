@@ -34,7 +34,12 @@ RFTextField.propTypes = {
   meta: PropTypes.shape({
     error: PropTypes.string,
     touched: PropTypes.bool.isRequired,
+    submitError: PropTypes.string,
   }).isRequired,
+};
+RFTextField.defaultProps = {
+  autoComplete: {},
+  InputProps: {},
 };
 
 export default RFTextField;

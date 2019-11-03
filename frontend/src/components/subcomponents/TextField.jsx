@@ -117,5 +117,12 @@ TextField.propTypes = {
   SelectProps: PropTypes.object,
   size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge']),
 };
+TextField.defaultProps = {
+  InputLabelProps: {},
+  InputProps: {},
+  noBorder: false,
+  SelectProps: {},
+  size: 'medium',
+};
 
 export default withStyles(styles)(TextField);
