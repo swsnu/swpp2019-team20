@@ -39,5 +39,11 @@ FormFeedback.propTypes = {
   error: PropTypes.bool,
   success: PropTypes.bool,
 };
+FormFeedback.defaultProps = {
+  children: {},
+  className: {},
+  error: false,
+  success: false,
+};
 
 export default withStyles(styles)(FormFeedback);

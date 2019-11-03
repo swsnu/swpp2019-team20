@@ -1,16 +1,8 @@
 import React from 'react';
-import Base from '../../components/Base/Base';
-
-/*
-const LoginPage = () => (
-  <Base input={<div>Sign In Page</div>} />
-);
-
-export default LoginPage;
-*/
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
+import Base from '../../components/Base/Base';
 import Typography from '../../components/subcomponents/Typography';
 import AppForm from '../../components/subcomponents/AppForm';
 import { email, required } from '../../components/subcomponents/form/validation';
@@ -18,7 +10,7 @@ import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   form: {
     marginTop: theme.spacing(6),
   },
@@ -35,7 +27,7 @@ function LoginPage() {
   const classes = useStyles();
   const [sent, setSent] = React.useState(false);
 
-  const validate = values => {
+  const validate = (values) => {
     const errors = required(['email', 'password'], values);
 
     if (!errors.email) {
@@ -53,19 +45,19 @@ function LoginPage() {
   };
 
   return (
-    <React.Fragment>
+    <fragment>
       <AppForm>
-        <React.Fragment>
+        <fragment>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             Sign In
           </Typography>
           <Typography variant="body2" align="center">
-            {'Not a member yet? '}
-            <Link href="/premium-themes/onepirate/sign-up/" align="center" underline="always">
+            Not a member yet?
+            <Link href="/signup/" align="center" underline="always">
               Sign Up here
             </Link>
           </Typography>
-        </React.Fragment>
+        </fragment>
         <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
           {({ handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
@@ -94,13 +86,11 @@ function LoginPage() {
                 margin="normal"
               />
               <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) =>
-                  submitError ? (
-                    <FormFeedback className={classes.feedback} error>
-                      {submitError}
-                    </FormFeedback>
-                  ) : null
-                }
+                {({ submitError }) => (submitError ? (
+                  <FormFeedback className={classes.feedback} error>
+                    {submitError}
+                  </FormFeedback>
+                ) : null)}
               </FormSpy>
               <FormButton
                 className={classes.button}
@@ -115,12 +105,12 @@ function LoginPage() {
           )}
         </Form>
         <Typography align="center">
-          <Link underline="always" href="/premium-themes/onepirate/forgot-password/">
+          <Link underline="always" href="/">
             Forgot password?
           </Link>
         </Typography>
       </AppForm>
-    </React.Fragment>
+    </fragment>
   );
 }
 
