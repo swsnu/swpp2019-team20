@@ -28,7 +28,6 @@ matrix:
         - coverage xml
         - cd ..
         - sonar-scanner
-      after-success:
         - cd frontend
         - coveralls-lcov -v -n coverage/lcov.info > coverage.json
         - cd ..
