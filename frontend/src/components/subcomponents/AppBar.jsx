@@ -14,7 +14,7 @@ function AppBar(props) {
 }
 
 AppBar.propTypes = {
-  classes: PropTypes.string,
+  classes: PropTypes.object,
 };
 AppBar.defaultProps = {
   classes: {},
