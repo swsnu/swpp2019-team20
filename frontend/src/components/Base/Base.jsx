@@ -1,11 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Header from '../subcomponents/Header/Header';
+import Footer from '../subcomponents/Footer/Footer';
 
-const Base = () => (
+
+const Base = ({ input }) => (
   <div>
-    <div>Something like Header</div>
-    <div>Base Page</div>
+    <Header />
+    <div className="page-content">
+      {input}
+    </div>
+    <Footer />
   </div>
 );
 
+Base.propTypes = {
+  input: PropTypes.object,
+};
+Base.defaultProps = {
+  input: {},
+};
 
 export default Base;

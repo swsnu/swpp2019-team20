@@ -24,6 +24,8 @@ module.exports = {
         "react"
     ],
     "rules": {
-    	'import/no-unresolved': "off",
+        'import/no-unresolved': "off",
+        'react/jsx-props-no-spreading': "off",
+        'react/forbid-prop-types': "off",
     },
 };
