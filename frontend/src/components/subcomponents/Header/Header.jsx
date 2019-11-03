@@ -6,6 +6,9 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../AppBar';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
 
+import './Header.css';
+import logo from './logo.png';
+
 const styles = (theme) => ({
   title: {
     fontSize: 24,
@@ -15,7 +18,6 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
   },
   left: {
-    flex: 1,
   },
   leftLinkActive: {
     color: theme.palette.common.white,
@@ -42,17 +44,22 @@ function Header(props) {
     <div>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <div className={classes.left} />
-          <Link
-            variant="h6"
-            underline="none"
-            color="inherit"
-            className={classes.title}
-            href="/"
-          >
-            Pay Me Back
-          </Link>
-
+          <span className="logoContainer">
+            <a href="/">
+              <img className="logo" src={logo} alt="logo" />
+            </a>
+          </span>
+          <div className={classes.left}>
+            <Link
+              variant="h6"
+              underline="none"
+              color="inherit"
+              className={classes.title}
+              href="/"
+            >
+              <span className="pageTitle">Pay Me Back</span>
+            </Link>
+          </div>
           <div className={classes.right}>
             <Link
               color="inherit"
