@@ -49,24 +49,21 @@ const variantMapping = {
 
 function Typography(props) {
   const {
-    children, classes, marked = false, variant, ...other
+    children, classes, variant, ...other
   } = props;
 
   return (
     <MuiTypography variantMapping={variantMapping} variant={variant} {...other}>
       {children}
-      {marked ? (
-        <span className={classes[`marked${capitalize(variant) + capitalize(marked)}`]} />
-      ) : null}
     </MuiTypography>
   );
 }
 
 Typography.propTypes = {
-  children: PropTypes.node,
-  classes: PropTypes.string.isRequired,
+  children: PropTypes.object,
+  classes: PropTypes.object.isRequired,
   marked: PropTypes.oneOf([false, 'center', 'left']),
-  variant: PropTypes.string,
+  variant: PropTypes.object,
 };
 Typography.defaultProps = {
   children: {},

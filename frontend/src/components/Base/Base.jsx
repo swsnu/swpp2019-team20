@@ -15,7 +15,7 @@ const Base = ({ input }) => (
 );
 
 Base.propTypes = {
-  input: PropTypes.element,
+  input: PropTypes.object,
 };
 Base.defaultProps = {
   input: {},
