@@ -7,9 +7,27 @@ import Header from '../subcomponents/Header/Header';
 import Footer from '../subcomponents/Footer/Footer';
 
 
+function Base(Component) {
+  function Base(props) {
+    return (
+      <ThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Header />
+        <Component {...props} />
+        <Footer />
+      </ThemeProvider>
+    );
+  };
+
+  return Base;
+};
+
+export default Base;
+
+/*
 const Base = ({ input }) => (
   <ThemeProvider theme={theme}>
-    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
     <Header />
     <div className="page-content">
@@ -27,3 +45,4 @@ Base.defaultProps = {
 };
 
 export default Base;
+*/
