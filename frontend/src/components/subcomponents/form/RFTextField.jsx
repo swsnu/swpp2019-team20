@@ -33,7 +33,7 @@ RFTextField.propTypes = {
   InputProps: PropTypes.object,
   meta: PropTypes.shape({
     error: PropTypes.string,
-    touched: PropTypes.bool.isRequired,
+    touched: PropTypes.bool,
     submitError: PropTypes.string,
   }).isRequired,
 };
