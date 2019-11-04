@@ -61,30 +61,34 @@ function LoginPage() {
         <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
           {({ handleSubmit2, submitting }) => (
             <form onSubmit={handleSubmit2} className={classes.form} noValidate>
-              <Field
-                autoComplete="email"
-                autoFocus
-                component={RFTextField}
-                disabled={submitting || sent}
-                fullWidth
-                label="Email"
-                margin="normal"
-                name="email"
-                required
-                size="large"
-              />
-              <Field
-                fullWidth
-                size="large"
-                component={RFTextField}
-                disabled={submitting || sent}
-                required
-                name="password"
-                autoComplete="current-password"
-                label="Password"
-                type="password"
-                margin="normal"
-              />
+              <div id="login-email-input">
+                <Field
+                  autoComplete="email"
+                  autoFocus
+                  component={RFTextField}
+                  disabled={submitting || sent}
+                  fullWidth
+                  label="Email"
+                  margin="normal"
+                  name="email"
+                  required
+                  size="large"
+                />
+              </div>
+              <div id="login-password-input">
+                <Field
+                  fullWidth
+                  size="large"
+                  component={RFTextField}
+                  disabled={submitting || sent}
+                  required
+                  name="password"
+                  autoComplete="current-password"
+                  label="Password"
+                  type="password"
+                  margin="normal"
+                />
+              </div>
               <FormSpy subscription={{ submitError: true }}>
                 {({ submitError }) => (submitError ? (
                   <FormFeedback className={classes.feedback} error>
