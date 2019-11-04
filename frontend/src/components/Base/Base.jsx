@@ -1,24 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './theme';
 import Header from '../subcomponents/Header/Header';
 import Footer from '../subcomponents/Footer/Footer';
 
 
-const Base = ({ input }) => (
-  <div>
-    <Header />
-    <div className="page-content">
-      {input}
-    </div>
-    <Footer />
-  </div>
-);
+function Base(Component) {
+  function BaseBase(props) {
+    return (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header />
+        <Component {...props} />
+        <Footer />
+      </ThemeProvider>
+    );
+  }
 
-Base.propTypes = {
-  input: PropTypes.object,
-};
-Base.defaultProps = {
-  input: {},
-};
+  return BaseBase;
+}
 
 export default Base;

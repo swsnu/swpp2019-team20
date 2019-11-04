@@ -27,5 +27,6 @@ module.exports = {
         'import/no-unresolved': "off",
         'react/jsx-props-no-spreading': "off",
         'react/forbid-prop-types': "off",
+        'react/destructuring-assignment': "off"
     },
 };
