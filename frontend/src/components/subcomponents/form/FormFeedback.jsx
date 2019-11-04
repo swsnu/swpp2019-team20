@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
 import Typography from '../Typography';
 
 const styles = (theme) => ({
@@ -13,8 +14,8 @@ const styles = (theme) => ({
     color: theme.palette.error.dark,
   },
   success: {
-    //backgroundColor: theme.palette.success.xLight,
-    //color: theme.palette.success.dark,
+    backgroundColor: green[50],
+    color: green[700],
   },
 });
 
