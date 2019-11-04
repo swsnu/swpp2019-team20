@@ -14,7 +14,7 @@ function App() {
 
   const router = loggedIn ? (
     <Switch>
-      <Redirect exact from="/" to="/signin" />
+      <Redirect exact from="/" to="/index" />
       <Route
         path="/signup"
         exact
