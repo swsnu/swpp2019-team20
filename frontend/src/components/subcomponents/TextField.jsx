@@ -65,10 +65,10 @@ function TextField(props) {
     InputProps: {
       classes: { input: InputPropsClassesInput, ...InputPropsClassesOther } = {},
       ...InputPropsOther
-    } = {},
+    },
     InputLabelProps,
-    noBorder = false,
-    size = 'medium',
+    noBorder,
+    size,
     SelectProps,
     ...other
   } = props;
