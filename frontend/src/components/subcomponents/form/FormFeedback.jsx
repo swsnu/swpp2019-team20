@@ -13,8 +13,8 @@ const styles = (theme) => ({
     color: theme.palette.error.dark,
   },
   success: {
-    backgroundColor: theme.palette.success.xLight,
-    color: theme.palette.success.dark,
+    //backgroundColor: theme.palette.success.xLight,
+    //color: theme.palette.success.dark,
   },
 });
 
@@ -41,7 +41,7 @@ FormFeedback.propTypes = {
 };
 FormFeedback.defaultProps = {
   children: {},
-  className: {},
+  className: '',
   error: false,
   success: false,
 };

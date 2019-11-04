@@ -38,7 +38,7 @@ RFTextField.propTypes = {
   }).isRequired,
 };
 RFTextField.defaultProps = {
-  autoComplete: {},
+  autoComplete: '',
   InputProps: {},
 };
 
