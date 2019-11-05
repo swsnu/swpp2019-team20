@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage() {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
-  const [logged_in] = useState(false);
-  const [name] = useState('');
+  const [sent] = React.useState(false);
 
   const validate = (values) => {
     const errors = required(['email', 'password'], values);
@@ -44,7 +42,11 @@ function LoginPage() {
     return errors;
   };
 
-  const handleSubmit = (values) => {
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  const onSubmit = async values => {
+    await sleep(300);
+    window.alert(JSON.stringify(values, 0, 2));
     console.log('values:', values);
     return fetch('account/signin', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -78,19 +80,19 @@ function LoginPage() {
             </Link>
           </Typography>
         </fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
-              <div id="login-email-input">
+        <Form onSubmit={onSubmit} subscription={{ submitting: true }}>
+          {({ handleSubmit, submitting }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
+              <div id="login-username-input">
                 <Field
-                  autoComplete="email"
+                  autoComplete="username"
                   autoFocus
                   component={RFTextField}
                   disabled={submitting || sent}
                   fullWidth
-                  label="Email"
+                  label="Username"
                   margin="normal"
-                  name="email"
+                  name="username"
                   required
                   size="large"
                 />

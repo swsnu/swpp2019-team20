@@ -17,7 +17,7 @@ describe('LoginPage', () => {
     expect(component.length).toBe(1);
   });
 
-  test('email block marked as invalid with wrong input', () => {
+  /*test('email block marked as invalid with wrong input', () => {
     const email = 'wrongemailformat';
     const password = 'password';
     const component = mount(login);
@@ -31,5 +31,5 @@ describe('LoginPage', () => {
     passwordInputWrapper.simulate('change', { target: { value: password } });
 
     submitButton.simulate('submit');
-  });
+  });*/
 });

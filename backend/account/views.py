@@ -115,13 +115,20 @@ def signup(request):
         req_data = json.loads(request.body.decode())
         username = req_data['username']
         password = req_data['password']
+        first_name = req_data['first_name']
+        last_name = req_data['last_name']
         email = req_data['email']
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name)
         user.refresh_from_db()  # load the profile instance created
         user.profile.kakao_id = req_data['kakao_id']
         user.profile.phone = req_data['phone']
-        user.profile.bio = req_data['bio']
-        user.profile.profile_pic = req_data['profile_pic']
+        #user.profile.bio = req_data['bio']
+        #user.profile.profile_pic = req_data['profile_pic']
         user.save()
 
         return HttpResponse(status=201)

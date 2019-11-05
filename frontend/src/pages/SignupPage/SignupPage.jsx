@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -24,9 +25,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignUp() {
+const SignUp = () => {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
+  const [sent] = React.useState(false);
 
   const validate = values => {
     const errors = required(['firstName', 'lastName', 'email', 'password'], values);
@@ -41,26 +42,55 @@ function SignUp() {
     return errors;
   };
 
-  const handleSubmit = () => {
-    setSent(true);
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  const onSubmit = async values => {
+    await sleep(300);
+    window.alert(JSON.stringify(values, 0, 2));
+    return fetch('account/signup', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, cors, *same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrer: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify(values), // body data type must match "Content-Type" header
+    })
+      .then(response => response.json())  // parses JSON response into native JavaScript objects
+      .then(response => console.log('Success:', JSON.stringify(response)))
+      .catch(error => console.error('Error:', error));
   };
 
   return (
-    <React.Fragment>
+    <fragment>
       <AppForm>
-        <React.Fragment>
+        <fragment>
           <Typography variant="h3" gutterBottom marked="center" align="center">
             Sign Up
           </Typography>
           <Typography variant="body2" align="center">
-            <Link href="/premium-themes/onepirate/sign-in/" underline="always">
+            <Link href="/signin/" underline="always">
               Already have an account?
             </Link>
           </Typography>
-        </React.Fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
+        </fragment>
+        <Form onSubmit={onSubmit} subscription={{ submitting: true }}
+          render={({ handleSubmit, submitting, values}) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
+              <Field
+                autoComplete="username"
+                component={RFTextField}
+                disabled={submitting || sent}
+                fullWidth
+                label="Username"
+                margin="normal"
+                name="username"
+                required
+              />
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <Field
@@ -70,7 +100,6 @@ function SignUp() {
                     fullWidth
                     label="First name"
                     name="firstName"
-                    required
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -80,7 +109,6 @@ function SignUp() {
                     fullWidth
                     label="Last name"
                     name="lastName"
-                    required
                   />
                 </Grid>
               </Grid>
@@ -105,6 +133,26 @@ function SignUp() {
                 type="password"
                 margin="normal"
               />
+              <Field
+                autoComplete="kakao_id"
+                component={RFTextField}
+                disabled={submitting || sent}
+                fullWidth
+                label="Kakao ID"
+                margin="normal"
+                name="kakao_id"
+                required
+              />
+              <Field
+                autoComplete="phone"
+                component={RFTextField}
+                disabled={submitting || sent}
+                fullWidth
+                label="Phone"
+                margin="normal"
+                name="phone"
+                required
+              />
               <FormSpy subscription={{ submitError: true }}>
                 {({ submitError }) =>
                   submitError ? (
@@ -122,13 +170,15 @@ function SignUp() {
               >
                 {submitting || sent ? 'In progress…' : 'Sign Up'}
               </FormButton>
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
-          )}
-        </Form>
+          )} />
       </AppForm>
-    </React.Fragment>
+    </fragment>
   );
 }
+
+render(<SignUp />, document.getElementById('root'));
 
 export default Base(SignUp);
 
