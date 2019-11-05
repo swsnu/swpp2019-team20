@@ -2,36 +2,27 @@ import React, { useState, useEffect } from 'react';
 import Presenter from './presenter';
 
 const LoanList = () => {
-  // Loan
-  // const [loanlist, setLoanlist] = useState("");
-  const [isLoading, setLoading] = useState(true);
+  const [completedLoanList, setCompletedLoanList] = useState([]);
 
-  const LoanListTargetUrl = '/loan/loan';
+  const targetUrl = '/loan/loan';
   const fetchLoanList = async () => {
-    const res = await fetch(LoanListTargetUrl, {
+    const res = await fetch(targetUrl, {
       method: 'GET',
       credential: 'include',
     })
-    const loanRawList = await res.json();
-    const completedLoanList = loanRawList.filter(
-      (loan) => loan.completed === true,
-    );
-    completedLoanList.map((loan) => console.log(loan));
-    // const loanListDict = JSON.parse(completedLoanList[0]);
-    // console.log(loanListDict)
-    // const {
-    //  completed,
-    // } = loanListDict;
-    // console.log(completed);
-    setLoading(false);
-  }
+    const loanRawList = await res.json()
+    console.log(loanRawList)
+    const curCompletedLoanList = loanRawList.filter((loan) => loan.completed === true)
+    console.log(curCompletedLoanList)
+    setCompletedLoanList(curCompletedLoanList);
+  };
 
   useEffect(() => {
     fetchLoanList();
-  }, [isLoading]);
+  }, []);
 
   const render = (
-    <Presenter />
+    <Presenter loanlist={completedLoanList} />
   );
   return render;
 };

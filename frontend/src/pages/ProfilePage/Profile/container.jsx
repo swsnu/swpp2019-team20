@@ -16,6 +16,7 @@ const Profile = () => {
       credential: 'include',
     })
     const info = await res.json();
+    console.log(info);
     const infoDict = JSON.parse(info);
     const {
       user: curUserId, username: curUserName, kakao_id: curKakaoID, phone: curPhone, bio: curBio,

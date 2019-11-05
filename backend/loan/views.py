@@ -1,8 +1,9 @@
 import json
 import datetime
-#from django.shortcuts import render
+# from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.core import serializers
 from pytz import timezone
 from dateutil.parser import isoparse
 from .models import Loan
@@ -22,6 +23,13 @@ def loan_list(request):
     if request.method == 'GET':
         loanlist = list(Loan.objects.all().values())
         return JsonResponse(loanlist, safe=False)
+    #    loanlist = Loan.objects.all()
+    #    serialized_queryset = serializers.serialize('json', loanlist)
+    #    return JsonResponse(serialized_queryset, safe=False)
+    # if request.method == 'GET':
+    #    loanlist = list(Loan.objects.all().values())
+    #    jsonlist = json.dumps(loanlist, default=str)
+    #    return JsonResponse(jsonlist, safe=False)
 
     # elif request.method == 'POST'
     try:
