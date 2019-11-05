@@ -18,12 +18,12 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Link from '@material-ui/core/Link';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
-
+import SearchBar from '../SearchBar/SearchBar';
 import logo from './logo.png';
 import './Header.css';
 
 
-const drawerWidth = 240;
+const drawerWidth = 430;
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -106,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Header() {
+export default function Header({ children }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -190,26 +190,18 @@ export default function Header() {
           </IconButton>
         </div>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <h3>Who Are You Looking For?</h3>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <div className="searchBarContainer">
+          {children}
+        </div>
       </Drawer>
       <div className={classes.placeholder} />
     </div>
   );
 }
 
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
