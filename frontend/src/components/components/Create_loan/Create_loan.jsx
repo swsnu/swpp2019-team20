@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UserEntry from '../../subcomponents/UserEntry/UserEntry';
+import SearchBar from '../../subcomponents/SearchBar/SearchBar';
 
 const Create_loan = () => {
 
@@ -91,7 +91,7 @@ const Create_loan = () => {
             }
             return (
                 <div>
-                    id: <UserEntry setUser={setUser} />
+                    id: <Searchbar setUser={setUser} />
                     paid money: <input className = 'paid_money' type = 'number' value={participant.paid_money} onChange={(e)=>change_user_money(index, e.target.value)}/>
                     rating: <h3 className = 'rating'>{rating}</h3>
                 </div>
