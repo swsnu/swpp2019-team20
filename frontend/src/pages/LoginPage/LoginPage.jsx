@@ -11,7 +11,7 @@ import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
 import CSRFToken from '../../components/subcomponents/csrftoken';
-
+import { getCookie } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -44,56 +44,19 @@ function LoginPage() {
     return errors;
   };
 
-  /*let data = {
-    'file': file,
-    'fileName': file.name,
-  };
-  let csrftoken = getCookie('csrftoken');
-  let response = fetch("/upload/", {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { "X-CSRFToken": csrftoken },
-  })*/
-
-  // The following function are copying from
-  // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   const onSubmit = async values => {
-    let before_csrftoken = getCookie('csrftoken');
-    console.log(before_csrftoken);
-    await sleep(300);
-    window.alert(JSON.stringify(values, 0, 2));
-
     await fetch('/account/token', {
       method: 'GET',
       credential: 'include',
     });
 
     let csrftoken = getCookie('csrftoken');
-    console.log(csrftoken);
 
     const response = await fetch('/account/signin', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       credentials: 'include', // include, *same-origin, omit
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken,
       },
