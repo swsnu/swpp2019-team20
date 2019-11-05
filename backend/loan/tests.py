@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Loan
 
-# Create your tests here.
 
 class LoanTestCase(TestCase):
     def test_loan(self):
@@ -21,6 +20,10 @@ class LoanTestCase(TestCase):
         # login
         User.objects.create_user(username='username', password='password')
         client.login(username='username', password='password')
+
+        # test - get
+        response = client.get('/loan/loan')
+        self.assertEqual(response.status_code, 200)
 
         # test - no request body
         response = client.post('/loan/loan')
