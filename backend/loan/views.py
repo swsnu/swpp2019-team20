@@ -7,10 +7,10 @@ from pytz import timezone
 from dateutil.parser import isoparse
 from .models import Loan
 
-# Create your views here.
+
 def index(request):
     return HttpResponse("loan page")
-    #return render(request, 'account/index.html')
+
 
 def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
@@ -20,8 +20,8 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        # not implemented yet
-        raise NotImplementedError()
+        loanlist = list(Loan.objects.all().values())
+        return JsonResponse(loanlist, safe=False)
 
     # elif request.method == 'POST'
     try:
