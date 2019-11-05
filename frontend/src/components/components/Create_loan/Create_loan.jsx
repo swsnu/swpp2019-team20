@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import UserEntry from '../../subcomponents/UserEntry/UserEntry';
 
 const Create_loan = () => {
 
@@ -7,7 +8,7 @@ const Create_loan = () => {
         return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     }
 
-    const [participants, setParticipants] = useState( [ {'id': 'GET_CURRENT_USER_NAME', 'paid_money': 0} ] );
+    const [participants, setParticipants] = useState( [ {id: 'GET_CURRENT_USER_NAME', paid_money: 0} ] );
     const [deadline, setDeadline] = useState(getDate());
     const [interestValid, setInterestValid] = useState(false);
     const [interestRate, setInterestRate] = useState(0);
@@ -24,14 +25,38 @@ const Create_loan = () => {
         }
         if (alertFrequency === '') errorMessage += '\nSelect alert frequency.';
 
+        const data = {
+            'participants': participants,
+            'deadline': deadline + 'T',
+            'interest_rate': interestValid ? interestRate : 0,
+            'interest_type': interestType,
+            'alert_frequency': alertFrequency,
+        }
+
         if ( errorMessage === '' ) {
-            //triggerLoanPost();
+            triggerLoanPost(data);
         } else {
             window.alert(errorMessage);
         }
     }
-    /*
-    const triggerLoanPost = async () => {
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    const triggerLoanPost = async (data) => {
         await fetch('/account/token', {
             method: 'GET',
             credential: 'include',
@@ -47,25 +72,53 @@ const Create_loan = () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken,
             },
+            body: JSON.stringify(data),
         });
 
-
+        if (response.status !== 204) {
+            window.alert("error");
+        } else {
+            window.alert("success");
+        }
     };
+
+    const setUser = () => {
+
+    }
     
+    const change_user_money = (index, money) => {
+        let new_participants = [...participants];
+        new_participants[index].paid_money = money;
+        setParticipants(new_participants);
+    }
 
     const participants_list = participants.map(
-        participant => {
-
-            <input id = 'paid_money' type = 'text' value={participant.paid_money} onChange={(e)=>setParticipants(participant.paid_money = e.target.value)}/>
-
+        (participant, index) => {
+            return (
+                <div>
+                    <UserEntry setUser={setUser} />
+                    <input className = 'paid_money' type = 'number' value={participant.paid_money} onChange={(e)=>change_user_money(index, e.target.value)}/>
+                </div>
+            )
         }
     )
-        */
+
+    const add_user = () => {
+        setParticipants([
+            ...participants,
+            {
+                id: '',
+                paid_money: 0,
+            }
+        ]);
+    };
 
     return(
         <div className="create-loan">
+            {participants_list}
+            <br/>
 
-            <button className="add_user">Add a participant</button>
+            <button className="add_user" onClick={()=>add_user()}>Add a participant</button>
             <br/>
 
             Deadline: <input className="deadline" type="date" value={deadline} min={getDate()} onChange={(e)=>setDeadline(e.target.value)}/>
