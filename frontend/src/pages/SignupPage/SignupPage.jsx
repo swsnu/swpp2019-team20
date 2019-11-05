@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import jQuery from 'jquery';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -12,6 +11,7 @@ import { email, required } from '../../components/subcomponents/form/validation'
 import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
+import { getCookie } from '../../utils';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -42,21 +42,6 @@ const SignUp = () => {
 
     return errors;
   };
-
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
-        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
 
   var csrftoken = getCookie('csrftoken');
 

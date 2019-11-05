@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import jQuery from 'jquery';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
@@ -10,7 +9,6 @@ import { email, required } from '../../components/subcomponents/form/validation'
 import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
-import CSRFToken from '../../components/subcomponents/csrftoken';
 import { getCookie } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -123,7 +121,6 @@ function LoginPage() {
                   </FormFeedback>
                 ) : null)}
               </FormSpy>
-              <CSRFToken />
               <FormButton
                 className={classes.button}
                 disabled={submitting || sent}
