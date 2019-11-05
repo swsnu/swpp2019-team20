@@ -16,8 +16,8 @@ def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    # if not request.user.is_authenticated:
-    #    return HttpResponse(status=401)
+    if not request.user.is_authenticated:
+       return HttpResponse(status=401)
 
     if request.method == 'GET':
         loan_list = list(Loan.objects.all().values())
