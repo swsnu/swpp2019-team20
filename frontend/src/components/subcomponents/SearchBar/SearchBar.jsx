@@ -9,9 +9,9 @@ const initialState = { isLoading: false, results: [], value: '' }
 const getResults = () =>
   _.times(5, () => ({
     title: faker.name.findName(),
-    description: faker.name.jobTitle(),
+    description: faker.hacker.phrase(),
     image: faker.internet.avatar(),
-    price: faker.finance.amount(0, 10, 1, 'score: '),
+    price: faker.finance.amount(5, 10, 1, 'score: '),
   }))
 
 const type = ['Favorite', 'Recent', 'New']
