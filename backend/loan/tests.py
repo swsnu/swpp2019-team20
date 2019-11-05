@@ -22,6 +22,10 @@ class LoanTestCase(TestCase):
         User.objects.create_user(username='username', password='password')
         client.login(username='username', password='password')
 
+        # test - get
+        response = client.get('/loan/loan')
+        self.assertEqual(response.status_code, 200)
+
         # test - no request body
         response = client.post('/loan/loan')
         self.assertEqual(response.status_code, 400)
