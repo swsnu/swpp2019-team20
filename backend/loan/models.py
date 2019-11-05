@@ -32,6 +32,6 @@ class Transaction(models.Model):
                                  related_name='borrowed_transaction')
     money = models.DecimalField(max_digits=8, decimal_places=2)
     completed = models.BooleanField()
-    completed_date = models.DateTimeField()
+    completed_date = models.DateTimeField(null=True)
     lender_confirm = models.BooleanField()
     borrower_confirm = models.BooleanField()
