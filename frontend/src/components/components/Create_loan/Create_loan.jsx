@@ -1,10 +1,66 @@
 import React, { useState } from 'react';
 
 const Create_loan = () => {
+
+    const getDate = () => {
+        var today = new Date();
+        return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    }
+
+    const [participants, setParticipants] = useState( [ {'id': 'GET_CURRENT_USER_NAME', 'paid_money': 0} ] );
+    const [deadline, setDeadline] = useState(getDate());
     const [interestValid, setInterestValid] = useState(false);
     const [interestRate, setInterestRate] = useState(0);
     const [interestType, setInterestType] = useState('');
     const [alertFrequency, setAlertFrequency] = useState('');
+
+    
+    const articlePostHandler = () => {
+        let errorMessage = '';
+        if (participants.length < 2 ) errorMessage += '\nIt needs more participants.';
+        if (interestValid) {
+            if ( interestRate === 0 ) errorMessage += '\nWrite interest rate or disable interest.';
+            if ( interestType === '') errorMessage += '\nSelect interest type or disable interest.';
+        }
+        if (alertFrequency === '') errorMessage += '\nSelect alert frequency.';
+
+        if ( errorMessage === '' ) {
+            //triggerLoanPost();
+        } else {
+            window.alert(errorMessage);
+        }
+    }
+    /*
+    const triggerLoanPost = async () => {
+        await fetch('/account/token', {
+            method: 'GET',
+            credential: 'include',
+        });
+
+        let csrftoken = getCookie('csrftoken');
+
+        const response = await fetch('loan/loan', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+        });
+
+
+    };
+    
+
+    const participants_list = participants.map(
+        participant => {
+
+            <input id = 'paid_money' type = 'text' value={participant.paid_money} onChange={(e)=>setParticipants(participant.paid_money = e.target.value)}/>
+
+        }
+    )
+        */
 
     return(
         <div className="create-loan">
@@ -12,7 +68,8 @@ const Create_loan = () => {
             <button className="add_user">Add a participant</button>
             <br/>
 
-            Deadline: <input className="deadline" type="date"/>
+            Deadline: <input className="deadline" type="date" value={deadline} min={getDate()} onChange={(e)=>setDeadline(e.target.value)}/>
+            <br/>
             
             <h3>Options</h3>
             <br/>
@@ -42,7 +99,9 @@ const Create_loan = () => {
                 <option value="very high">very high</option>
             </select>
             <br/>
-            <button className="register-loan">Register</button><br/>
+
+            <button className="register-loan" onClick = {()=>articlePostHandler()}>Register</button>
+            <br/>
         </div>
     )
 
