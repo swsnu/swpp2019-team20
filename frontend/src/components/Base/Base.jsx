@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 import Header from '../subcomponents/Header/Header';
 import Footer from '../subcomponents/Footer/Footer';
+import Drawer from '../subcomponents/Drawer/Drawer';
 
 
 function Base(Component) {
@@ -12,6 +13,7 @@ function Base(Component) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
+        <Drawer />
         <Component {...props} />
         <Footer />
       </ThemeProvider>

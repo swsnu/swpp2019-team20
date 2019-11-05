@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import jQuery from 'jquery';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -42,22 +43,39 @@ const SignUp = () => {
     return errors;
   };
 
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  var csrftoken = getCookie('csrftoken');
+
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   const onSubmit = async values => {
     await sleep(300);
     window.alert(JSON.stringify(values, 0, 2));
-    return fetch('account/signup', {
+    return fetch('http://localhost:8000/account/signup', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, cors, *same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      mode: 'same-origin', // no-cors, cors, *same-origin
+      credentials: 'include', // include, *same-origin, omit
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       redirect: 'follow', // manual, *follow, error
-      referrer: 'no-referrer', // no-referrer, *client
       body: JSON.stringify(values), // body data type must match "Content-Type" header
     })
       .then(response => response.json())  // parses JSON response into native JavaScript objects
