@@ -12,28 +12,23 @@ const Create_loan = () => {
     const [deadline, setDeadline] = useState(getDate());
     const [interestValid, setInterestValid] = useState(false);
     const [interestRate, setInterestRate] = useState(0);
-    const [interestType, setInterestType] = useState('');
-    const [alertFrequency, setAlertFrequency] = useState('');
+    const [interestType, setInterestType] = useState('hour');
+    const [alertFrequency, setAlertFrequency] = useState('very low');
 
     
     const articlePostHandler = () => {
         let errorMessage = '';
         if (participants.length < 2 ) errorMessage += '\nIt needs more participants.';
-        if (interestValid) {
-            if ( interestRate === 0 ) errorMessage += '\nWrite interest rate or disable interest.';
-            if ( interestType === '') errorMessage += '\nSelect interest type or disable interest.';
-        }
-        if (alertFrequency === '') errorMessage += '\nSelect alert frequency.';
-
-        const data = {
-            'participants': participants,
-            'deadline': deadline + 'T',
-            'interest_rate': interestValid ? interestRate : 0,
-            'interest_type': interestType,
-            'alert_frequency': alertFrequency,
-        }
+        if (interestValid && interestRate === 0) errorMessage += '\nWrite interest rate or disable it.';
 
         if ( errorMessage === '' ) {
+            const data = {
+                'participants': participants,
+                'deadline': deadline + 'T',
+                'interest_rate': interestValid ? interestRate : 0,
+                'interest_type': interestType,
+                'alert_frequency': alertFrequency,
+            }
             triggerLoanPost(data);
         } else {
             window.alert(errorMessage);
@@ -64,7 +59,7 @@ const Create_loan = () => {
 
         let csrftoken = getCookie('csrftoken');
 
-        const response = await fetch('loan/loan', {
+        const response = await fetch('/loan/loan', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -81,10 +76,6 @@ const Create_loan = () => {
             window.alert("success");
         }
     };
-
-    const setUser = () => {
-
-    }
     
     const change_user_money = (index, money) => {
         let new_participants = [...participants];
@@ -94,10 +85,15 @@ const Create_loan = () => {
 
     const participants_list = participants.map(
         (participant, index) => {
+            let rating;
+            const setUser = (user) => {
+                rating = user.rating;
+            }
             return (
                 <div>
-                    <UserEntry setUser={setUser} />
-                    <input className = 'paid_money' type = 'number' value={participant.paid_money} onChange={(e)=>change_user_money(index, e.target.value)}/>
+                    id: <UserEntry setUser={setUser} />
+                    paid money: <input className = 'paid_money' type = 'number' value={participant.paid_money} onChange={(e)=>change_user_money(index, e.target.value)}/>
+                    rating: <h3 className = 'rating'>{rating}</h3>
                 </div>
             )
         }
