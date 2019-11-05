@@ -11,9 +11,9 @@ const Presenter = (props) => {
     <AppForm>
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
       <div className="user-profile">
-        <h3>
-          Profile
-        </h3>
+        <h2>
+          My Profile
+        </h2>
         <div className="media-body">
           <p className="text-secondary">
             <i className="material-icons">face</i>
