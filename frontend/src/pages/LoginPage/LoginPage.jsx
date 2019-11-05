@@ -46,7 +46,7 @@ function LoginPage() {
   const onSubmit = async values => {
     await fetch('/account/token', {
       method: 'GET',
-      credential: 'include',
+      credentials: 'include',
     });
 
     let csrftoken = getCookie('csrftoken');
@@ -63,9 +63,9 @@ function LoginPage() {
     });
 
     if (response.status !== 204) {
-      window.alert("error");
+      window.alert("error" + response.status);
     } else {
-      window.alert("success");
+      window.alert("success" + response.status);
     }
   };
 
