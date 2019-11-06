@@ -35,12 +35,7 @@ function App() {
     <Switch>
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
-      <Route
-        path="/signup"
-        exact
-        component={SignupPage}
-      />
-      <Redirect from="/" to="/index" />
+      <Redirect from="/" to="/signin" />
     </Switch>
   );
   return (

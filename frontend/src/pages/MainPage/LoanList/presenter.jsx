@@ -11,7 +11,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TransactionList from '../../../components/TransactionList/TransactionList'
+import TransactionList from '../../../components/TransactionList/presenter'
 import Budget from '../components/Budget/Budget';
 import TotalUsers from '../components/TotalUsers/TotalUsers';
 import TaskProgress from '../components/TasksProgress/TasksProgress';
