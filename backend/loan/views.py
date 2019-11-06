@@ -167,8 +167,8 @@ def loan_transaction(request, loan_id):
     return JsonResponse(list(txset.values()), safe=False)
 
 def transaction(request, tx_id):
-    if request.method not in ['GET', 'POST']:
-        return HttpResponseNotAllowed(['GET', 'POST'])
+    if request.method not in ['GET', 'PUT']:
+        return HttpResponseNotAllowed(['GET', 'PUT'])
 
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
@@ -193,7 +193,7 @@ def transaction(request, tx_id):
 
         return JsonResponse(txdict)
 
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
         if tx.borrower == request.user:
             tx.borrower_confirm = True
         elif tx.lender != request.user:
