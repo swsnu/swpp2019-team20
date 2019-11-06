@@ -10,8 +10,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
+import TransactionList from '../../../components/TransactionList/TransactionList'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -121,12 +121,13 @@ export default function SimpleTabs(props) {
       <div>
         {notCompletedLoanList.map((loan, idx) => (
           <TabPanel value={value} index={idx}>
-            <h2 style={{ color: 'blue' }}>Loan {loan.id}</h2>
+            <h2 style={{ color: 'red' }}>Loan {loan.id}</h2>
             <div>
               {
                 Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
               }
             </div>
+            {/*<TransactionList />*/}
           </TabPanel>
         ))}
       </div>
