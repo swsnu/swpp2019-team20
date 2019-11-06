@@ -1,14 +1,19 @@
 import json
-import datetime
+from datetime import datetime
 #from django.shortcuts import render
 from json import JSONDecodeError
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseNotAllowed,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+    JsonResponse,
+)
 from django.contrib.auth.models import User
 from django.db.models import Q
-from pytz import timezone
+from django.forms.models import model_to_dict
 from dateutil.parser import isoparse
 from .models import Loan, Transaction
-from django.forms.models import model_to_dict
 
 def index(request):
     return HttpResponse("loan page")
@@ -21,7 +26,7 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        txlist = Transaction.objects.filter(Q(lender = request.user) | Q(borrower = request.user))
+        txlist = Transaction.objects.filter(Q(lender=request.user) | Q(borrower=request.user))
         loanlist = list(map(model_to_dict, {tx.loan for tx in txlist}))
         return JsonResponse(loanlist, safe=False)
 
@@ -48,7 +53,7 @@ def loan_list(request):
     except ValueError:
         return HttpResponse(status=400)
 
-    #if deadline < datetime.datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
+    #if deadline < datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
     #    return HttpResponse(status=400)
 
     interest_type_list = ['hour', 'day', 'week', 'month', 'year']
@@ -76,7 +81,7 @@ def loan_list(request):
                 completed=False,
                 #expected_date=null
                 #completed_date=null
-                registered_date=datetime.datetime.now()
+                registered_date=datetime.now()
                 )
     loan.save()
 
@@ -141,7 +146,10 @@ def loan(request, loan_id):
             loan = Loan.objects.get(id=loan_id)
         except Loan.DoesNotExist:
             return HttpResponseNotFound()
-        txlist = Transaction.objects.filter(Q(loan=loan), Q(borrower=request.user) | Q(lender=request.user))
+
+        txlist = Transaction.objects.filter(Q(loan=loan))
+        txlist = txlist.filter(Q(borrower=request.user) | Q(lender=request.user))
+
         if not txlist.exists():
             return HttpResponseForbidden()
         return JsonResponse(model_to_dict(loan))
@@ -179,7 +187,9 @@ def transaction(request, tx_id):
         return HttpResponseNotFound()
 
     if request.method == 'GET':
-        txset = Transaction.objects.filter(Q(loan=tx.loan), Q(borrower=request.user) | Q(lender=request.user))
+        txset = Transaction.objects.filter(Q(loan=tx.loan))
+        txset.filter(Q(borrower=request.user) | Q(lender=request.user))
+
         if not txset.exists():
             return HttpResponseForbidden()
 
