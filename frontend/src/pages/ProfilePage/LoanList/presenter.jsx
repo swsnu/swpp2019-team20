@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppForm from '../../../components/subcomponents/AppForm';
+import {Modal} from '@material-ui/core';
 
 const Presenter = (props) => {
   const {

@@ -41,8 +41,9 @@ def profile(request, user_pk):
         #    return HttpResponse(status=401)
         dict_profile = model_to_dict(prof)
         dict_profile['username'] = str(prof)
-        json_profile = json.dumps(dict_profile)
-        return JsonResponse(json_profile, safe=False)
+        dict_profile['id'] = dict_profile['user']
+        del dict_profile['user']
+        return JsonResponse(dict_profile)
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
@@ -66,8 +67,7 @@ def profile(request, user_pk):
                 return HttpResponse(status=403)
             prof.save()
             dict_article = model_to_dict(prof)
-            json_article = json.dumps(dict_article)
-            return JsonResponse(json_article, safe=False)
+            return JsonResponse(dict_article)
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
     else:

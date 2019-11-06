@@ -3,9 +3,10 @@ import datetime
 # from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.contrib.auth.models import User
 from pytz import timezone
 from dateutil.parser import isoparse
-from .models import Loan
+from .models import Loan, Transaction
 
 
 def index(request):
@@ -77,6 +78,9 @@ def loan_list(request):
                 registered_date=datetime.datetime.now()
                 )
     loan.save()
+
+    create_transactions(loan, participants_data)
+
     response_dict = {'id': loan.id, 'num_members': loan.num_members,
                      'total_money': loan.total_money, 'alert_frequency': loan.alert_frequency,
                      'apply_interest': loan.apply_interest, 'interest_type': loan.interest_type,
@@ -84,3 +88,42 @@ def loan_list(request):
                      'expected_date': loan.expected_date, 'completed_date': loan.completed_date,
                      'registered_date': loan.registered_date}
     return JsonResponse(response_dict, status=201)
+
+def create_transactions(loan, participants):
+    fair_share = int(loan.total_money / len(participants))
+
+    overs, unders = {}, {}
+    for participant in participants:
+        diff = participant['paid_money'] - fair_share
+        if diff > 0:
+            overs[participant['id']] = diff
+        else:
+            unders[participant['id']] = -diff
+
+    over_keys = sorted(overs.keys(), key=lambda p: -overs[p])
+    under_keys = sorted(unders.keys(), key=lambda p: -unders[p])
+
+    transactions = []
+    while len(over_keys) > 0 and len(under_keys) > 0:
+        over, under = overs[over_keys[0]], unders[under_keys[0]]
+        diff = min(over, under)
+        overs[over_keys[0]] = over - diff
+        unders[under_keys[0]] = under - diff
+
+        transaction = Transaction(
+            loan_id=loan.id,
+            lender=User.objects.get(id=over_keys[0]),
+            borrower=User.objects.get(id=under_keys[0]),
+            money=diff,
+            completed=False,
+            completed_date=None,
+            lender_confirm=False,
+            borrower_confirm=False,
+        )
+        transaction.save()
+        transactions.append(transaction)
+
+        if overs[over_keys[0]] <= 0:
+            over_keys.pop(0)
+        if unders[under_keys[0]] <= 0:
+            under_keys.pop(0)

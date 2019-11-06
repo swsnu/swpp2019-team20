@@ -43,29 +43,31 @@ const SignUp = () => {
     return errors;
   };
 
-  var csrftoken = getCookie('csrftoken');
-
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   const onSubmit = async values => {
-    await sleep(300);
-    window.alert(JSON.stringify(values, 0, 2));
-    return fetch('http://localhost:8000/account/signup', {
+    await fetch('/account/token', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    let csrftoken = getCookie('csrftoken');
+
+    const response = await fetch('/account/signup', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'same-origin', // no-cors, cors, *same-origin
       credentials: 'include', // include, *same-origin, omit
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken,
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       redirect: 'follow', // manual, *follow, error
       body: JSON.stringify(values), // body data type must match "Content-Type" header
-    })
-      .then(response => response.json())  // parses JSON response into native JavaScript objects
-      .then(response => console.log('Success:', JSON.stringify(response)))
-      .catch(error => console.error('Error:', error));
+    });
+
+    if (response.status !== 201) {
+      window.alert("error" + response.status);
+    } else {
+      window.alert("success" + response.status);
+    }
   };
 
   return (
@@ -82,7 +84,7 @@ const SignUp = () => {
           </Typography>
         </fragment>
         <Form onSubmit={onSubmit} subscription={{ submitting: true }}
-          render={({ handleSubmit, submitting, values}) => (
+          render={({ handleSubmit, submitting, values }) => (
             <form onSubmit={handleSubmit} className={classes.form} noValidate>
               <Field
                 autoComplete="username"
@@ -99,19 +101,19 @@ const SignUp = () => {
                   <Field
                     autoFocus
                     component={RFTextField}
-                    autoComplete="fname"
+                    autoComplete="first_name"
                     fullWidth
                     label="First name"
-                    name="firstName"
+                    name="first_name"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Field
                     component={RFTextField}
-                    autoComplete="lname"
+                    autoComplete="last_name"
                     fullWidth
                     label="Last name"
-                    name="lastName"
+                    name="last_name"
                   />
                 </Grid>
               </Grid>
