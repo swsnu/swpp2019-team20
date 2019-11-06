@@ -6,7 +6,7 @@ import Base from '../../components/Base/Base';
 import Button from '../../components/subcomponents/Button';
 import Typography from '../../components/subcomponents/Typography';
 import IndexPageLayout from './IndexPageLayout';
-import Create_loan from '../../components/components/Create_loan/Create_loan';
+
 
 const backgroundImage =
   //'https://images.pexels.com/photos/1037912/pexels-photo-1037912.jpeg?cs=srgb&dl=bitcoin-blockchain-coin-1037912.jpg&fm=jpg';
@@ -62,7 +62,6 @@ function IndexPage(props) {
           Discover the experience
       </Typography>
       </IndexPageLayout>
-      <Create_loan/>
     </fragment>
   );
 }

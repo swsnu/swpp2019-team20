@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from '../../subcomponents/SearchBar/SearchBar';
 
-const Create_loan = () => {
+const CreateLoan = () => {
 
     const getDate = () => {
         var today = new Date();
@@ -15,7 +15,7 @@ const Create_loan = () => {
     const [interestType, setInterestType] = useState('hour');
     const [alertFrequency, setAlertFrequency] = useState('very low');
 
-    
+
     const articlePostHandler = () => {
         let errorMessage = '';
         if (participants.length < 2 ) errorMessage += '\nIt needs more participants.';
@@ -50,7 +50,7 @@ const Create_loan = () => {
         }
         return cookieValue;
     }
-    
+
     const triggerLoanPost = async (data) => {
         console.log(data);
         await fetch('/account/token', {
@@ -77,7 +77,7 @@ const Create_loan = () => {
             window.alert("success");
         }
     };
-    
+
     const change_user_money = (index, money) => {
         let new_participants = [...participants];
         new_participants[index].paid_money = money;
@@ -130,10 +130,10 @@ const Create_loan = () => {
 
             Deadline: <input className="deadline" type="date" value={deadline} min={getDate()} onChange={(e)=>setDeadline(e.target.value)}/>
             <br/>
-            
+
             <h3>Options</h3>
             <br/>
-            
+
             <label>
                 Interest
                 <input className="interest_valid" type="checkbox" checked={interestValid} onChange={(e)=>setInterestValid(e.target.value)}/>
@@ -167,4 +167,4 @@ const Create_loan = () => {
 
 }
 
-export default Create_loan;
+export default CreateLoan;
