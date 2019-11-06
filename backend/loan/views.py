@@ -147,3 +147,21 @@ def loan(request, loan_id):
         return JsonResponse(model_to_dict(loan))
     else:
         raise NotImplementedError()
+
+def loan_transaction(request, loan_id):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    try:
+        loan = Loan.objects.get(id=loan_id)
+    except Loan.DoesNotExist:
+        return HttpResponseNotFound()
+
+    txset = Transaction.objects.filter(loan=loan)
+    if not txset.filter(Q(borrower=request.user) | Q(lender=request.user)).exists():
+        return HttpResponseForbidden()
+
+    return JsonResponse(list(txset.values()), safe=False)
