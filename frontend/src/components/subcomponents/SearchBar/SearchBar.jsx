@@ -1,85 +1,99 @@
-import _ from 'lodash';
-import faker from 'faker';
 import React, { Component } from 'react';
-import { Search, Grid, Header, Segment } from 'semantic-ui-react';
+import { Search, Grid } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 import './SearchBar.css';
 
-const initialState = { isLoading: false, results: [], value: '' }
+class SearchBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      results: [],
+      username: '',
+    };
 
-const getResults = () =>
-  _.times(5, () => ({
-    title: faker.name.findName(),
-    description: faker.hacker.phrase(),
-    image: faker.internet.avatar(),
-    price: faker.finance.amount(5, 10, 1, 'score: '),
-  }))
-
-const type = ['Favorite', 'Recent', 'New']
-let count = 0;
-const source = _.range(0, 3).reduce((memo) => {
-  const name = type[count++];
-  console.log(name);
-
-  // eslint-disable-next-line no-param-reassign
-  memo[name] = {
-    name,
-    results: getResults(),
+    this.onSearchChange = this.onSearchChange.bind(this);
+    this.onResultSelect = this.onResultSelect.bind(this);
   }
 
-  return memo
-}, {})
+  onResultSelect(e, { result }) {
+    this.props.setUser(result.content);
+  }
 
-export default class SearchBar extends Component {
-  state = initialState
+  onSearchChange(e, { value }) {
+    this.setState({
+      isLoading: true,
+      username: value,
+      results: [],
+    });
+    this.props.setUser(null);
 
-  handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+    setTimeout(async () => {
+      // simple debouncing
+      if (this.state.username !== value) {
+        return;
+      }
 
-  handleSearchChange = (e, { value }) => {
-    this.setState({ isLoading: true, value })
+      const idResponse = await fetch(`/account/by-name/${this.state.username}`);
+      if (idResponse.status !== 200) {
+        if (this.state.username === value) {
+          this.setState({ isLoading: false });
+        }
+        // TODO: report error to user
+        return;
+      }
+      const { id: userId } = await idResponse.json();
 
-    setTimeout(() => {
-      if (this.state.value.length < 1) return this.setState(initialState)
+      const profileResponse = await fetch(`/account/user/${userId}`);
+      if (profileResponse.status !== 200) {
+        if (this.state.username === value) {
+          this.setState({ isLoading: false });
+        }
+        // TODO: report error to user
+        return;
+      }
+      const user = await profileResponse.json();
 
-      const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-      const isMatch = (result) => re.test(result.title)
+      // it may all have been for naught
+      if (this.state.username !== value) {
+        return;
+      }
 
-      const filteredResults = _.reduce(
-        source,
-        (memo, data, name) => {
-          const results = _.filter(data.results, isMatch)
-          if (results.length) memo[name] = { name, results } // eslint-disable-line no-param-reassign
-
-          return memo
-        },
-        {},
-      )
-
-      this.setState({
-        isLoading: false,
-        results: filteredResults,
-      })
-    }, 300)
+      this.setState(
+        (state) => ({
+          isLoading: false,
+          results: [{
+            id: userId,
+            title: state.username,
+            content: user,
+            // TODO: display other user attributes
+          }],
+        }),
+      );
+    }, 300);
   }
 
   render() {
-    const { isLoading, value, results } = this.state
-
     return (
       <Grid>
         <Grid.Column width={8}>
           <Search
-            category
-            loading={isLoading}
-            onResultSelect={this.handleResultSelect}
-            onSearchChange={_.debounce(this.handleSearchChange, 500, {
-              leading: true,
-            })}
-            results={results}
-            value={value}
-            {...this.props}
+            loading={this.state.isLoading}
+            onResultSelect={this.onResultSelect}
+            onSearchChange={this.onSearchChange}
+            results={this.state.results}
+            value={this.state.username}
           />
         </Grid.Column>
       </Grid>
-    )
+    );
   }
 }
+
+// it makes no sense to use this component without a proper setUser, and
+// therefore it should be flagged as an error.
+SearchBar.propTypes = {
+  setUser: PropTypes.func.isRequired,
+};
+
+export default SearchBar;
