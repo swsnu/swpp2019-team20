@@ -8,7 +8,7 @@ const Create_loan = () => {
         return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     }
 
-    const [participants, setParticipants] = useState( [ {id: 'GET_CURRENT_USER_NAME', paid_money: 0} ] );
+    const [participants, setParticipants] = useState( [ {id: 0, paid_money: 0} ] );
     const [deadline, setDeadline] = useState(getDate());
     const [interestValid, setInterestValid] = useState(false);
     const [interestRate, setInterestRate] = useState(0);
@@ -24,7 +24,7 @@ const Create_loan = () => {
         if ( errorMessage === '' ) {
             const data = {
                 'participants': participants,
-                'deadline': deadline + 'T',
+                'deadline': deadline + 'T23:59:59Z',
                 'interest_rate': interestValid ? interestRate : 0,
                 'interest_type': interestType,
                 'alert_frequency': alertFrequency,
@@ -52,6 +52,7 @@ const Create_loan = () => {
     }
     
     const triggerLoanPost = async (data) => {
+        console.log(data);
         await fetch('/account/token', {
             method: 'GET',
             credential: 'include',
@@ -70,7 +71,7 @@ const Create_loan = () => {
             body: JSON.stringify(data),
         });
 
-        if (response.status !== 204) {
+        if (response.status !== 201) {
             window.alert("error");
         } else {
             window.alert("success");
@@ -83,15 +84,25 @@ const Create_loan = () => {
         setParticipants(new_participants);
     }
 
+    const change_user_id = (index, id) => {
+        let new_participants = [...participants];
+        new_participants[index].id = id;
+        setParticipants(new_participants);
+    }
+
     const participants_list = participants.map(
         (participant, index) => {
             let rating;
             const setUser = (user) => {
-                rating = user.rating;
+                if ( user !== null) {
+                    console.log(user.id);
+                    rating = user.rating;
+                    change_user_id(index, user.id);
+                }
             }
             return (
                 <div>
-                    id: <Searchbar setUser={setUser} />
+                    id: <SearchBar setUser={setUser} />
                     paid money: <input className = 'paid_money' type = 'number' value={participant.paid_money} onChange={(e)=>change_user_money(index, e.target.value)}/>
                     rating: <h3 className = 'rating'>{rating}</h3>
                 </div>
@@ -103,7 +114,7 @@ const Create_loan = () => {
         setParticipants([
             ...participants,
             {
-                id: '',
+                id: 0,
                 paid_money: 0,
             }
         ]);

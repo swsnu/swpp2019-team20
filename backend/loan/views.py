@@ -1,6 +1,6 @@
 import json
 import datetime
-# from django.shortcuts import render
+#from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.models import User
@@ -17,8 +17,8 @@ def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    # if not request.user.is_authenticated:
-    #    return HttpResponse(status=401)
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
 
     if request.method == 'GET':
         loanlist = list(Loan.objects.all().values())
@@ -47,8 +47,8 @@ def loan_list(request):
     except ValueError:
         return HttpResponse(status=400)
 
-    if deadline < datetime.datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
-        return HttpResponse(status=400)
+    #if deadline < datetime.datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
+    #    return HttpResponse(status=400)
 
     interest_type_list = ['hour', 'day', 'week', 'month', 'year']
     if interest_type_data not in interest_type_list:
