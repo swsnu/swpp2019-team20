@@ -1,17 +1,22 @@
 import json
-import datetime
+from datetime import datetime
 #from django.shortcuts import render
 from json import JSONDecodeError
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import (
+    HttpResponse,
+    HttpResponseNotAllowed,
+    HttpResponseForbidden,
+    HttpResponseNotFound,
+    JsonResponse,
+)
 from django.contrib.auth.models import User
-from pytz import timezone
+from django.db.models import Q
+from django.forms.models import model_to_dict
 from dateutil.parser import isoparse
 from .models import Loan, Transaction
 
-
 def index(request):
     return HttpResponse("loan page")
-
 
 def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
@@ -21,7 +26,8 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        loanlist = list(Loan.objects.all().order_by('deadline') .values())
+        txlist = Transaction.objects.filter(Q(lender=request.user) | Q(borrower=request.user))
+        loanlist = list(map(model_to_dict, {tx.loan for tx in txlist}))
         return JsonResponse(loanlist, safe=False)
 
     # elif request.method == 'POST'
@@ -47,7 +53,7 @@ def loan_list(request):
     except ValueError:
         return HttpResponse(status=400)
 
-    #if deadline < datetime.datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
+    #if deadline < datetime.now().replace(tzinfo=timezone('Asia/Seoul')):
     #    return HttpResponse(status=400)
 
     interest_type_list = ['hour', 'day', 'week', 'month', 'year']
@@ -75,7 +81,7 @@ def loan_list(request):
                 completed=False,
                 #expected_date=null
                 #completed_date=null
-                registered_date=datetime.datetime.now()
+                registered_date=datetime.now()
                 )
     loan.save()
 
@@ -128,3 +134,102 @@ def create_transactions(loan, participants):
             over_keys.pop(0)
         if unders[under_keys[0]] <= 0:
             under_keys.pop(0)
+
+def loan(request, loan_id):
+    if request.method not in ['GET', 'PUT', 'DELETE']:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if request.method == 'GET':
+        try:
+            loan = Loan.objects.get(id=loan_id)
+        except Loan.DoesNotExist:
+            return HttpResponseNotFound()
+
+        txlist = Transaction.objects.filter(Q(loan=loan))
+        txlist = txlist.filter(Q(borrower=request.user) | Q(lender=request.user))
+
+        if not txlist.exists():
+            return HttpResponseForbidden()
+        return JsonResponse(model_to_dict(loan))
+    else:
+        raise NotImplementedError()
+
+def loan_transaction(request, loan_id):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    try:
+        loan = Loan.objects.get(id=loan_id)
+    except Loan.DoesNotExist:
+        return HttpResponseNotFound()
+
+    txset = Transaction.objects.filter(loan=loan)
+    if not txset.filter(Q(borrower=request.user) | Q(lender=request.user)).exists():
+        return HttpResponseForbidden()
+
+    return JsonResponse(list(txset.values()), safe=False)
+
+def transaction(request, tx_id):
+    if request.method not in ['GET', 'PUT']:
+        return HttpResponseNotAllowed(['GET', 'PUT'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    try:
+        tx = Transaction.objects.get(id=tx_id)
+    except Transaction.DoesNotExist:
+        return HttpResponseNotFound()
+
+    if request.method == 'GET':
+        txset = Transaction.objects.filter(Q(loan=tx.loan))
+        txset.filter(Q(borrower=request.user) | Q(lender=request.user))
+
+        if not txset.exists():
+            return HttpResponseForbidden()
+
+        txdict = model_to_dict(tx)
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan']
+        txdict['borrower_id'] = txdict['borrower']
+        del txdict['borrower']
+        txdict['lender_id'] = txdict['lender']
+        del txdict['lender']
+
+        return JsonResponse(txdict)
+
+    elif request.method == 'PUT':
+        if tx.borrower == request.user:
+            tx.borrower_confirm = True
+        elif tx.lender != request.user:
+            tx.lender_confirm = True
+        else:
+            return HttpResponseForbidden()
+
+        if tx.borrower_confirm and tx.lender_confirm and not tx.completed:
+            tx.completed = True
+            tx.completed_date = (datetime.now())
+
+            txset = Transaction.objects.filter(loan=tx.loan, completed=False)
+            if not txset.exists():
+                tx.loan.completed = True
+                tx.loan.completed_date = (datetime.now())
+                tx.loan.save()
+
+        tx.save()
+
+        txdict = model_to_dict(tx)
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan']
+        txdict['borrower_id'] = txdict['borrower']
+        del txdict['borrower']
+        txdict['lender_id'] = txdict['lender']
+        del txdict['lender']
+
+        return JsonResponse(txdict)
