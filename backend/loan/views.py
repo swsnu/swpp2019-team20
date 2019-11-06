@@ -4,10 +4,11 @@ import datetime
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.models import User
+from django.db.models import Q
 from pytz import timezone
 from dateutil.parser import isoparse
 from .models import Loan, Transaction
-
+from django.forms.models import model_to_dict
 
 def index(request):
     return HttpResponse("loan page")
@@ -21,7 +22,8 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        loanlist = list(Loan.objects.all().order_by('deadline') .values())
+        txlist = Transaction.objects.filter(Q(lender = request.user) | Q(borrower = request.user))
+        loanlist = list(map(model_to_dict, {tx.loan for tx in txlist}))
         return JsonResponse(loanlist, safe=False)
 
     # elif request.method == 'POST'
