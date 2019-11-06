@@ -21,7 +21,7 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        loanlist = list(Loan.objects.all().values())
+        loanlist = list(Loan.objects.all().order_by('deadline') .values())
         return JsonResponse(loanlist, safe=False)
 
     # elif request.method == 'POST'
