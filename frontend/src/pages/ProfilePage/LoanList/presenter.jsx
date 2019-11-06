@@ -9,7 +9,6 @@ const Presenter = (props) => {
   } = props;
   return (
     <AppForm>
-      <h2>MY COMPELETED LOAN LIST</h2>
       <LoanList list={loanlist} />
     </AppForm>
   );

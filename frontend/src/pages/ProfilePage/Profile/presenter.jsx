@@ -1,50 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import Button from '../../../components/subcomponents/Button';
 import AppForm from '../../../components/subcomponents/AppForm';
+import AccountProfile from './components/AccountProfile/AccountProfile';
+import AccountDetails from './components/AccountDetails/AccountDetails';
 
 const Presenter = (props) => {
+  const useStyles = makeStyles(theme => ({
+    root: {
+      padding: theme.spacing(4)
+    }
+  }));
+
   const {
     username, kakaoId, phone, bio,
   } = props;
+
+  const classes = useStyles();
+
   return (
-    <AppForm>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-      <div className="user-profile">
-        <h2>
-          My Profile
-        </h2>
-        <div className="media-body">
-          <p className="text-secondary">
-            <i className="material-icons">face</i>
-            <span> </span>
-            {username}
-          </p>
-          <p className="text-secondary">
-            <i className="material-icons">
-              local_phone
-            </i>
-            <span> </span>
-            {phone}
-          </p>
-          <p className="text-secondary">
-            <i className="material-icons">
-              contact_mail
-            </i>
-            <span> </span>
-            {kakaoId}
-          </p>
-          <p className="text-secondary">
-            <i className="material-icons">
-              home
-            </i>
-            <span> </span>
-            {bio}
-          </p>
-        </div>
-        <Button>Edit</Button>
-      </div>
-    </AppForm>
+    <>
+    <div className={classes.root}>
+      <Grid
+        container
+        spacing={4}
+      >
+        <Grid
+          item
+          lg={4}
+          md={6}
+          xl={4}
+          xs={12}
+        >
+          <AccountProfile>
+            {props}
+          </AccountProfile>
+        </Grid>
+        <Grid
+          item
+          lg={8}
+          md={6}
+          xl={8}
+          xs={12}
+        >
+          <AccountDetails>
+            {props}
+          </AccountDetails>
+        </Grid>
+      </Grid>
+    </div>
+    </>
   );
 }
 

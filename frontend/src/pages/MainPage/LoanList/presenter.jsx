@@ -16,6 +16,7 @@ import Budget from '../components/Budget/Budget';
 import TotalUsers from '../components/TotalUsers/TotalUsers';
 import TaskProgress from '../components/TasksProgress/TasksProgress';
 import TotalMoney from '../components/TotalMoney/TotalMoney';
+import CreateLoan from '../../../components/components/CreateLoan/CreateLoan';
 import './presenter.css'
 
 
@@ -81,6 +82,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 export default function SimpleTabs(props) {
   const {
     notCompletedLoanList, children
@@ -91,6 +94,7 @@ export default function SimpleTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const addButtonLen = notCompletedLoanList.length;
 
   return (
     <div className={classes.root}>
@@ -120,9 +124,13 @@ export default function SimpleTabs(props) {
             </div>
           } {...a11yProps(idx)} />
         ))}
-        <Fab color="primary" aria-label="add" className={classes.fab}>
-          <AddIcon />
-        </Fab>
+        <Tab label={
+          <div>
+            <Fab color="primary" aria-label="add" className={classes.fab}>
+              <AddIcon />
+            </Fab>
+          </div>
+        } />
       </Tabs>
       <div>
         {notCompletedLoanList.map((loan, idx) => (
@@ -176,15 +184,18 @@ export default function SimpleTabs(props) {
                 </TotalMoney>
               </Grid>
             </Grid>
-            <h2 style={{ color: 'red' }}>Loan {loan.id}</h2>
+            {/*<h2 style={{ color: 'red' }}>Loan {loan.id}</h2>
             <div>
               {
                 Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
               }
-            </div>
+            </div>*/}
             {/*<TransactionList />*/}
           </TabPanel>
         ))}
+        <TabPanel value={value} index={addButtonLen}>
+          <CreateLoan />
+        </TabPanel>
       </div>
     </div>
   );
