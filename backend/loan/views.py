@@ -165,3 +165,60 @@ def loan_transaction(request, loan_id):
         return HttpResponseForbidden()
 
     return JsonResponse(list(txset.values()), safe=False)
+
+def transaction(request, tx_id):
+    if request.method not in ['GET', 'POST']:
+        return HttpResponseNotAllowed(['GET', 'POST'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    try:
+        tx = Transaction.objects.get(id=tx_id)
+    except Transaction.DoesNotExist:
+        return HttpResponseNotFound()
+
+    if request.method == 'GET':
+        txset = Transaction.objects.filter(Q(loan=tx.loan), Q(borrower=request.user) | Q(lender=request.user))
+        if not txset.exists():
+            return HttpResponseForbidden()
+
+        txdict = model_to_dict(tx)
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan']
+        txdict['borrower_id'] = txdict['borrower']
+        del txdict['borrower']
+        txdict['lender_id'] = txdict['lender']
+        del txdict['lender']
+
+        return JsonResponse(txdict)
+
+    elif request.method == 'POST':
+        if tx.borrower == request.user:
+            tx.borrower_confirm = True
+        elif tx.lender != request.user:
+            tx.lender_confirm = True
+        else:
+            return HttpResponseForbidden()
+
+        if tx.borrower_confirm and tx.lender_confirm and not tx.completed:
+            tx.completed = True
+            tx.completed_date = (datetime.now())
+
+            txset = Transaction.objects.filter(loan=tx.loan, completed=False)
+            if not txset.exists():
+                tx.loan.completed = True
+                tx.loan.completed_date = (datetime.now())
+                tx.loan.save()
+
+        tx.save()
+
+        txdict = model_to_dict(tx)
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan']
+        txdict['borrower_id'] = txdict['borrower']
+        del txdict['borrower']
+        txdict['lender_id'] = txdict['lender']
+        del txdict['lender']
+
+        return JsonResponse(txdict)

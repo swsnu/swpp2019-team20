@@ -8,7 +8,7 @@ urlpatterns = [
     path('loan-tranaction/<int:loan_id>', views.loan_transaction, name='loan-tranaction'),
 
     #path('transaction', views.transaction_list, name='transaction_list'),
-    #path('transaction/<int:user_id>', views.transaction, name='transaction'),
+    path('transaction/<int:tx_id>', views.transaction, name='transaction'),
 
     #path('deposit', views.deposit_list, name='deposit_list'),
     #path('deposit/<int:user_id>', views.deposit, name='deposit')
