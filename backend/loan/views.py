@@ -3,7 +3,6 @@ import datetime
 # from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
-from django.core import serializers
 from pytz import timezone
 from dateutil.parser import isoparse
 from .models import Loan

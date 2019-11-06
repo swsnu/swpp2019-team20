@@ -40,7 +40,7 @@ def profile(request, user_pk):
         # if not request.user.is_authenticated:
         #    return HttpResponse(status=401)
         dict_profile = model_to_dict(prof)
-        dict_profile['username'] = prof.__str__()
+        dict_profile['username'] = str(prof)
         json_profile = json.dumps(dict_profile)
         return JsonResponse(json_profile, safe=False)
     if request.method == 'PUT':
