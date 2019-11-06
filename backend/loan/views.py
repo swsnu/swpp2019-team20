@@ -1,6 +1,6 @@
 import json
 import datetime
-#from django.shortcuts import render
+# from django.shortcuts import render
 from json import JSONDecodeError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.models import User
@@ -17,8 +17,8 @@ def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
         return HttpResponseNotAllowed(['GET', 'POST'])
 
-    if not request.user.is_authenticated:
-        return HttpResponse(status=401)
+    # if not request.user.is_authenticated:
+    #    return HttpResponse(status=401)
 
     if request.method == 'GET':
         loanlist = list(Loan.objects.all().values())
