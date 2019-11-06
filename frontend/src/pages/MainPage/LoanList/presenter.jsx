@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -11,6 +12,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import TransactionList from '../../../components/TransactionList/TransactionList'
+import Budget from '../components/Budget/Budget';
+import TotalUsers from '../components/TotalUsers/TotalUsers';
+import TaskProgress from '../components/TasksProgress/TasksProgress';
+import TotalMoney from '../components/TotalMoney/TotalMoney';
+import './presenter.css'
 
 
 function TabPanel(props) {
@@ -121,6 +127,55 @@ export default function SimpleTabs(props) {
       <div>
         {notCompletedLoanList.map((loan, idx) => (
           <TabPanel value={value} index={idx}>
+            <Grid
+              container
+              spacing={4}
+            >
+              <Grid
+                item
+                lg={3}
+                sm={6}
+                xl={3}
+                xs={12}
+              >
+                <Budget>
+                  {loan.total_money}
+                </Budget>
+              </Grid>
+              <Grid
+                item
+                lg={3}
+                sm={6}
+                xl={3}
+                xs={12}
+              >
+                <TotalUsers>
+                  {loan.num_members}
+                </TotalUsers>
+              </Grid>
+              <Grid
+                item
+                lg={3}
+                sm={6}
+                xl={3}
+                xs={12}
+              >
+                <TaskProgress>
+                  33.3
+                </TaskProgress>
+              </Grid>
+              <Grid
+                item
+                lg={3}
+                sm={6}
+                xl={3}
+                xs={12}
+              >
+                <TotalMoney>
+                  {loan.total_money}
+                </TotalMoney>
+              </Grid>
+            </Grid>
             <h2 style={{ color: 'red' }}>Loan {loan.id}</h2>
             <div>
               {
