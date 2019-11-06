@@ -12,10 +12,9 @@ const LoanList = () => {
       credential: 'include',
     })
     const loanRawList = await res.json()
-    console.log(loanRawList)
     const curCompletedLoanList = loanRawList.filter((loan) => loan.completed === true)
     const curNotCompletedLoanList = loanRawList.filter((loan) => loan.completed === false)
-    console.log(curCompletedLoanList)
+    console.log(curNotCompletedLoanList)
     setCompletedLoanList(curCompletedLoanList);
     setNotCompletedLoanList(curNotCompletedLoanList);
   };
