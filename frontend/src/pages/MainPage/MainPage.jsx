@@ -7,7 +7,7 @@ const MainPage = () => {
   const render = (
     <>
       <LoanList />
-      <CreateLoan />
+      {/*<CreateLoan />*/}
     </>
   );
   return render;

@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -15,8 +21,8 @@ function TabPanel(props) {
       component="div"
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
       <Box p={3}>{children}</Box>
@@ -32,8 +38,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
 
@@ -41,12 +47,37 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    height: 550,
+  },
+  tabs: {
+    width: 270,
+    borderRight: `1px solid ${theme.palette.divider}`,
+  },
+  fab: {
+    margin: theme.spacing(3),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+  card: {
+    display: 'flex',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: '1 0 auto',
+  },
+  cover: {
+    width: 151,
   },
 }));
 
 export default function SimpleTabs(props) {
   const {
-    completedLoanList, notCompletedLoanList, children
+    notCompletedLoanList, children
   } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -57,59 +88,48 @@ export default function SimpleTabs(props) {
 
   return (
     <div className={classes.root}>
-      <h2>CURRENT LOAN LIST</h2>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          {completedLoanList.map((loan,idx) => (
-            <Tab label={"loan " + loan.id} {...a11yProps(idx)}/>
-          ))}
-        </Tabs>
-      </AppBar>
-
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={classes.tabs}
+      >
+        {notCompletedLoanList.map((loan, idx) => (
+          <Tab label={
+            <div>
+            <Card className={classes.card}>
+              <div className={classes.details}>
+                <CardContent className={classes.content}>
+                  <Typography component="h5" variant="h5">
+                    Totol Members: {loan.num_members}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {loan.deadline.replace(/T.*/, '')}
+                  </Typography>
+                </CardContent>
+              </div>
+            </Card>
+            </div>
+          } {...a11yProps(idx)} />
+        ))}
+        <Fab color="primary" aria-label="add" className={classes.fab}>
+          <AddIcon />
+        </Fab>
+      </Tabs>
       <div>
-      {completedLoanList.map((loan, idx) => (
-        <TabPanel value={value} index={idx}>
-          <h2 style={{ color: 'blue' }}>Loan {loan.id}</h2>
-          <div>
-          {
-           Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]}</p>)
-          }
-          </div>
-        </TabPanel>
-      ))}
+        {notCompletedLoanList.map((loan, idx) => (
+          <TabPanel value={value} index={idx}>
+            <h2 style={{ color: 'blue' }}>Loan {loan.id}</h2>
+            <div>
+              {
+                Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
+              }
+            </div>
+          </TabPanel>
+        ))}
       </div>
     </div>
   );
 }
-
-const Presenter = (props) => {
-  const {
-    completedLoanList, notCompletedLoanList,
-  } = props;
-  return (
-    <>
-      <h2>CURRENT LOAN LIST</h2>
-      <LoanList list={completedLoanList} />
-    </>
-  );
-}
-
-const LoanList = ({ list }) => {
-  return (
-    <SimpleTabs>
-    <div>
-      {list.map((loan) => (
-
-        <li key={loan.id}><h3>Loan {loan.id}</h3>
-        <div>
-        {
-          Object.keys(loan).map((key, index) => <p key={index}> {key}: {loan[key]}</p>)
-        }
-        </div>
-        </li>
-      ))}
-    </div>
-    </SimpleTabs>
-  )
-}
-

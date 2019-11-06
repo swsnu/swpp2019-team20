@@ -17,7 +17,7 @@ class Loan(models.Model):
     alert_frequency = models.CharField(max_length=16)
     apply_interest = models.BooleanField()
     interest_type = models.CharField(max_length=16, null=True)
-    interest_rate = models.FloatField()
+    interest_rate = models.FloatField(null=True)
     completed = models.BooleanField()
     expected_date = models.DateTimeField(null=True)
     completed_date = models.DateTimeField(null=True)
