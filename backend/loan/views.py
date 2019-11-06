@@ -2,7 +2,7 @@ import json
 import datetime
 #from django.shortcuts import render
 from json import JSONDecodeError
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Q
 from pytz import timezone
@@ -12,7 +12,6 @@ from django.forms.models import model_to_dict
 
 def index(request):
     return HttpResponse("loan page")
-
 
 def loan_list(request):
     if request.method != 'GET' and request.method != 'POST':
@@ -129,3 +128,22 @@ def create_transactions(loan, participants):
             over_keys.pop(0)
         if unders[under_keys[0]] <= 0:
             under_keys.pop(0)
+
+def loan(request, loan_id):
+    if request.method not in ['GET', 'PUT', 'DELETE']:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if request.method == 'GET':
+        try:
+            loan = Loan.objects.get(id=loan_id)
+        except Loan.DoesNotExist:
+            return HttpResponseNotFound()
+        txlist = Transaction.objects.filter(Q(loan=loan), Q(borrower=request.user) | Q(lender=request.user))
+        if not txlist.exists():
+            return HttpResponseForbidden()
+        return JsonResponse(model_to_dict(loan))
+    else:
+        raise NotImplementedError()
