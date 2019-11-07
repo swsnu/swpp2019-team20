@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 import Link from '@material-ui/core/Link';
 import Base from '../../components/Base/Base';
 import Typography from '../../components/subcomponents/Typography';
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginPage() {
   const classes = useStyles();
   const [sent] = React.useState(false);
+  const history = useHistory();
 
   const validate = (values) => {
     const errors = required(['email', 'password'], values);
@@ -63,9 +65,10 @@ function LoginPage() {
     });
 
     if (response.status !== 204) {
-      window.alert("error" + response.status);
+      //window.alert("error" + response.status);
     } else {
-      window.alert("success" + response.status);
+      history.push('/index');
+      //window.alert("success" + response.status);
     }
   };
 
