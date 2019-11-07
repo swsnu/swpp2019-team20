@@ -16,6 +16,14 @@ import {
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+/* interest input */
+import TextField from '@material-ui/core/TextField';
+/* selector */
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -24,10 +32,32 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const CreateLoan = () => {
   const classes = useStyles();
+
+  const inputLabel = React.useRef(null);
+  const [labelWidth, setLabelWidth] = React.useState(0);
+  React.useEffect(() => {
+    setLabelWidth(inputLabel.current.offsetWidth);
+  }, []);
 
   const getDate = () => {
     var today = new Date();
@@ -36,12 +66,9 @@ const CreateLoan = () => {
 
   const [participants, setParticipants] = useState([{ id: 0, paid_money: 0 }]);
   const [deadline, setDeadline] = useState(getDate());
-  const [interestValid, setInterestValid] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
+  const [interestValid, setInterestValid] = React.useState(false);
   const [interestRate, setInterestRate] = useState(0);
-  const [interestType, setInterestType] = useState('hour');
+  const [interestType, setInterestType] = useState("");
   const [alertFrequency, setAlertFrequency] = useState('very low');
 
   /*----------------------------------------*/
@@ -49,7 +76,10 @@ const CreateLoan = () => {
   const articlePostHandler = () => {
     let errorMessage = '';
     if (participants.length < 2) errorMessage += '\nIt needs more participants.';
-    if (interestValid && interestRate === 0) errorMessage += '\nWrite interest rate or disable it.';
+    if (interestValid ) {
+      if (interestRate === 0) errorMessage += '\nWrite interest rate or disable it.';
+      if ( interestType === "") errorMessage += '\nSelect the type of interest.';
+    }
 
     if (errorMessage === '') {
       const data = {
@@ -138,10 +168,6 @@ const CreateLoan = () => {
     setDeadline(date);
   };
 
-  const handleChange = name => event => {
-    setInterestValid({ ...interestValid, [name]: event.target.checked });
-  };
-
   /*----------------------------------------*/
   /* show participants list */
 
@@ -190,7 +216,7 @@ const CreateLoan = () => {
             id="date-picker-inline"
             label="Date picker inline"
             value={deadline}
-            onChange={handleDeadlineChange}
+            onChange={/*handleDeadlineChange*/(date)=>setDeadline(date)}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}
@@ -198,52 +224,85 @@ const CreateLoan = () => {
         </Grid>
       </MuiPickersUtilsProvider>
       <br />
+      
+      <FormControlLabel
+        control={
+          <Switch
+            checked={interestValid}
+            onChange={(event)=>setInterestValid(event.target.checked)}
+            value="interestValid"
+            color="primary"
+          />
+        }
+        label="Interest"
+      />
 
-      <h3>Options</h3>
-      <br />
-
-      <FormGroup row>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={interestValid.checkedB}
-              onChange={handleChange('checkedB')}
-              value="checkedB"
-              color="primary"
-            />
-          }
-          label="Primary"
+      <form className={classes.container} noValidate autoComplete="off">
+        <TextField
+          id="standard-number"
+          label="Interest rate"
+          type="number"
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          margin="normal"
+          disabled={!interestValid}
+          value={interestRate}
+          onChange={(e)=>setInterestRate(e.target.value)}
         />
-      </FormGroup>
-
-      <label>
-        Interest
-        <input className="interest_valid" type="checkbox" checked={interestValid} onChange={(e) => setInterestValid(e.target.value)} />
-        Rate:
-        <input className="interest_rate" type="number" disabled={!interestValid} value={interestRate} onChange={(e) => setInterestRate(e.target.value)} />
-        %
-        <select className="interest_type" disabled={!interestValid} value={interestType} onChange={(e) => setInterestType(e.target.value)}>
-          <option value="hour">hour</option>
-          <option value="day">day</option>
-          <option value="week">week</option>
-          <option value="month">month</option>
-          <option value="year">year</option>
-        </select>
-      </label>
+      </form>
+      
+      <FormControl className={classes.formControl}>
+        <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+          Interest Type
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-placeholder-label-label"
+          id="demo-simple-select-placeholder-label"
+          value={interestType}
+          onChange={(event)=>setInterestType(event.target.value)}
+          displayEmpty
+          className={classes.selectEmpty}
+          disabled={!interestValid}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value="hour">hour</MenuItem>
+          <MenuItem value="day">day</MenuItem>
+          <MenuItem value="week">week</MenuItem>
+          <MenuItem value="month">month</MenuItem>
+          <MenuItem value="year">year</MenuItem>
+        </Select>
+        <FormHelperText>select interest type</FormHelperText>
+      </FormControl>
       <br />
 
-      Alert frequency
-      <select className="alert_frequency" value={alertFrequency} onChange={(e) => setAlertFrequency(e.target.value)}>
-        <option value="very low">very low</option>
-        <option value="low">low</option>
-        <option value="medium">medium</option>
-        <option value="high">high</option>
-        <option value="very high">very high</option>
-      </select>
+      <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
+          Alert Frequency
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={alertFrequency}
+          onChange={(event)=>setAlertFrequency(event.target.value)}
+          labelWidth={labelWidth}
+        >
+          <MenuItem value="very low">very low</MenuItem>
+          <MenuItem value="low">low</MenuItem>
+          <MenuItem value="medium">medium</MenuItem>
+          <MenuItem value="high">high</MenuItem>
+          <MenuItem value="very high">very high</MenuItem>
+        </Select>
+      </FormControl>
       <br />
 
-      <button className="register-loan" onClick={() => articlePostHandler()}>Register</button>
-      <br />
+      <Button variant="contained" color="primary" className={classes.button} onClick={() => articlePostHandler()}>
+        Register
+      </Button>
+
     </div>
   )
 
