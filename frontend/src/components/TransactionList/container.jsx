@@ -3,8 +3,7 @@ import LatestOrders from './presenter';
 
 const TransactionList = (props) => {
   const { loan } = props
-  const [doneTxList, setDoneTxList] = useState([]);
-  const [ongingTxList, setOngingTxList] = useState([]);
+  const [TxList, setTxList] = useState([]);
 
   const loanId = loan.id
   console.log(loanId)
@@ -14,13 +13,8 @@ const TransactionList = (props) => {
       method: 'GET',
       credential: 'include',
     })
-    const txRawList = await res.json()
-    const curDoneTxList = txRawList.filter((tx) => tx.completed === true)
-    const curOngingTxList = txRawList.filter((tx) => tx.completed === false)
-    console.log(curDoneTxList)
-    console.log(curOngingTxList)
-    setDoneTxList(curDoneTxList);
-    setOngingTxList(curOngingTxList);
+    const curTxList = await res.json()
+    setTxList(curTxList);
   };
 
   useEffect(() => {
@@ -28,7 +22,7 @@ const TransactionList = (props) => {
   }, []);
 
   const render = (
-    <LatestOrders doneTxList={doneTxList} ongingTxList={ongingTxList} />
+    <LatestOrders TxList={TxList} />
   );
   return render;
 };

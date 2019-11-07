@@ -21,8 +21,6 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-import mockData from './data';
-
 const useStyles = makeStyles(theme => ({
   root: {},
   content: {
@@ -50,11 +48,9 @@ const statusColors = {
 };
 
 const LatestOrders = props => {
-  const { className, doneTxList, ongingTxList, ...rest } = props;
+  const { className, TxList, ...rest } = props;
 
   const classes = useStyles();
-  // mock data 가 있던 자리에 ongingTxList를 넣은 것
-  const [orders] = useState(ongingTxList);
 
   return (
     <Card
@@ -62,16 +58,7 @@ const LatestOrders = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-          >
-            New entry
-          </Button>
-        }
-        title="Latest Orders"
+        title="Our Transactions"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -80,40 +67,23 @@ const LatestOrders = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Participant</TableCell>
-                  <TableCell>Lend Money</TableCell>
-                  <TableCell sortDirection="desc">
-                    <Tooltip
-                      enterDelay={300}
-                      title="Sort"
-                    >
-                      <TableSortLabel
-                        active
-                        direction="desc"
-                      >
-                        Borrow Money
-                      </TableSortLabel>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>Confirm</TableCell>
+                  <TableCell>Lender</TableCell>
+                  <TableCell>Borrower</TableCell>
+                  <TableCell>Money</TableCell>
+                  <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orders.map((order) => (
+                {TxList.map((tx) => (
                   <TableRow
                     hover
-                    key={order.id}
+                    key={tx.id}
                   >
-                    <TableCell>{order.ref}</TableCell>
-                    <TableCell>{order.customer.name}</TableCell>
-                    <TableCell>
-                      {moment(order.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-
-                        {order.money}
-                      </div>
+                    <TableCell>{tx.lender_id}</TableCell>
+                    <TableCell>{tx.borrower_id}</TableCell>
+                    <TableCell>{tx.money}</TableCell>
+                    <TableCell>{
+                      tx.completed === false ? (<div>PayMeBack!</div>): (<div>Done</div>)}
                     </TableCell>
                   </TableRow>
                 ))}
