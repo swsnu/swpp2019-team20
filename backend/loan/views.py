@@ -173,7 +173,19 @@ def loan_transaction(request, loan_id):
     if not txset.filter(Q(borrower=request.user) | Q(lender=request.user)).exists():
         return HttpResponseForbidden()
 
-    return JsonResponse(list(txset.values()), safe=False)
+    txlist = []
+    for tx in txset:
+        txdict = model_to_dict(tx)
+
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan']
+        txdict['borrower_id'] = txdict['borrower']
+        txdict['borrower'] = tx.borrower.username
+        txdict['lender_id'] = txdict['lender']
+        txdict['lender'] = tx.lender.username
+        txlist.append(txdict)
+
+    return JsonResponse(txlist, safe=False)
 
 def transaction(request, tx_id):
     if request.method not in ['GET', 'PUT']:
@@ -198,9 +210,9 @@ def transaction(request, tx_id):
         txdict['loan_id'] = txdict['loan']
         del txdict['loan']
         txdict['borrower_id'] = txdict['borrower']
-        del txdict['borrower']
+        txdict['borrower'] = tx.borrower.username
         txdict['lender_id'] = txdict['lender']
-        del txdict['lender']
+        txdict['lender'] = tx.lender.username
 
         return JsonResponse(txdict)
 
@@ -228,8 +240,8 @@ def transaction(request, tx_id):
         txdict['loan_id'] = txdict['loan']
         del txdict['loan']
         txdict['borrower_id'] = txdict['borrower']
-        del txdict['borrower']
+        txdict['borrower'] = tx.borrower.username
         txdict['lender_id'] = txdict['lender']
-        del txdict['lender']
+        txdict['lender'] = tx.lender.username
 
         return JsonResponse(txdict)

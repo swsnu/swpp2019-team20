@@ -197,3 +197,12 @@ def by_name(request, username=None):
         return HttpResponse(status=404)
 
     return JsonResponse({'id': user.id})
+
+def profile_me(request):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    return profile(request, user_pk=request.user.id)
