@@ -67,7 +67,7 @@ function LoginPage() {
     if (response.status !== 204) {
       //window.alert("error" + response.status);
     } else {
-      history.push('/index');
+      history.push('/main');
       //window.alert("success" + response.status);
     }
   };
