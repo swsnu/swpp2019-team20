@@ -7,7 +7,7 @@ const TransactionList = (props) => {
 
   const loanId = loan.id
   console.log(loanId)
-  const targetUrl = `/loan/loan-tranaction/${loanId}`;
+  const targetUrl = `/loan/loan-transaction/${loanId}`;
   const fetchTransactionList = async () => {
     const res = await fetch(targetUrl, {
       method: 'GET',

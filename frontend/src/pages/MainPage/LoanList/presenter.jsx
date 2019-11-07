@@ -184,12 +184,6 @@ export default function SimpleTabs(props) {
                 </TotalMoney>
               </Grid>
             </Grid>
-            {/*<h2 style={{ color: 'red' }}>Loan {loan.id}</h2>
-            <div>
-              {
-                Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
-              }
-            </div>*/}
             {<TransactionList loan={loan}/>}
           </TabPanel>
         ))}
