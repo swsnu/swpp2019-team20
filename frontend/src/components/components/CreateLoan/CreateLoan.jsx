@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from '../../subcomponents/SearchBar/SearchBar';
+import './CreateLoan.css';
 
 /*participants list*/
 import MaterialTable from 'material-table';
@@ -65,7 +66,7 @@ const CreateLoan = () => {
     return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
   }
 
-  const [participants, setParticipants] = useState([{ id: 0, paid_money: 0 }]);
+  const [participants, setParticipants] = useState([{ id: 0, paid_money: 0, rating: null }]);
   const [deadline, setDeadline] = useState(new Date());
   const [interestValid, setInterestValid] = React.useState(false);
   const [interestRate, setInterestRate] = useState(0);
@@ -153,11 +154,7 @@ const CreateLoan = () => {
     ]);
   };
 
-  const change_user_money = (index, money) => {
-    let new_participants = [...participants];
-    new_participants[index].paid_money = money;
-    setParticipants(new_participants);
-  }
+  
 
   const change_user_id = (index, id) => {
     let new_participants = [...participants];
@@ -165,9 +162,11 @@ const CreateLoan = () => {
     setParticipants(new_participants);
   }
 
-  const handleDeadlineChange = date => {
-    setDeadline(date);
-  };
+  const change_user_money = (index, money) => {
+    let new_participants = [...participants];
+    new_participants[index].paid_money = money;
+    setParticipants(new_participants);
+  }
 
   /*----------------------------------------*/
   /* show participants list */
@@ -178,7 +177,8 @@ const CreateLoan = () => {
       const setUser = (user) => {
         if (user !== null) {
           console.log(user.id);
-          rating = user.rating;
+          rating = 9;
+          //rating = user.rating;
           change_user_id(index, user.id);
         }
       }
@@ -202,7 +202,7 @@ const CreateLoan = () => {
             />
           </form>
           {/*<input className='paid_money' type='number' value={participant.paid_money} onChange={(e) => change_user_money(index, e.target.value)} />*/}
-          rating: <h3 className='rating'>{rating}</h3>
+          {/*rating: <h3 className='rating'>{rating}</h3>*/}
         </div>
       )
     }
@@ -211,8 +211,14 @@ const CreateLoan = () => {
   /*----------------------------------------*/
   /* view */
 
+  const divStyle={
+    overflowX: 'hidden',
+    overflowY: 'scroll',
+    height:'500px',
+  };
+
   return (
-    <div className="create-loan">
+    <div className="create-loan" style={divStyle}>
       {participants_list}
       <br />
 
@@ -242,6 +248,7 @@ const CreateLoan = () => {
       <br />
       
       <FormControlLabel
+        label="Interest"
         control={
           <Switch
             checked={interestValid}
@@ -250,7 +257,6 @@ const CreateLoan = () => {
             color="primary"
           />
         }
-        label="Interest"
       />
 
       <form className={classes.container} noValidate autoComplete="off">
