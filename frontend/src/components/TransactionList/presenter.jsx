@@ -81,8 +81,8 @@ const LatestOrders = props => {
                     hover
                     key={tx.id}
                   >
-                    <TableCell>{tx.lender_id}</TableCell>
-                    <TableCell>{tx.borrower_id}</TableCell>
+                    <TableCell>{tx.lender}</TableCell>
+                    <TableCell>{tx.borrower}</TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>{
                       tx.completed === false ? (<div>PayMeBack!</div>): (<div>Done</div>)}
