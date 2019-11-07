@@ -72,17 +72,6 @@ const CreateLoan = () => {
   const [interestType, setInterestType] = useState("hour");
   const [alertFrequency, setAlertFrequency] = useState('very low');
 
-  const [columns, setColumns] = React.useState([
-    { title: 'Name', field: 'name' },
-    { title: 'Surname', field: 'surname' },
-    { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-    {
-      title: 'Birth Place',
-      field: 'birthCity',
-      lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-    },
-  ]);
-
   /*----------------------------------------*/
   /* used for sending query */
   const articlePostHandler = () => {
@@ -195,8 +184,24 @@ const CreateLoan = () => {
       }
       return (
         <div>
-          id: <SearchBar setUser={setUser} />
-          paid money: <input className='paid_money' type='number' value={participant.paid_money} onChange={(e) => change_user_money(index, e.target.value)} />
+          id: 
+          <SearchBar setUser={setUser} />
+          paid money: 
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="standard-number"
+              label="paid money"
+              type="number"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              margin="normal"
+              value={participant.paid_money}
+              onChange={(e) => change_user_money(index, e.target.value)}
+            />
+          </form>
+          {/*<input className='paid_money' type='number' value={participant.paid_money} onChange={(e) => change_user_money(index, e.target.value)} />*/}
           rating: <h3 className='rating'>{rating}</h3>
         </div>
       )
@@ -210,9 +215,6 @@ const CreateLoan = () => {
     <div className="create-loan">
       {participants_list}
       <br />
-      
-      
-
 
       <Button variant="outlined" className={classes.button} onClick={() => add_user()}>
         Add a participant
