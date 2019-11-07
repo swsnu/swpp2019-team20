@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import SearchBar from '../../subcomponents/SearchBar/SearchBar';
 
+/*participants list*/
+import MaterialTable from 'material-table';
 /*outlined box*/
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -59,17 +61,27 @@ const CreateLoan = () => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
 
-  const getDate = () => {
-    var today = new Date();
-    return today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+  const DateToString = (date) => {
+    return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
   }
 
   const [participants, setParticipants] = useState([{ id: 0, paid_money: 0 }]);
-  const [deadline, setDeadline] = useState(getDate());
+  const [deadline, setDeadline] = useState(new Date());
   const [interestValid, setInterestValid] = React.useState(false);
   const [interestRate, setInterestRate] = useState(0);
-  const [interestType, setInterestType] = useState("");
+  const [interestType, setInterestType] = useState("hour");
   const [alertFrequency, setAlertFrequency] = useState('very low');
+
+  const [columns, setColumns] = React.useState([
+    { title: 'Name', field: 'name' },
+    { title: 'Surname', field: 'surname' },
+    { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+    {
+      title: 'Birth Place',
+      field: 'birthCity',
+      lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+    },
+  ]);
 
   /*----------------------------------------*/
   /* used for sending query */
@@ -84,7 +96,7 @@ const CreateLoan = () => {
     if (errorMessage === '') {
       const data = {
         'participants': participants,
-        'deadline': deadline + 'T23:59:59Z',
+        'deadline': DateToString(deadline) + 'T23:59:59Z',
         'interest_rate': interestValid ? interestRate : 0,
         'interest_type': interestType,
         'alert_frequency': alertFrequency,
@@ -198,6 +210,8 @@ const CreateLoan = () => {
     <div className="create-loan">
       {participants_list}
       <br />
+      
+      
 
 
       <Button variant="outlined" className={classes.button} onClick={() => add_user()}>
@@ -266,9 +280,6 @@ const CreateLoan = () => {
           className={classes.selectEmpty}
           disabled={!interestValid}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
           <MenuItem value="hour">hour</MenuItem>
           <MenuItem value="day">day</MenuItem>
           <MenuItem value="week">week</MenuItem>

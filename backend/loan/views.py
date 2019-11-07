@@ -41,7 +41,7 @@ def loan_list(request):
             participant['paid_money'] = int(participant['paid_money'])
     except(KeyError, TypeError):
         return HttpResponse(status=400)
-
+z
     try:
         deadline = isoparse(deadline_data)
     except ValueError:
