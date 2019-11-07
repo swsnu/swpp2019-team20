@@ -170,8 +170,8 @@ def loan_transaction(request, loan_id):
         return HttpResponseNotFound()
 
     txset = Transaction.objects.filter(loan=loan)
-    if not txset.filter(Q(borrower=request.user) | Q(lender=request.user)).exists():
-        return HttpResponseForbidden()
+    #if not txset.filter(Q(borrower=request.user) | Q(lender=request.user)).exists():
+    #    return HttpResponseForbidden()
 
     txlist = []
     for tx in txset:
