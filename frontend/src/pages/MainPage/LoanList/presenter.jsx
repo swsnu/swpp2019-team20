@@ -11,7 +11,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TransactionList from '../../../components/TransactionList/presenter'
+import TransactionList from '../../../components/TransactionList/container'
 import Budget from '../components/Budget/Budget';
 import TotalUsers from '../components/TotalUsers/TotalUsers';
 import TaskProgress from '../components/TasksProgress/TasksProgress';
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleTabs(props) {
   const {
-    notCompletedLoanList, children
+    notCompletedLoanList, children,
   } = props;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -109,7 +109,7 @@ export default function SimpleTabs(props) {
         {notCompletedLoanList.map((loan, idx) => (
           <Tab label={
             <div>
-            <Card className={classes.card}>
+            <Card className={classes.card} >
               <div className={classes.details}>
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
@@ -190,7 +190,7 @@ export default function SimpleTabs(props) {
                 Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
               }
             </div>*/}
-            {/*<TransactionList />*/}
+            {<TransactionList />}
           </TabPanel>
         ))}
         <TabPanel value={value} index={addButtonLen}>

@@ -10,7 +10,7 @@ import MainPage from './pages/MainPage/MainPage';
 import './App.css';
 
 function App() {
-  const loggedIn = false;
+  const loggedIn = true;
   // console.log(loggedIn);
 
   const router = loggedIn ? (

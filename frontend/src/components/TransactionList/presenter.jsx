@@ -50,11 +50,11 @@ const statusColors = {
 };
 
 const LatestOrders = props => {
-  const { className, ...rest } = props;
+  const { className, doneTxList, ongingTxList, ...rest } = props;
 
   const classes = useStyles();
-
-  const [orders] = useState(mockData);
+  // mock data 가 있던 자리에 ongingTxList를 넣은 것
+  const [orders] = useState(ongingTxList);
 
   return (
     <Card
@@ -80,8 +80,8 @@ const LatestOrders = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Order Ref</TableCell>
-                  <TableCell>Customer</TableCell>
+                  <TableCell>Participant</TableCell>
+                  <TableCell>Lend Money</TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
                       enterDelay={300}
@@ -91,15 +91,15 @@ const LatestOrders = props => {
                         active
                         direction="desc"
                       >
-                        Date
+                        Borrow Money
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Confirm</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {orders.map(order => (
+                {orders.map((order) => (
                   <TableRow
                     hover
                     key={order.id}
