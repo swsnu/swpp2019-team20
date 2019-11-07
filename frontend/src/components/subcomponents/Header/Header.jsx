@@ -109,6 +109,20 @@ export default function Header({children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    console.log('EFFECT', isLoggedIn);
+    if (!isLoggedIn) {
+      fetch('/account/user/me').then(
+        (response) => {
+          if (response.status === 200) {
+            setIsLoggedIn(true);
+          }
+        },
+      );
+    }
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -154,7 +168,8 @@ export default function Header({children}) {
           </div>
           <div className={classes.right}>
             {
-              true ? (
+              !isLoggedIn ? (
+                <>
                 <Link
                   color="inherit"
                   variant="h6"
@@ -162,26 +177,40 @@ export default function Header({children}) {
                   className={classes.rightLink}
                   href="/signin/"
                 >
+                  Sign In
+                </Link>
+                <Link
+                  variant="h6"
+                  underline="none"
+                  className={clsx(classes.rightLink, classes.linkSecondary)}
+                  href="/signup/"
+                >
+                  Sign Up
+                </Link>
+                </>
+              ) : (
+                <>
+                <Link
+                  color="inherit"
+                  variant="h6"
+                  underline="none"
+                  className={classes.rightLink}
+                  href="/signout/"
+                >
                   Sign Out
                 </Link>
-              ) : (<Link
-                color="inherit"
-                variant="h6"
-                underline="none"
-                className={classes.rightLink}
-                href="/signin/"
-              >
-                Sign In
-              </Link>)
+                <Link
+                  color="inherit"
+                  variant="h6"
+                  underline="none"
+                  className={classes.rightLink}
+                  href="/profile"
+                >
+                  Profile
+                </Link>
+                </>
+              )
             }
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/signup/"
-            >
-              Sign Up
-            </Link>
           </div>
         </Toolbar>
       </AppBar>
