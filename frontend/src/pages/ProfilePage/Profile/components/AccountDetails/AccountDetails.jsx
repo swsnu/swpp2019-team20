@@ -130,14 +130,14 @@ const AccountDetails = props => {
                 fullWidth
                 label="Phone Number"
                 margin="dense"
-                name="phone"
+                name="email"
                 onChange={handleChange}
-                type="number"
+                required
                 value={children.phone}
                 variant="outlined"
               />
             </Grid>
-            <Grid
+            {/*<Grid
               item
               md={6}
               xs={12}
@@ -164,7 +164,7 @@ const AccountDetails = props => {
                   </option>
                 ))}
               </TextField>
-            </Grid>
+                </Grid>*/}
             <Grid
               item
               md={6}
