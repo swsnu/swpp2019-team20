@@ -22,7 +22,7 @@ import {
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import mockData from './data';
-import { StatusBullet } from 'components';
+import { StatusBullet } from './node_modules/components';
 
 const useStyles = makeStyles(theme => ({
   root: {},

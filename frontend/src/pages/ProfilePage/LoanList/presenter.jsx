@@ -1,28 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Modal } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import AppForm from '../../../components/subcomponents/AppForm';
-import {Modal} from '@material-ui/core';
+import CompletedLoans from '../components/CompletedLoans/CompletedLoans';
+
 
 const Presenter = (props) => {
   const {
     loanlist
   } = props;
   return (
-    <AppForm>
-      <LoanList list={loanlist} />
-    </AppForm>
+    <Grid
+      item
+      lg={10}
+      sm={10}
+      xl={10}
+      xs={12}
+      justify="center"
+      alignItems="center"
+    >
+      <CompletedLoans>
+        {loanlist}
+      </CompletedLoans>
+    </Grid>
   );
 }
-
-const LoanList = ({list}) => <ul>{list.map((loan) => (<li key={loan.id}><h3>Loan {loan.id}</h3>
-  <div>
-    {
-      Object.keys(loan).map((key, index) => (key !== 'completed' ? (key !== 'apply_interest' ? (
-          <p key={index}> {key}: {loan[key]}</p>) : <p/>) : <p/>
-      ))
-    }
-  </div>
-</li>))}</ul>
 
 Presenter.propTypes = {
   loanlist: PropTypes.string.isRequired,
