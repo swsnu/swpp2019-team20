@@ -112,7 +112,7 @@ const LatestOrders = props => {
                     <TableCell>
                       <div className={classes.statusContainer}>
 
-                        {order.status}
+                        {order.money}
                       </div>
                     </TableCell>
                   </TableRow>

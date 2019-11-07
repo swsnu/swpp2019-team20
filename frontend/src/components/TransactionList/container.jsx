@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import LatestOrders from './presenter';
 
-const TransactionList = () => {
+const TransactionList = (props) => {
+  const { loan } = props
   const [doneTxList, setDoneTxList] = useState([]);
   const [ongingTxList, setOngingTxList] = useState([]);
 
-  const loanId = 5
+  const loanId = loan.id
+  console.log(loanId)
   const targetUrl = `/loan/loan-tranaction/${loanId}`;
   const fetchTransactionList = async () => {
     const res = await fetch(targetUrl, {

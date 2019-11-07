@@ -190,7 +190,7 @@ export default function SimpleTabs(props) {
                 Object.keys(loan).map((key, idx) => <p key={idx}> {key}: {loan[key]} </p>)
               }
             </div>*/}
-            {<TransactionList />}
+            {<TransactionList loan={loan}/>}
           </TabPanel>
         ))}
         <TabPanel value={value} index={addButtonLen}>
