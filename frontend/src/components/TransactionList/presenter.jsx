@@ -20,6 +20,7 @@ import {
   TableSortLabel
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import ButtonExampleInverted from './Button';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -71,6 +72,7 @@ const LatestOrders = props => {
                   <TableCell>Borrower</TableCell>
                   <TableCell>Money</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell>Confirm</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -85,6 +87,7 @@ const LatestOrders = props => {
                     <TableCell>{
                       tx.completed === false ? (<div>PayMeBack!</div>): (<div>Done</div>)}
                     </TableCell>
+                    <TableCell><ButtonExampleInverted>OK</ButtonExampleInverted></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
