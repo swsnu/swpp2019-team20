@@ -95,6 +95,7 @@ def loan_list(request):
                      'registered_date': loan.registered_date}
     return JsonResponse(response_dict, status=201)
 
+
 def create_transactions(loan, participants):
     fair_share = int(loan.total_money / len(participants))
 

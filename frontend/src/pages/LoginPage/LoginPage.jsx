@@ -66,7 +66,6 @@ function LoginPage() {
       window.alert("error" + response.status);
     } else {
       window.alert("success" + response.status);
-      
     }
   };
 

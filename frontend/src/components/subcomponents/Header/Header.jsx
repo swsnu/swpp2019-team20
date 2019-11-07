@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,7 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import Link from '@material-ui/core/Link';
-import Toolbar, { styles as toolbarStyles } from '../ToolBar';
+import Toolbar, {styles as toolbarStyles} from '../ToolBar';
 import SearchBar from '../SearchBar/SearchBar';
 import logo from './logo.png';
 import './Header.css';
@@ -33,8 +33,7 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     justifyContent: 'space-between',
   },
-  left: {
-  },
+  left: {},
   leftLinkActive: {
     color: theme.palette.common.white,
   },
@@ -106,7 +105,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Header({ children }) {
+export default function Header({children}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -135,11 +134,11 @@ export default function Header({ children }) {
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
           <span className="logoContainer">
             <a href="/">
-              <img className="logo" src={logo} alt="logo" />
+              <img className="logo" src={logo} alt="logo"/>
             </a>
           </span>
           <div className={classes.left}>
@@ -154,16 +153,27 @@ export default function Header({ children }) {
             </Link>
           </div>
           <div className={classes.right}>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/signin/"
-            >
-              Sign In
-            </Link>
-
+            {
+              true ? (
+                <Link
+                  color="inherit"
+                  variant="h6"
+                  underline="none"
+                  className={classes.rightLink}
+                  href="/signin/"
+                >
+                  Sign Out
+                </Link>
+              ) : (<Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                className={classes.rightLink}
+                href="/signin/"
+              >
+                Sign In
+              </Link>)
+            }
             <Link
               variant="h6"
               underline="none"
@@ -186,17 +196,17 @@ export default function Header({ children }) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
           </IconButton>
         </div>
-        <Divider />
+        <Divider/>
         <h3>Who Are You Looking For?</h3>
-        <Divider />
+        <Divider/>
         <div className="searchBarContainer">
           {children}
         </div>
       </Drawer>
-      <div className={classes.placeholder} />
+      <div className={classes.placeholder}/>
     </div>
   );
 }

@@ -33,6 +33,7 @@ function App() {
     </Switch>
   ) : (
     <Switch>
+      <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Redirect from="/" to="/signin" />
     </Switch>
