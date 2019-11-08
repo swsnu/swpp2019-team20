@@ -44,7 +44,7 @@ const AccountProfile = props => {
   const classes = useStyles();
 
   const user = {
-    avatar: 'https://avatars1.githubusercontent.com/u/17061663?s=460&v=4'
+    avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg'
   };
 
   return (

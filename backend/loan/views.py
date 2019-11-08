@@ -26,7 +26,7 @@ def loan_list(request):
         return HttpResponse(status=401)
 
     if request.method == 'GET':
-        txlist = Transaction.objects.filter(Q(lender=request.user) | Q(borrower=request.user))
+        txlist = Transaction.objects.filter(Q(lender=request.user) | Q(borrower=request.user)).order_by('loan__deadline').reverse()
         loanlist = list(map(model_to_dict, {tx.loan for tx in txlist}))
         return JsonResponse(loanlist, safe=False)
 

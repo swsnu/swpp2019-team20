@@ -6,6 +6,7 @@ import './CreateLoan.css';
 import MaterialTable from 'material-table';
 /*outlined box*/
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 import Button from '@material-ui/core/Button';
 /* date selecter */
 import 'date-fns';
@@ -55,6 +56,7 @@ const useStyles = makeStyles(theme => ({
 
 const CreateLoan = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
@@ -137,7 +139,9 @@ const CreateLoan = () => {
     if (response.status !== 201) {
       window.alert("error");
     } else {
-      window.alert("success");
+      //window.alert("success");
+      history.push('/index');
+      history.push('/main');
     }
   };
 
@@ -186,7 +190,7 @@ const CreateLoan = () => {
           <div className="participant">
             <SearchBar setUser={setUser} />
           </div>
-          
+
           <h3 className="participant">paid money: </h3>
           <div className="participant">
             <form className={classes.container} noValidate autoComplete="off">
@@ -246,7 +250,7 @@ const CreateLoan = () => {
         </Grid>
       </MuiPickersUtilsProvider>
       <br />
-      
+
       <div className="interest">
         <h5>interest on/off</h5>
         <Switch
@@ -274,7 +278,7 @@ const CreateLoan = () => {
           />
         </form>
       </div>
-      
+
       <div className="interest">
         <FormControl className={classes.formControl}>
           <InputLabel shrink id="demo-simple-select-placeholder-label-label">
