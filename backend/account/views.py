@@ -37,11 +37,13 @@ def profile(request, user_pk):
     """
     prof = get_object_or_404(Profile, pk=user_pk)
     if request.method == 'GET':
-        if not request.user.is_authenticated:
-            return HttpResponse(status=401)
+        # if not request.user.is_authenticated:
+        #    return HttpResponse(status=401)
         dict_profile = model_to_dict(prof)
-        json_profile = json.dumps(dict_profile)
-        return JsonResponse(json_profile, safe=False)
+        dict_profile['username'] = str(prof)
+        dict_profile['id'] = dict_profile['user']
+        del dict_profile['user']
+        return JsonResponse(dict_profile)
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
@@ -65,8 +67,7 @@ def profile(request, user_pk):
                 return HttpResponse(status=403)
             prof.save()
             dict_article = model_to_dict(prof)
-            json_article = json.dumps(dict_article)
-            return JsonResponse(json_article, safe=False)
+            return JsonResponse(dict_article)
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
     else:
@@ -115,13 +116,20 @@ def signup(request):
         req_data = json.loads(request.body.decode())
         username = req_data['username']
         password = req_data['password']
+        first_name = req_data['first_name']
+        last_name = req_data['last_name']
         email = req_data['email']
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name)
         user.refresh_from_db()  # load the profile instance created
         user.profile.kakao_id = req_data['kakao_id']
         user.profile.phone = req_data['phone']
-        user.profile.bio = req_data['bio']
-        user.profile.profile_pic = req_data['profile_pic']
+        #user.profile.bio = req_data['bio']
+        #user.profile.profile_pic = req_data['profile_pic']
         user.save()
 
         return HttpResponse(status=201)
@@ -189,3 +197,12 @@ def by_name(request, username=None):
         return HttpResponse(status=404)
 
     return JsonResponse({'id': user.id})
+
+def profile_me(request):
+    if request.method != 'GET':
+        return HttpResponseNotAllowed(['GET'])
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    return profile(request, user_pk=request.user.id)
