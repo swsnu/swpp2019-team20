@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 import Link from '@material-ui/core/Link';
 import Base from '../../components/Base/Base';
 import Typography from '../../components/subcomponents/Typography';
 import AppForm from '../../components/subcomponents/AppForm';
-import { email, required } from '../../components/subcomponents/form/validation';
 import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
+import { getCookie } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -23,25 +24,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 function LoginPage() {
   const classes = useStyles();
-  const [sent, setSent] = React.useState(false);
+  const [sent] = React.useState(false);
+  const history = useHistory();
 
-  const validate = (values) => {
-    const errors = required(['email', 'password'], values);
 
-    if (!errors.email) {
-      const emailError = email(values.email, values);
-      if (emailError) {
-        errors.email = email(values.email, values);
-      }
+  const onSubmit = async values => {
+    await fetch('/account/token', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    let csrftoken = getCookie('csrftoken');
+
+    const response = await fetch('/account/signin', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      credentials: 'include', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      redirect: 'follow', // manual, *follow, error
+      body: JSON.stringify(values) // body data type must match "Content-Type" header
+    });
+
+    if (response.status !== 204) {
+      //window.alert("error" + response.status);
+    } else {
+      history.push('/main');
+      //window.alert("success" + response.status);
     }
-
-    return errors;
-  };
-
-  const handleSubmit = () => {
-    setSent(true);
   };
 
   return (
@@ -58,19 +72,19 @@ function LoginPage() {
             </Link>
           </Typography>
         </fragment>
-        <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-          {({ handleSubmit2, submitting }) => (
-            <form onSubmit={handleSubmit2} className={classes.form} noValidate>
-              <div id="login-email-input">
+        <Form onSubmit={onSubmit} subscription={{ submitting: true }}>
+          {({ handleSubmit, submitting }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
+              <div id="login-username-input">
                 <Field
-                  autoComplete="email"
+                  autoComplete="username"
                   autoFocus
                   component={RFTextField}
                   disabled={submitting || sent}
                   fullWidth
-                  label="Email"
+                  label="Username"
                   margin="normal"
-                  name="email"
+                  name="username"
                   required
                   size="large"
                 />

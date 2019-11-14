@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../AppBar';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
-
+import { AppContext } from '../../../App';
 import './Header.css';
 import logo from './logo.png';
 
@@ -38,7 +38,48 @@ const styles = (theme) => ({
 });
 
 function Header(props) {
+  const { user, setUser } = useContext(AppContext);
   const { classes } = props;
+
+  let label1 = <Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                className={classes.rightLink}
+                href="/signin/"
+              >
+                Sign In
+              </Link>
+  let label2 = <Link
+                variant="h6"
+                underline="none"
+                className={clsx(classes.rightLink, classes.linkSecondary)}
+                href="/signup/"
+              >
+                Sign Up
+              </Link>
+
+  if(user.loggedIn) {
+    label1 = <Link
+              color="inherit"
+              variant="h6"
+              underline="none"
+              className={classes.rightLink}
+              href="/signin/"
+            >
+              Sign Out
+            </Link>
+    label2 = <Link
+                variant="h6"
+                underline="none"
+                className={clsx(classes.rightLink, classes.linkSecondary)}
+                href="/profile/"
+              >
+                My Page
+              </Link>
+  }
+
+
 
   return (
     <div>
@@ -61,24 +102,8 @@ function Header(props) {
             </Link>
           </div>
           <div className={classes.right}>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/signin/"
-            >
-              Sign In
-            </Link>
-
-            <Link
-              variant="h6"
-              underline="none"
-              className={clsx(classes.rightLink, classes.linkSecondary)}
-              href="/signup/"
-            >
-              Sign Up
-            </Link>
+            {label1}
+            {label2}
           </div>
         </Toolbar>
       </AppBar>

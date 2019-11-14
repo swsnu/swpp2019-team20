@@ -3,12 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Store from './store/store';
+
 
 ReactDOM.render(
-  <Store.Provider>
-    <App />
-  </Store.Provider>,
+  <App />,
   document.getElementById('root')
 );
 
