@@ -1,5 +1,5 @@
 import React from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ReactDOM from 'react-dom';
 import App, { AppContext } from './App';
@@ -16,6 +16,7 @@ describe('<App />', () => {
   const setState = jest.fn();
   const useStateSpy = jest.spyOn(React, 'useState');
   useStateSpy.mockImplementation((init) => [init, setState]);
+  // eslint-disable-next-line
   let getLoginSpy;
 
   beforeEach(() => {
