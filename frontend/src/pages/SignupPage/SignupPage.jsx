@@ -5,4 +5,4 @@ const SignupPage = () => (
   <div>Sign Up Page</div>
 );
 
-export default SignupPage;
+export default Base(SignupPage);
