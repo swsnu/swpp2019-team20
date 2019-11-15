@@ -14,11 +14,11 @@ const customTheme = {
 
 describe('Budget', () => {
   test('renders without errors', () => {
-    const component = shallow(
+    const wrapper = shallow(
       <MuiThemeProvider theme={customTheme}>
         <TaskProgress />
       </MuiThemeProvider>,
     ).dive();
-    expect(component.length).toBe(1);
+    expect(wrapper.find('TasksProgress').length).toBe(1);
   });
 });
