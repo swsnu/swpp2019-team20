@@ -42,6 +42,10 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
+TabPanel.defaultProps = {
+  children: null,
+}
+
 function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
@@ -91,7 +95,6 @@ export default function SimpleTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const addButtonLen = notCompletedLoanList.length;
 
   return (
     <div className={classes.root}>
@@ -124,8 +127,10 @@ export default function SimpleTabs(props) {
                   </Card>
                 </div>
               )
-          } {
-              ...a11yProps(idx)}
+          }
+            {
+              ...
+                a11yProps(idx)}
           />
         ))}
         <Tab label={
