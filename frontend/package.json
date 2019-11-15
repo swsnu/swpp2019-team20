@@ -67,7 +67,9 @@
     "collectCoverageFrom": [
       "!src/index.js",
       "!src/serviceWorker.js",
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "!src/setupProxy.js",
+      "!src/utils.js"
     ]
   }
 }
