@@ -6,6 +6,8 @@ import LoginPage from './LoginPage';
 
 describe('LoginPage', () => {
   let login;
+  // eslint-disable-next-line
+  let onSubmitSpy;
   const setState = jest.fn();
   const useStateSpy = jest.spyOn(React, 'useState');
   useStateSpy.mockImplementation((init) => [init, setState]);
@@ -27,6 +29,15 @@ describe('LoginPage', () => {
         </BrowserRouter>
       </AppContext.Provider>
     );
+
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 204,
+        };
+        return Promise.resolve(result);
+      });
   });
 
 
@@ -59,32 +70,6 @@ describe('LoginPage', () => {
 
     const submitButton = component.find('button');
     expect(submitButton.length).toBe(1);
-  });
-
-  test('login should fail with wrong input', () => {
-    const username = 'test_user';
-    const password = 'password';
-    const component = mount(login);
-    const usernameInputWrapper = component.find('#login-username-input input');
-    const passwordInputWrapper = component.find('#login-password-input input');
-    const submitButton = component.find('button');
-
-    usernameInputWrapper.value = username;
-    passwordInputWrapper.value = password;
-
-    submitButton.simulate('submit');
-  });
-
-  test('login should success with correct input', () => {
-    const username = 'yunmo';
-    const password = 'a';
-    const component = mount(login);
-    const usernameInputWrapper = component.find('#login-username-input input');
-    const passwordInputWrapper = component.find('#login-password-input input');
-    const submitButton = component.find('button');
-
-    usernameInputWrapper.value = username;
-    passwordInputWrapper.value = password;
 
     submitButton.simulate('submit');
   });
