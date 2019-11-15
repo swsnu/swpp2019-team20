@@ -11,11 +11,11 @@ describe('utils', () => {
 
   test('empty cookie', () => {
     const cookie = getCookie('csrftoken');
-    expect(cookie.length).toBe(0);
+    expect(cookie).toBe(null);
   });
   test('non-empty cookie', () => {
     document.cookie = 'ABCDEFG';
     const cookie = getCookie('csrftoken');
-    expect(cookie.length).toBe(1);
+    expect(cookie).toBe(null);
   });
 });

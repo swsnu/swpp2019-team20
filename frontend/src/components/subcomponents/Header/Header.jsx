@@ -38,7 +38,7 @@ const styles = (theme) => ({
 });
 
 function Header(props) {
-  const { user, setUser } = useContext(AppContext);
+  const { user } = useContext(AppContext);
   const { classes } = props;
 
   let label1 = <Link

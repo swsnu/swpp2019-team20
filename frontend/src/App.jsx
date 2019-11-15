@@ -16,6 +16,8 @@ function App() {
     username: ''
   });
 
+  console.log(user.loggedIn);
+
   const router = user.loggedIn ? (
     <Switch>
       <Redirect exact from="/" to="/index" />

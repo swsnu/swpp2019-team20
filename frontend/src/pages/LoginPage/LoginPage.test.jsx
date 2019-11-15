@@ -17,17 +17,17 @@ describe('LoginPage', () => {
     expect(component.length).toBe(1);
   });
 
-  test('email block marked as invalid with wrong input', () => {
-    const email = 'wrongemailformat';
+  test('username block marked as invalid with wrong input', () => {
+    const username = 'test_user';
     const password = 'password';
     const component = mount(login);
-    const emailInputWrapper = component.find('#login-email-input input');
+    const usernameInputWrapper = component.find('#login-username-input input');
     const passwordInputWrapper = component.find('#login-password-input input');
     const submitButton = component.find('button');
 
     expect(submitButton.length).toBe(1);
 
-    emailInputWrapper.simulate('change', { target: { value: email } });
+    usernameInputWrapper.simulate('change', { target: { value: username } });
     passwordInputWrapper.simulate('change', { target: { value: password } });
 
     submitButton.simulate('submit');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
@@ -10,6 +10,7 @@ import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
 import FormFeedback from '../../components/subcomponents/form/FormFeedback';
 import { getCookie } from '../../utils';
+import { AppContext } from '../../App';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -26,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LoginPage() {
+  const { user, setUser } = useContext(AppContext);
+
   const classes = useStyles();
   const [sent] = React.useState(false);
   const history = useHistory();
@@ -51,10 +54,11 @@ function LoginPage() {
     });
 
     if (response.status !== 204) {
-      //window.alert("error" + response.status);
+      window.alert("error" + response.status);
     } else {
-      history.push('/main');
-      //window.alert("success" + response.status);
+      setUser({ loggedIn: true, username: '' });
+      history.push('/signin');
+      window.alert("success" + response.status);
     }
   };
 
@@ -103,13 +107,6 @@ function LoginPage() {
                   margin="normal"
                 />
               </div>
-              <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) => (submitError ? (
-                  <FormFeedback className={classes.feedback} error>
-                    {submitError}
-                  </FormFeedback>
-                ) : null)}
-              </FormSpy>
               <FormButton
                 className={classes.button}
                 disabled={submitting || sent}

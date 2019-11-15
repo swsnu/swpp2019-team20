@@ -1,10 +1,57 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useState } from 'react';
+import Enzyme, { shallow, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import Header from './Header';
+import App, { AppContext } from '../../../App';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 describe('Header', () => {
+  let wrapper;
+  const setState = jest.fn();
+  const useStateSpy = jest.spyOn(React, 'useState');
+  useStateSpy.mockImplementation((init) => [init, setState]);
+
+  beforeEach(() => {
+    wrapper = Enzyme.shallow(<App />);
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('renders without errors', () => {
     const component = shallow(<Header />);
     expect(component.length).toBe(1);
   });
+
+  test('Header should show Sign In and Sign Up', () => {
+    const [user, setUser] = useStateSpy({
+      loggedIn: false,
+      username: ''
+    });
+
+    const element = mount(
+      <AppContext.Provider value={{user}}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    expect(element.length).toBe(1);
+  })
+
+  test('Header should show Sign Out and My Page', () => {
+    const [user, setUser] = useStateSpy({
+      loggedIn: true,
+      username: ''
+    });
+
+    const element = mount(
+      <AppContext.Provider value={{user}}>
+        <Header />
+      </AppContext.Provider>
+    );
+
+    expect(element.length).toBe(1);
+  })
 });
