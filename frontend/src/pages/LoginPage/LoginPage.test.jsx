@@ -40,6 +40,10 @@ describe('LoginPage', () => {
       });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
 
   test('when loggedIn is true', () => {
     const [user, setUser] = useStateSpy({
@@ -61,7 +65,28 @@ describe('LoginPage', () => {
     expect(component.length).toBe(1);
   });
 
-  test('login form should be rendered', () => {
+  test('fetch error', () => {
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 401,
+        };
+        return Promise.resolve(result);
+      });
+    const component = mount(login);
+    const usernameInputWrapper = component.find('#login-username-input input');
+    const passwordInputWrapper = component.find('#login-password-input input');
+    expect(usernameInputWrapper.length).toBe(1);
+    expect(passwordInputWrapper.length).toBe(1);
+
+    const submitButton = component.find('button');
+    expect(submitButton.length).toBe(1);
+
+    submitButton.simulate('submit');
+  });
+
+  test('fetch success', () => {
     const component = mount(login);
     const usernameInputWrapper = component.find('#login-username-input input');
     const passwordInputWrapper = component.find('#login-password-input input');

@@ -29,7 +29,6 @@ function LoginPage() {
   const { onLoggedIn } = useContext(AppContext);
 
   const classes = useStyles();
-  const [sent] = React.useState(false);
   const history = useHistory();
 
 
@@ -80,7 +79,7 @@ function LoginPage() {
                   autoComplete="username"
                   autoFocus
                   component={RFTextField}
-                  disabled={submitting || sent}
+                  disabled={submitting}
                   fullWidth
                   label="Username"
                   margin="normal"
@@ -94,7 +93,7 @@ function LoginPage() {
                   fullWidth
                   size="large"
                   component={RFTextField}
-                  disabled={submitting || sent}
+                  disabled={submitting}
                   required
                   name="password"
                   autoComplete="current-password"
@@ -105,12 +104,12 @@ function LoginPage() {
               </div>
               <FormButton
                 className={classes.button}
-                disabled={submitting || sent}
+                disabled={submitting}
                 size="large"
                 color="secondary"
                 fullWidth
               >
-                {submitting || sent ? 'In progress…' : 'Sign In'}
+                Sign In
               </FormButton>
             </form>
           )}
