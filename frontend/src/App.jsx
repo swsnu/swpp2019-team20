@@ -20,7 +20,7 @@ function App() {
     setUser({ loggedIn: true, username: '' });
   }
 
-  const getLogin = async values => {
+  const getLogin = async () => {
 
     const response = await fetch('/account/user', {
       method: 'GET',
@@ -28,10 +28,10 @@ function App() {
     });
 
     if (response.status !== 204) {
-      window.alert("logged out" + response.status);
+      console.log("logged out " + response.status);
     } else {
       onLoggedIn();
-      window.alert("success" + response.status);
+      console.log("logged in" + response.status);
     }
   };
 
