@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
@@ -41,44 +41,50 @@ function Header(props) {
   const { user } = useContext(AppContext);
   const { classes } = props;
 
-  let label1 = <Link
-                color="inherit"
-                variant="h6"
-                underline="none"
-                className={classes.rightLink}
-                href="/signin/"
-              >
-                Sign In
-              </Link>
-  let label2 = <Link
-                variant="h6"
-                underline="none"
-                className={clsx(classes.rightLink, classes.linkSecondary)}
-                href="/signup/"
-              >
-                Sign Up
-              </Link>
-
-  if(user.loggedIn) {
-    label1 = <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              className={classes.rightLink}
-              href="/signin/"
-            >
-              Sign Out
-            </Link>
-    label2 = <Link
-                variant="h6"
-                underline="none"
-                className={clsx(classes.rightLink, classes.linkSecondary)}
-                href="/profile/"
-              >
-                My Page
-              </Link>
+  let label1 = (
+    <Link
+      color="inherit"
+      variant="h6"
+      underline="none"
+      className={classes.rightLink}
+      href="/signin/"
+    >
+      Sign In
+    </Link>
+  );
+  let label2 = (
+    <Link
+      variant="h6"
+      underline="none"
+      className={clsx(classes.rightLink, classes.linkSecondary)}
+      href="/signup/"
+    >
+      Sign Up
+    </Link>
+  );
+  if (user.loggedIn) {
+    label1 = (
+      <Link
+        color="inherit"
+        variant="h6"
+        underline="none"
+        className={classes.rightLink}
+        href="/signin/"
+      >
+        Sign Out
+      </Link>
+    );
+    label2 = (
+      <Link
+        variant="h6"
+        underline="none"
+        className={clsx(classes.rightLink, classes.linkSecondary)}
+        href="/profile/"
+      >
+        My Page
+      </Link>
+    );
   }
-
 
 
   return (

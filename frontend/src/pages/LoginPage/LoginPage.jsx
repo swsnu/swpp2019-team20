@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Field, Form, FormSpy } from 'react-final-form';
+import React, { useContext } from 'react';
+import { Field, Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
 import Link from '@material-ui/core/Link';
@@ -8,7 +8,6 @@ import Typography from '../../components/subcomponents/Typography';
 import AppForm from '../../components/subcomponents/AppForm';
 import RFTextField from '../../components/subcomponents/form/RFTextField';
 import FormButton from '../../components/subcomponents/form/FormButton';
-import FormFeedback from '../../components/subcomponents/form/FormFeedback';
 import { getCookie } from '../../utils';
 import { AppContext } from '../../App';
 
@@ -27,20 +26,20 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LoginPage() {
-  const { user, setUser, onLoggedIn } = useContext(AppContext);
+  const { onLoggedIn } = useContext(AppContext);
 
   const classes = useStyles();
   const [sent] = React.useState(false);
   const history = useHistory();
 
 
-  const onSubmit = async values => {
+  const onSubmit = async (values) => {
     await fetch('/account/token', {
       method: 'GET',
       credentials: 'include',
     });
 
-    let csrftoken = getCookie('csrftoken');
+    const csrftoken = getCookie('csrftoken');
 
     const response = await fetch('/account/signin', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -50,15 +49,12 @@ function LoginPage() {
         'X-CSRFToken': csrftoken,
       },
       redirect: 'follow', // manual, *follow, error
-      body: JSON.stringify(values) // body data type must match "Content-Type" header
+      body: JSON.stringify(values), // body data type must match "Content-Type" header
     });
 
-    if (response.status !== 204) {
-      window.alert("error" + response.status);
-    } else {
+    if (response.status === 204) {
       onLoggedIn();
-      history.push('/signin');
-      window.alert("success" + response.status);
+      history.push('/index');
     }
   };
 

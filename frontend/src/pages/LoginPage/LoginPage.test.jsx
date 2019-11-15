@@ -1,13 +1,11 @@
-import React, { usesState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Enzyme, { shallow, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { mount } from 'enzyme';
 import App, { AppContext } from '../../App';
 import LoginPage from './LoginPage';
 
 describe('LoginPage', () => {
-  let login, spyOnLoggedIn;
-  let wrapper;
+  let login;
   const setState = jest.fn();
   const useStateSpy = jest.spyOn(React, 'useState');
   useStateSpy.mockImplementation((init) => [init, setState]);
@@ -15,7 +13,7 @@ describe('LoginPage', () => {
   beforeEach(() => {
     const [user, setUser] = useStateSpy({
       loggedIn: true,
-      username: ''
+      username: '',
     });
 
     function onLoggedIn() {
@@ -35,13 +33,13 @@ describe('LoginPage', () => {
   test('when loggedIn is true', () => {
     const [user, setUser] = useStateSpy({
       loggedIn: true,
-      username: ''
+      username: '',
     });
 
     const component = mount(
       <AppContext.Provider value={{ user, setUser }}>
         <App />
-      </AppContext.Provider>
+      </AppContext.Provider>,
     );
     expect(component.length).toBe(1);
   });
@@ -52,34 +50,42 @@ describe('LoginPage', () => {
     expect(component.length).toBe(1);
   });
 
-  test('username block marked as invalid with wrong input', () => {
-    const username = 'test_user';
-    const password = 'password';
+  test('login form should be rendered', () => {
     const component = mount(login);
     const usernameInputWrapper = component.find('#login-username-input input');
     const passwordInputWrapper = component.find('#login-password-input input');
     expect(usernameInputWrapper.length).toBe(1);
     expect(passwordInputWrapper.length).toBe(1);
-    const submitButton = component.find('button');
 
+    const submitButton = component.find('button');
     expect(submitButton.length).toBe(1);
   });
 
-  /*test('username block marked as invalid with wrong input', () => {
+  test('login should fail with wrong input', () => {
     const username = 'test_user';
     const password = 'password';
     const component = mount(login);
     const usernameInputWrapper = component.find('#login-username-input input');
     const passwordInputWrapper = component.find('#login-password-input input');
-    expect(usernameInputWrapper.length).toBe(1);
-    expect(passwordInputWrapper.length).toBe(1);
     const submitButton = component.find('button');
 
-    expect(submitButton.length).toBe(1);
-
-    usernameInputWrapper.simulate('change', { target: { value: username } });
-    passwordInputWrapper.simulate('change', { target: { value: password } });
+    usernameInputWrapper.value = username;
+    passwordInputWrapper.value = password;
 
     submitButton.simulate('submit');
-  });*/
+  });
+
+  test('login should success with correct input', () => {
+    const username = 'yunmo';
+    const password = 'a';
+    const component = mount(login);
+    const usernameInputWrapper = component.find('#login-username-input input');
+    const passwordInputWrapper = component.find('#login-password-input input');
+    const submitButton = component.find('button');
+
+    usernameInputWrapper.value = username;
+    passwordInputWrapper.value = password;
+
+    submitButton.simulate('submit');
+  });
 });

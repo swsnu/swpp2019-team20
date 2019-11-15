@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import React, { createContext, useState, useEffect } from 'react';
+import {
+  BrowserRouter, Route, Redirect, Switch,
+} from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -7,13 +9,12 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import './App.css';
 
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
 function App() {
-
   const [user, setUser] = useState({
     loggedIn: false,
-    username: ''
+    username: '',
   });
 
   function onLoggedIn() {
@@ -21,25 +22,19 @@ function App() {
   }
 
   const getLogin = async () => {
-
     const response = await fetch('/account/user', {
       method: 'GET',
       credential: 'include',
     });
 
-    if (response.status !== 204) {
-      console.log("logged out " + response.status);
-    } else {
+    if (response.status === 204) {
       onLoggedIn();
-      console.log("logged in" + response.status);
     }
   };
 
   useEffect(() => {
     getLogin();
   }, []);
-
-  console.log(user.loggedIn);
 
   const router = user.loggedIn ? (
     <Switch>
@@ -51,7 +46,7 @@ function App() {
       />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
-      {/*<Route path="/main" exact component={MainPage} />*/}
+      {/* <Route path="/main" exact component={MainPage} /> */}
       <Route
         path="/index"
         exact
@@ -59,12 +54,12 @@ function App() {
       />
     </Switch>
   ) : (
-      <Switch>
-        <Route path="/index" exact component={IndexPage} />
-        <Route path="/signin" exact component={LoginPage} />
-        <Redirect from="/" to="/signin" />
-      </Switch>
-    );
+    <Switch>
+      <Route path="/index" exact component={IndexPage} />
+      <Route path="/signin" exact component={LoginPage} />
+      <Redirect from="/" to="/signin" />
+    </Switch>
+  );
   return (
     <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>
