@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardContent,
   Grid,
   Typography,
   Avatar,
-  LinearProgress
+  LinearProgress,
 } from '@material-ui/core';
 import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 
@@ -83,6 +83,11 @@ const TasksProgress = (props) => {
 TasksProgress.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+};
+
+TasksProgress.defaultProps = {
+  className: null,
+  children: null,
 };
 
 export default TasksProgress;
