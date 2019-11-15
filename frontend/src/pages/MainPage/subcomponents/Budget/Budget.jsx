@@ -2,45 +2,46 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import {
+  Card, CardContent, Grid, Typography, Avatar,
+} from '@material-ui/core';
 import MoneyIcon from '@material-ui/icons/Money';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%'
+    height: '100%',
   },
   content: {
     alignItems: 'center',
-    display: 'flex'
+    display: 'flex',
   },
   title: {
-    fontWeight: 700
+    fontWeight: 700,
   },
   avatar: {
     backgroundColor: theme.palette.error.main,
     height: 56,
-    width: 56
+    width: 56,
   },
   icon: {
     height: 32,
-    width: 32
+    width: 32,
   },
   difference: {
     marginTop: theme.spacing(2),
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   differenceIcon: {
-    color: theme.palette.error.dark
+    color: theme.palette.error.dark,
   },
   differenceValue: {
     color: theme.palette.error.dark,
-    marginRight: theme.spacing(1)
-  }
+    marginRight: theme.spacing(1),
+  },
 }));
 
-const Budget = props => {
+const Budget = (props) => {
   const { children, className, ...rest } = props;
 
   const classes = useStyles();
@@ -64,7 +65,10 @@ const Budget = props => {
             >
               CASH
             </Typography>
-            <Typography variant="h5">{children} $</Typography>
+            <Typography variant="h5">
+              {children}
+              $
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
@@ -86,7 +90,13 @@ const Budget = props => {
 };
 
 Budget.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
+
+Budget.defaultProps = {
+  className: null,
+  children: null,
+}
 
 export default Budget;
