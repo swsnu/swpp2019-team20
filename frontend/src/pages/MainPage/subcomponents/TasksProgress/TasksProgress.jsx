@@ -14,7 +14,7 @@ import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%'
+    height: '100%',
   },
   content: {
     alignItems: 'center',
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   progress: {
     marginTop: theme.spacing(3),
-  }
+  },
 }));
 
 const TasksProgress = (props) => {
@@ -62,7 +62,10 @@ const TasksProgress = (props) => {
             >
               PROGRESS
             </Typography>
-            <Typography variant="h5">{children}%</Typography>
+            <Typography variant="h5">
+              {children}
+              %
+            </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>

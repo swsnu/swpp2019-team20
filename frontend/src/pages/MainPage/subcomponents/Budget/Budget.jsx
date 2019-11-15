@@ -97,6 +97,6 @@ Budget.propTypes = {
 Budget.defaultProps = {
   className: null,
   children: null,
-}
+};
 
 export default Budget;

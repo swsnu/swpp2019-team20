@@ -5,7 +5,7 @@ import SimpleTabs from './presenter';
 
 describe('<SimpleTabs />', () => {
   it('should render without error', () => {
-    let mockData = []
+    let mockData = [];
     act(() => {
       mockData = [{
         id: 2,
@@ -20,8 +20,8 @@ describe('<SimpleTabs />', () => {
         expected_date: null,
         completed_date: null,
       }];
-    })
+    });
     const component = shallow(<SimpleTabs notCompletedLoanList={mockData} />);
     expect(component.length).toEqual(1);
   });
-})
+});

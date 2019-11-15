@@ -44,7 +44,7 @@ TabPanel.propTypes = {
 
 TabPanel.defaultProps = {
   children: null,
-}
+};
 
 function a11yProps(index) {
   return {

@@ -10,11 +10,10 @@ const LoanList = () => {
     const res = await fetch(targetUrl, {
       method: 'GET',
       credential: 'include',
-    })
-    const loanRawList = await res.json()
-    const curCompletedLoanList = loanRawList.filter((loan) => loan.completed === true)
-    const curNotCompletedLoanList = loanRawList.filter((loan) => loan.completed === false)
-    console.log(curNotCompletedLoanList)
+    });
+    const loanRawList = await res.json();
+    const curCompletedLoanList = loanRawList.filter((loan) => loan.completed === true);
+    const curNotCompletedLoanList = loanRawList.filter((loan) => loan.completed === false);
     setCompletedLoanList(curCompletedLoanList);
     setNotCompletedLoanList(curNotCompletedLoanList);
   };

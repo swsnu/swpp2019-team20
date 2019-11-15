@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   differenceIcon: {
-    color: theme.palette.primary.dark
+    color: theme.palette.primary.dark,
   },
   differenceValue: {
     color: theme.palette.primary.dark,

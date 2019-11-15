@@ -7,4 +7,4 @@ describe('<MainPage />', () => {
     const wrapper = shallow(<MainPage />);
     expect(wrapper.length).toBe(1);
   });
-})
+});
