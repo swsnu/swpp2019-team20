@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
@@ -15,6 +15,29 @@ function App() {
     loggedIn: false,
     username: ''
   });
+
+  function onLoggedIn() {
+    setUser({ loggedIn: true, username: '' });
+  }
+
+  const getLogin = async values => {
+
+    const response = await fetch('/account/user', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    if (response.status !== 204) {
+      window.alert("logged out" + response.status);
+    } else {
+      onLoggedIn();
+      window.alert("success" + response.status);
+    }
+  };
+
+  useEffect(() => {
+    getLogin();
+  }, []);
 
   console.log(user.loggedIn);
 
@@ -43,7 +66,7 @@ function App() {
       </Switch>
     );
   return (
-    <AppContext.Provider value={{user, setUser}}>
+    <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>
         <div className="App">
           {router}

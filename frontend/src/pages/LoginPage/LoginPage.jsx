@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LoginPage() {
-  const { user, setUser } = useContext(AppContext);
+  const { user, setUser, onLoggedIn } = useContext(AppContext);
 
   const classes = useStyles();
   const [sent] = React.useState(false);
@@ -56,7 +56,7 @@ function LoginPage() {
     if (response.status !== 204) {
       window.alert("error" + response.status);
     } else {
-      setUser({ loggedIn: true, username: '' });
+      onLoggedIn();
       history.push('/signin');
       window.alert("success" + response.status);
     }

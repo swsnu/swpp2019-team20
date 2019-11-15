@@ -189,3 +189,10 @@ def by_name(request, username=None):
         return HttpResponse(status=404)
 
     return JsonResponse({'id': user.id})
+
+def user_login(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=401)

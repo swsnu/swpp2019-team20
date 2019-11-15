@@ -10,4 +10,5 @@ urlpatterns = [
     path('signout', views.signout, name='signout'),
     path('by-name/<str:username>', views.by_name, name='by name'),
     path('user/<int:user_pk>', views.profile, name='profile'),
+    path('user', views.user_login, name='user')
 ]
