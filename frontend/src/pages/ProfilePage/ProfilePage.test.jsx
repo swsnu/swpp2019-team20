@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Base from './Base';
+import ProfilePage from './ProfilePage';
 
-describe('Base', () => {
+describe('ProfilePage', () => {
   test('renders without errors', () => {
-    const component = shallow(<Base />);
+    const component = shallow(<ProfilePage />);
     expect(component.length).toBe(1);
   });
 });
