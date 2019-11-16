@@ -36,7 +36,7 @@ def profile(request, user_pk):
             prof.save()
             dict_article = model_to_dict(prof)
             return JsonResponse(dict_article)
-        except (KeyError, json.JSONDecodeError):
+        except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
@@ -59,7 +59,7 @@ def signup(request):
             kakao_id = str(req_data['kakao_id'])
             phone = str(req_data['kakao_id'])
 
-        except (KeyError, json.JSONDecodeError):
+        except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
 
         try:
@@ -87,7 +87,7 @@ def signin(request):
             req_data = json.loads(request.body)
             username = str(req_data['username'])
             password = str(req_data['password'])
-        except (KeyError, json.JSONDecodeError):
+        except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
 
         user = authenticate(username=username, password=password)
