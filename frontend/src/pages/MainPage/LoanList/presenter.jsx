@@ -10,6 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import TransactionList from '../TransactionList/container';
 import Budget from '../subcomponents/Budget/Budget';
 import TotalMoney from '../subcomponents/TotalMoney/TotalMoney';
 import TotalUsers from '../subcomponents/TotalUsers/TotalUsers';
@@ -196,6 +197,7 @@ export default function SimpleTabs(props) {
                 </TotalMoney>
               </Grid>
             </Grid>
+            {<TransactionList loan={loan}/>}
           </TabPanel>
         ))}
       </div>
