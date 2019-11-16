@@ -1,34 +1,100 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { mount } from 'enzyme';
+import App, { AppContext } from '../../App';
 import LoginPage from './LoginPage';
 
 describe('LoginPage', () => {
   let login;
+  // eslint-disable-next-line
+  let onSubmitSpy;
+  const setState = jest.fn();
+  const useStateSpy = jest.spyOn(React, 'useState');
+  useStateSpy.mockImplementation((init) => [init, setState]);
 
   beforeEach(() => {
+    const [user, setUser] = useStateSpy({
+      loggedIn: true,
+      username: '',
+    });
+
+    function onLoggedIn() {
+      setUser({ loggedIn: true, username: '' });
+    }
+
     login = (
-      <LoginPage />
+      <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
+        <BrowserRouter>
+          <Route path="/signin" exact component={LoginPage} />
+        </BrowserRouter>
+      </AppContext.Provider>
     );
+
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 204,
+        };
+        return Promise.resolve(result);
+      });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+
+  test('when loggedIn is true', () => {
+    const [user, setUser] = useStateSpy({
+      loggedIn: true,
+      username: '',
+    });
+
+    const component = mount(
+      <AppContext.Provider value={{ user, setUser }}>
+        <App />
+      </AppContext.Provider>,
+    );
+    expect(component.length).toBe(1);
   });
 
 
   test('renders without errors', () => {
-    const component = shallow(login);
+    const component = mount(login);
     expect(component.length).toBe(1);
   });
 
-  test('email block marked as invalid with wrong input', () => {
-    const email = 'wrongemailformat';
-    const password = 'password';
+  test('fetch error', () => {
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 401,
+        };
+        return Promise.resolve(result);
+      });
     const component = mount(login);
-    const emailInputWrapper = component.find('#login-email-input input');
+    const usernameInputWrapper = component.find('#login-username-input input');
     const passwordInputWrapper = component.find('#login-password-input input');
-    const submitButton = component.find('button');
+    expect(usernameInputWrapper.length).toBe(1);
+    expect(passwordInputWrapper.length).toBe(1);
 
+    const submitButton = component.find('button');
     expect(submitButton.length).toBe(1);
 
-    emailInputWrapper.simulate('change', { target: { value: email } });
-    passwordInputWrapper.simulate('change', { target: { value: password } });
+    submitButton.simulate('submit');
+  });
+
+  test('fetch success', () => {
+    const component = mount(login);
+    const usernameInputWrapper = component.find('#login-username-input input');
+    const passwordInputWrapper = component.find('#login-password-input input');
+    expect(usernameInputWrapper.length).toBe(1);
+    expect(passwordInputWrapper.length).toBe(1);
+
+    const submitButton = component.find('button');
+    expect(submitButton.length).toBe(1);
 
     submitButton.simulate('submit');
   });

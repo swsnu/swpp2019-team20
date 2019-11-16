@@ -130,3 +130,12 @@ def profile_me(request):
         return profile(request, user_pk=request.user.id)
 
     return HttpResponseNotAllowed(['GET'])
+
+def user_login(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return HttpResponse(status=204)
+
+        return HttpResponse(status=401)
+
+    return HttpResponseNotAllowed(['GET'])
