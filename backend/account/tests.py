@@ -35,8 +35,8 @@ class AccountTestCase(TestCase):
 
         # sinup with csrf token
         response = client.post('/account/signup', {},
-                                HTTP_X_CSRFTOKEN=csrftoken,
-                                content_type='application/json')
+                               HTTP_X_CSRFTOKEN=csrftoken,
+                               content_type='application/json')
         self.assertEqual(response.status_code, 400)  # Pass csrf protection, but invalid data
 
     def test_signup(self):
@@ -203,11 +203,10 @@ class ProfileTest(TestCase):
             self.assertEqual(response.status_code, 400)
 
         # test - other user's profile
-        for valid_datum in valid_data:
-            response = self.client.put('/account/user/2',
-                                       valid_data,
-                                       content_type='application/json')
-            self.assertEqual(response.status_code, 403)
+        response = self.client.put('/account/user/2',
+                                   valid_data,
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 403)
 
     def test_profile_me(self):
         client = Client()
