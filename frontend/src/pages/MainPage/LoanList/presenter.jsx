@@ -197,7 +197,7 @@ export default function SimpleTabs(props) {
                 </TotalMoney>
               </Grid>
             </Grid>
-            {<TransactionList loan={loan}/>}
+            <TransactionList loan={loan} />
           </TabPanel>
         ))}
       </div>

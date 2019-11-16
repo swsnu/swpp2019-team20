@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter, Route } from 'react-router-dom';
-import App, { AppContext } from '../../App';
+import { AppContext } from '../../App';
 import MainPage from './MainPage';
 
 describe('MainPage', () => {

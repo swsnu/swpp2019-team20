@@ -5,6 +5,6 @@ const ButtonExampleInverted = () => (
   <Button inverted color="pink">
     OK
   </Button>
-)
+);
 
 export default ButtonExampleInverted;
