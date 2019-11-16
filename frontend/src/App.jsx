@@ -6,7 +6,7 @@ import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import { MainPage } from './pages/MainPage/MainPage';
+import MainPage from './pages/MainPage/MainPage';
 import './App.css';
 
 
@@ -47,13 +47,12 @@ function App() {
       />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
-      {/* <Route path="/main" exact component={MainPage} /> */}
+      <Route path="/main" exact component={MainPage} />
       <Route
         path="/index"
         exact
         component={IndexPage}
       />
-      <Route path="/main" exact component={MainPage} />
       <Route render={() => <h1>Not Found</h1>} />
     </Switch>
   ) : (
