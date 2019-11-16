@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import App, { AppContext } from '../../App';
-import SignUpPage from './SignUpPage';
+import SignUpPage from './SignupPage';
 
 describe('SignUpPage', () => {
   let signup;
