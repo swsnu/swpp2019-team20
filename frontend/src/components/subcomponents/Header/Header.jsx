@@ -92,7 +92,7 @@ function Header(props) {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
           <span className="logoContainer">
-            <a href="/">
+            <a href="/index">
               <img className="logo" src={logo} alt="logo" />
             </a>
           </span>
@@ -102,7 +102,7 @@ function Header(props) {
               underline="none"
               color="inherit"
               className={classes.title}
-              href="/"
+              href="/index"
             >
               <span className="pageTitle">Pay Me Back</span>
             </Link>
