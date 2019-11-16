@@ -1,68 +1,36 @@
 import json
 
-# from django.shortcuts import render, redirect
+from django.db import DataError, IntegrityError
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse, HttpResponseBadRequest
 from django.forms.models import model_to_dict
-
 from .models import Profile
 
-# from django.contrib.auth.decorators import login_required
-
-# from django.urls.base import reverse
-
-# from django.http.response import HttpResponseRedirect
-
-# from .forms import SignUpForm, SignInForm
-
-
 def profile(request, user_pk):
-    """This is for showing or updating user's Profile
-
-    GET: get specific user
-        :param user_pk - user id
-        :return User info on JsonResponse format or HttpResponse for Error control
-
-    PUT: Change personal info
-        :param request example - {
-                                    "kakao_id": "mingkakao",
-                                    "phone": "010-1234-1234",
-                                    "bio": "hello, I am ming"
-                                 }
-        :param user_pk - user id
-        :return User info on JsonResponse format or HttpResponse for Error control
-    """
-    prof = get_object_or_404(Profile, pk=user_pk)
     if request.method == 'GET':
-        # if not request.user.is_authenticated:
-        #    return HttpResponse(status=401)
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        prof = get_object_or_404(Profile, pk=user_pk)
+
         dict_profile = model_to_dict(prof)
-        dict_profile['username'] = str(prof)
+        dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
         del dict_profile['user']
         return JsonResponse(dict_profile)
+
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
+        prof = get_object_or_404(Profile, pk=user_pk)
+
         try:
-            req_data = json.loads(request.body.decode())
-            kakao_id = "a"
-            phone = "1"
-            bio = "a"
-            if 'kakao_id' in req_data:
-                kakao_id = req_data['kakao_id']
-                setattr(prof, 'kakao_id', kakao_id)
-            if 'phone' in req_data:
-                phone = req_data['phone']
-                setattr(prof, 'phone', phone)
-            if 'bio' in req_data:
-                bio = req_data['bio']
-                setattr(prof, 'bio', bio)
-            if (not kakao_id) or (not phone) or (not bio):
-                return HttpResponseBadRequest()
+            req_data = json.loads(request.body)
+            prof.kakao_id = str(req_data['kakao_id'])
+            prof.phone = str(req_data['phone'])
+            prof.bio = str(req_data['bio'])
             if request.user.pk != prof.user_id:
                 return HttpResponse(status=403)
             prof.save()
@@ -70,9 +38,8 @@ def profile(request, user_pk):
             return JsonResponse(dict_article)
         except (KeyError, json.JSONDecodeError):
             return HttpResponseBadRequest()
-    else:
-        return HttpResponseNotAllowed(['GET', 'PUT'])
 
+    return HttpResponseNotAllowed(['GET', 'PUT'])
 
 @ensure_csrf_cookie
 def token(request):
@@ -80,129 +47,86 @@ def token(request):
         return HttpResponse(status=204)
     return HttpResponseNotAllowed(['GET'])
 
-# def signup(request):
-# if it is POST request, register a new user with the info in UserForm
-#    if request.method == "POST":
-#        form = SignUpForm(request.POST)
-#        if form.is_valid(): #and profile_form.is_valid():
-#           user = form.save()
-#            user.refresh_from_db()   # load the profile instance created
-#
-#            user.profile.kakao_id = form.cleaned_data.get('kakao_id')
-#            user.profile.phone = form.cleaned_data.get('phone')
-#            user.profile.bio = form.cleaned_data.get('bio')
-#            user.save()
-
-#            raw_password = form.cleaned_data.get('password1')
-#            user = authenticate(username=user.username, password=raw_password)
-#            login(request, user)
-
-#            messages.success(request, 'Your profile is successfully saved.')
-#            return redirect('index')
-
-#        messages.error(request, 'Please correct the error below.')
-#    else:
-#        form = SignUpForm()
-# profile_form = ProfileForm(instance=request.user.profile)
-#    return render(request, 'account/signup.html', {'form':form})
-
-
 def signup(request):
-    """
-    PUT method will be required afterward in order to update the user rating
-    (Or deal with this in another api)
-    """
     if request.method == 'POST':
-        req_data = json.loads(request.body.decode())
-        username = req_data['username']
-        password = req_data['password']
-        first_name = req_data['first_name']
-        last_name = req_data['last_name']
-        email = req_data['email']
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            first_name=first_name,
-            last_name=last_name)
-        user.refresh_from_db()  # load the profile instance created
-        user.profile.kakao_id = req_data['kakao_id']
-        user.profile.phone = req_data['phone']
-        #user.profile.bio = req_data['bio']
-        #user.profile.profile_pic = req_data['profile_pic']
+        try:
+            req_data = json.loads(request.body)
+            username = str(req_data['username'])
+            password = str(req_data['password'])
+            first_name = str(req_data['first_name'])
+            last_name = str(req_data['last_name'])
+            email = str(req_data['email'])
+            kakao_id = str(req_data['kakao_id'])
+            phone = str(req_data['kakao_id'])
+
+        except (KeyError, json.JSONDecodeError):
+            return HttpResponseBadRequest()
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name)
+        except (DataError, IntegrityError):
+            return HttpResponseBadRequest()
+
+        user.refresh_from_db() # load the profile instance created
+        user.profile.kakao_id = kakao_id
+        user.profile.phone = phone
         user.save()
 
         return HttpResponse(status=201)
 
     return HttpResponseNotAllowed(['POST'])
 
-
-# def signin(request):
-#    if request.method == "POST":
-#        form = SignInForm(request.POST)
-#        username = request.POST['username']
-#        password = request.POST['password']
-#        user = authenticate(username=username, password=password)
-#        if user is not None:
-#            login(request, user)
-#            return redirect('index')
-#        return HttpResponse('Login failed. Try again.')
-
-#    form = SignInForm()
-
-#    return render(request, 'account/signin.html', {'form': form})
-
-
 def signin(request):
     if request.method == "POST":
-        req_data = json.loads(request.body.decode())
-        username = req_data['username']
-        password = req_data['password']
+        try:
+            req_data = json.loads(request.body)
+            username = str(req_data['username'])
+            password = str(req_data['password'])
+        except (KeyError, json.JSONDecodeError):
+            return HttpResponseBadRequest()
+
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            # request was responded successfully but without any content
             return HttpResponse(status=204)
-
-        return HttpResponse(status=401)  # unauthorized
+        return HttpResponse(status=401)
 
     return HttpResponseNotAllowed(['POST'])
-
-
-# def signout(request):
-#    logout(request)
-#    return HttpResponseRedirect(reverse('index'))
 
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)
-
         return HttpResponse(status=401)
 
     return HttpResponseNotAllowed(['GET'])
 
 
 def by_name(request, username=None):
-    if request.method != 'GET':
-        return HttpResponseNotAllowed(['GET'])
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
 
-    if not request.user.is_authenticated:
-        return HttpResponse(status=401)
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return HttpResponse(status=404)
 
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return HttpResponse(status=404)
+        return JsonResponse({'id': user.id})
 
-    return JsonResponse({'id': user.id})
+    return HttpResponseNotAllowed(['GET'])
 
 def profile_me(request):
-    if request.method != 'GET':
-        return HttpResponseNotAllowed(['GET'])
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
 
-    if not request.user.is_authenticated:
-        return HttpResponse(status=401)
+        return profile(request, user_pk=request.user.id)
 
-    return profile(request, user_pk=request.user.id)
+    return HttpResponseNotAllowed(['GET'])
