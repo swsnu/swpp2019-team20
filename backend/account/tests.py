@@ -108,6 +108,25 @@ class AccountTestCase(TestCase):
         response = client.delete('/account/signout')
         self.assertEqual(response.status_code, 405)     # Request not allowed
 
+    def test_user_login(self):
+        client = Client()
+        User.objects.create_user(username='chris', password='chris')
+
+        response = client.get('/account/user')
+        self.assertEqual(response.status_code, 401)
+
+        # Succesful request
+        response = client.post('/account/signin',
+                               json.dumps({'username': 'chris', 'password': 'chris'}),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
+        response = client.get('/account/user')
+        self.assertEqual(response.status_code, 204)
+
+        response = client.delete('/account/user')
+        self.assertEqual(response.status_code, 405)     # Request not allowed
+
 
 class ProfileTest(TestCase):
     def setUp(self):

@@ -1,6 +1,5 @@
 import React from 'react';
-import Base from '../../components/Base/Base';
 
-const IndexPage = () => <Base input={<div>Sign In Page</div>} />;
+const IndexPage = () => <div>Index Page</div>;
 
 export default IndexPage;
