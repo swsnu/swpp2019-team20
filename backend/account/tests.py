@@ -6,27 +6,6 @@ from .models import Profile
 
 # Create your tests here.
 class AccountTestCase(TestCase):
-    '''
-    def signup(request):
-        if request.method == 'POST':
-            req_data = json.loads(request.body.decode())
-            username = req_data['username']
-            password = req_data['password']
-            email = req_data['email']
-            user = User.objects.create_user(username, password, email)
-            user.refresh_from_db()   # load the profile instance created
-            user.profile.kakao_id = req_data['kakao_id']
-            user.profile.phone = req_data['phone']
-            user.profile.bio = req_data['bio']
-            user.profile.profile_pic = req
-            user.save()
-
-            return HttpResponse(status=201)
-
-        else:
-            return HttpResponseNotAllowed(['POST'])
-    '''
-
     def test_csrf(self):
         # By default, csrf checks are disabled in test client
         # To test csrf protection we enforce csrf checks here
@@ -55,25 +34,48 @@ class AccountTestCase(TestCase):
         csrftoken = response.cookies['csrftoken'].value  # Get csrf token from cookie
 
         # sinup with csrf token
-        response = client.post('/account/signup',
-                               json.dumps({'username': 'user',
-                                           'password': 'user_password',
-                                           'email': 'user@snu.ac.kr',
-                                           'kakao_id':'user',
-                                           'phone':'010-1234-5678',
-                                           'bio':'Hi. I am user1',
-                                           'profile_pic':'/profile/pic/location.jpg'}),
-                               content_type='application/json',
-                               HTTP_X_CSRFTOKEN=csrftoken)
-        self.assertEqual(response.status_code, 201)  # Pass csrf protection
+        response = client.post('/account/signup', {},
+                               HTTP_X_CSRFTOKEN=csrftoken,
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 400)  # Pass csrf protection, but invalid data
+
+    def test_signup(self):
+        client = Client()
 
         # get is not allowed request method
         response = client.get('/account/signup')
         self.assertEqual(response.status_code, 405)     # Request not allowed
 
+        # invalid data
+        response = client.post('/account/signup', {}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+        signup_data = {
+            'username': 'user',
+            'password': 'user_password',
+            'first_name': 'Firstname',
+            'last_name': 'Lastname',
+            'email': 'user@snu.ac.kr',
+            'kakao_id':'user',
+            'phone':'010-1234-5678',
+            'bio':'Hi. I am user1',
+            'profile_pic':'/profile/pic/location.jpg',
+        }
+
+        # valid user
+        response = client.post('/account/signup', signup_data, content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+        # duplicate user
+        response = client.post('/account/signup', signup_data, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
     def test_signin(self):
         client = Client()
         User.objects.create_user(username='chris', password='chris')
+
+        response = client.post('/account/signin', {}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
 
         # Succesful request
         response = client.post('/account/signin',
@@ -108,6 +110,25 @@ class AccountTestCase(TestCase):
         response = client.delete('/account/signout')
         self.assertEqual(response.status_code, 405)     # Request not allowed
 
+    def test_by_name(self):
+        client = Client()
+        user = User.objects.create_user(username='chris', password='chris')
+
+        response = client.post('/account/by-name/chris', {}, content_type='application/json')
+        self.assertEqual(response.status_code, 405)
+
+        response = client.get('/account/by-name/chris')
+        self.assertEqual(response.status_code, 401)
+
+        client.login(username='chris', password='chris')
+
+        response = client.get('/account/by-name/notexisting')
+        self.assertEqual(response.status_code, 404)
+
+        response = client.get('/account/by-name/chris')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'id': user.id})
+
     def test_user_login(self):
         client = Client()
         User.objects.create_user(username='chris', password='chris')
@@ -126,7 +147,6 @@ class AccountTestCase(TestCase):
 
         response = client.delete('/account/user')
         self.assertEqual(response.status_code, 405)     # Request not allowed
-
 
 class ProfileTest(TestCase):
     def setUp(self):
@@ -176,19 +196,17 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 400)
 
         # make valid data
-        valid_data = list()
-        valid_data.append({'kakao_id': 'newkaka'})
-        valid_data.append({'kakao_id': 'newkaka', 'phone': '010-2222-2222'})
-        valid_data.append({'kakao_id': 'newkaka',
-                           'phone': '010-2222-2222',
-                           'bio': "hello, I am bill"})
+        valid_data = {
+            'kakao_id': 'newkaka',
+            'phone': '010-2222-2222',
+            'bio': "hello, I am bill",
+        }
 
         # test - valid data
-        for valid_datum in valid_data:
-            response = self.client.put('/account/user/1',
-                                       valid_datum,
-                                       content_type='application/json')
-            self.assertEqual(response.status_code, 200)
+        response = self.client.put('/account/user/1',
+                                   valid_data,
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 200)
 
         # make invalid data
         invalid_data = list()
@@ -204,8 +222,27 @@ class ProfileTest(TestCase):
             self.assertEqual(response.status_code, 400)
 
         # test - other user's profile
-        for valid_datum in valid_data:
-            response = self.client.put('/account/user/2',
-                                       valid_datum,
-                                       content_type='application/json')
-            self.assertEqual(response.status_code, 403)
+        response = self.client.put('/account/user/2',
+                                   valid_data,
+                                   content_type='application/json')
+        self.assertEqual(response.status_code, 403)
+
+    def test_profile_me(self):
+        client = Client()
+
+        response = client.post('/account/user/me', {}, content_type='application/json')
+        self.assertEqual(response.status_code, 405)
+
+        response = client.get('/account/user/me')
+        self.assertEqual(response.status_code, 401)
+
+        user = User.objects.get(username='bill')
+        client.login(username=user.username, password='evans')
+
+        response1 = client.get('/account/user/me')
+        self.assertEqual(response1.status_code, 200)
+
+        response2 = client.get(f'/account/user/{user.id}')
+        self.assertEqual(response2.status_code, 200)
+
+        self.assertEqual(response1.json(), response2.json())
