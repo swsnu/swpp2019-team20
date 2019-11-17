@@ -53,7 +53,6 @@ function App() {
         exact
         component={IndexPage}
       />
-      <Route render={() => <h1>Not Found</h1>} />
     </Switch>
   ) : (
     <Switch>
