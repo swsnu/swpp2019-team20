@@ -7,9 +7,21 @@ import { AppContext } from '../../../App';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Header', () => {
+  // eslint-disable-next-line
+  let onLogoutSpy;
   const setState = jest.fn();
   const useStateSpy = jest.spyOn(React, 'useState');
   useStateSpy.mockImplementation((init) => [init, setState]);
+
+  beforeEach(() => {
+    onLogoutSpy = jest.spyOn(window, 'fetch')
+      .mockImplementation(() => {
+        const result = {
+          status: 201,
+        };
+        return Promise.resolve(result);
+      });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -48,5 +60,9 @@ describe('Header', () => {
     );
 
     expect(element.length).toBe(1);
+    const signOutButtonWrapper = element.find('#signOutButton a');
+    expect(signOutButtonWrapper.length).toBe(1);
+
+    signOutButtonWrapper.simulate('click');
   });
 });
