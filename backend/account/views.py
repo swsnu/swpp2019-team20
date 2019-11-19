@@ -57,7 +57,7 @@ def signup(request):
             last_name = str(req_data['last_name'])
             email = str(req_data['email'])
             kakao_id = str(req_data['kakao_id'])
-            phone = str(req_data['kakao_id'])
+            phone = str(req_data['phone'])
 
         except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
