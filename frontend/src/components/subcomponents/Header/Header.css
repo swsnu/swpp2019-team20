@@ -1,6 +1,10 @@
 .logoContainer {
-    width: 80px;
+  width: 80px;
 }
 .logoContainer .logo {
-    width: 100%;
+  width: 100%;
+}
+
+.MuiPaper-root.MuiPaper-elevation0.MuiDrawer-paper.makeStyles-drawerPaper-314.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft {
+  padding: 20px;
 }

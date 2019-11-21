@@ -1,26 +1,31 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
 import Link from '@material-ui/core/Link';
-import AppBar from '../AppBar';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
 import { AppContext } from '../../../App';
 import './Header.css';
 import logo from './logo.png';
+import './Header.css';
 
-const styles = (theme) => ({
+
+const drawerWidth = 430;
+
+const useStyles = makeStyles(theme => ({
   title: {
     fontSize: 24,
   },
   placeholder: toolbarStyles(theme).root,
   toolbar: {
     justifyContent: 'space-between',
-  },
-  left: {
-  },
-  leftLinkActive: {
-    color: theme.palette.common.white,
   },
   right: {
     flex: 1,
@@ -35,11 +40,74 @@ const styles = (theme) => ({
   linkSecondary: {
     color: theme.palette.secondary.main,
   },
-});
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+}));
 
-function Header(props) {
+export default function Header({ children }) {
   const { user } = useContext(AppContext);
-  const { classes } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const onLogout = async () => {
     await fetch('/account/signout', {
@@ -98,11 +166,25 @@ function Header(props) {
 
 
   return (
-    <div>
-      <AppBar position="fixed">
+    <div className={classes.root}>
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
         <Toolbar className={classes.toolbar}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
           <span className="logoContainer">
-            <a href="/index">
+            <a href="/">
               <img className="logo" src={logo} alt="logo" />
             </a>
           </span>
@@ -112,7 +194,7 @@ function Header(props) {
               underline="none"
               color="inherit"
               className={classes.title}
-              href="/index"
+              href="/"
             >
               <span className="pageTitle">Pay Me Back</span>
             </Link>
@@ -123,10 +205,36 @@ function Header(props) {
           </div>
         </Toolbar>
       </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+        <h3>Who Are You Looking For?</h3>
+        <Divider />
+        <div className="searchBarContainer">
+          {children}
+        </div>
+      </Drawer>
       <div className={classes.placeholder} />
     </div>
   );
 }
+
+const styleLink = document.createElement("link");
+styleLink.rel = "stylesheet";
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+document.head.appendChild(styleLink);
 
 Header.propTypes = {
   classes: PropTypes.object,
@@ -134,5 +242,3 @@ Header.propTypes = {
 Header.defaultProps = {
   classes: {},
 };
-
-export default withStyles(styles)(Header);
