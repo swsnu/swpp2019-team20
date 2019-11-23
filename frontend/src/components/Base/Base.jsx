@@ -8,9 +8,8 @@ import SearchBar from '../subcomponents/SearchBar/SearchBar';
 
 
 function Base(Component) {
-  const setUser = () => 'user';
-
   function BaseBase(props) {
+    const setUser = () => 'user';
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />

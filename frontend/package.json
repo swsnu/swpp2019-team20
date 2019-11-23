@@ -73,7 +73,8 @@
       "!src/serviceWorker.js",
       "src/**/*.{js,jsx}",
       "!src/setupProxy.js",
-      "!src/utils.js"
+      "!src/utils.js",
+      "!src/components/Base/*"
     ]
   }
 }
