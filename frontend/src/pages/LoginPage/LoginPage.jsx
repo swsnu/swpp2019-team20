@@ -102,15 +102,17 @@ function LoginPage() {
                   margin="normal"
                 />
               </div>
-              <FormButton
-                className={classes.button}
-                disabled={submitting}
-                size="large"
-                color="secondary"
-                fullWidth
-              >
-                Sign In
-              </FormButton>
+              <div id="login-submit-button">
+                <FormButton
+                  className={classes.button}
+                  disabled={submitting}
+                  size="large"
+                  color="secondary"
+                  fullWidth
+                >
+                  Sign In
+                </FormButton>
+              </div>
             </form>
           )}
         </Form>

@@ -13,12 +13,13 @@ class SearchBar extends Component {
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
-    this.onResultSelect = this.onResultSelect.bind(this);
+    //this.onResultSelect = this.onResultSelect.bind(this);
   }
 
-  onResultSelect(e, { result }) {
+  /*onResultSelect(e, { result }) {
+    console.log("called!!");
     this.props.setUser(result.content);
-  }
+  }*/
 
   onSearchChange(e, { value }) {
     this.setState({
@@ -30,21 +31,20 @@ class SearchBar extends Component {
 
     setTimeout(async () => {
       // simple debouncing
-      if (this.state.username !== value) {
+      /*if (this.state.username !== value) {
         return;
-      }
+      }*/
 
       const idResponse = await fetch(`/account/by-name/${this.state.username}`);
       if (idResponse.status !== 200) {
-        if (this.state.username === value) {
-          this.setState({ isLoading: false });
-        }
+        this.setState({ isLoading: false });
         // TODO: report error to user
         return;
       }
       const { id: userId } = await idResponse.json();
 
-      const profileResponse = await fetch(`/account/user/${userId}`);
+      /*const profileResponse = await fetch(`/account/user/${userId}`);
+      console.log(profileResponse);
       if (profileResponse.status !== 200) {
         if (this.state.username === value) {
           this.setState({ isLoading: false });
@@ -55,21 +55,19 @@ class SearchBar extends Component {
       const user = await profileResponse.json();
 
       // it may all have been for naught
-      if (this.state.username !== value) {
+      /*if (this.state.username !== value) {
         return;
-      }
+      }*/
 
-      this.setState(
-        (state) => ({
-          isLoading: false,
-          results: [{
-            id: userId,
-            title: state.username,
-            content: user,
-            // TODO: display other user attributes
-          }],
-        }),
-      );
+      this.setState((state) => ({
+        isLoading: false,
+        results: [{
+          id: userId,
+          title: state.username,
+          //content: user,
+          // TODO: display other user attributes
+        }],
+        }),);
     }, 300);
   }
 
@@ -77,13 +75,15 @@ class SearchBar extends Component {
     return (
       <Grid>
         <Grid.Column width={8}>
-          <Search
-            loading={this.state.isLoading}
-            onResultSelect={this.onResultSelect}
-            onSearchChange={this.onSearchChange}
-            results={this.state.results}
-            value={this.state.username}
-          />
+          <div id="search-bar">
+            <Search
+              loading={this.state.isLoading}
+              //onResultSelect={this.onResultSelect}
+              onSearchChange={this.onSearchChange}
+              results={this.state.results}
+              value={this.state.username}
+            />
+          </div>
         </Grid.Column>
       </Grid>
     );

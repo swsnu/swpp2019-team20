@@ -80,7 +80,7 @@ describe('LoginPage', () => {
     expect(usernameInputWrapper.length).toBe(1);
     expect(passwordInputWrapper.length).toBe(1);
 
-    const submitButton = component.find('button');
+    const submitButton = component.find('#login-submit-button button');
     expect(submitButton.length).toBe(1);
 
     submitButton.simulate('submit');
@@ -93,7 +93,7 @@ describe('LoginPage', () => {
     expect(usernameInputWrapper.length).toBe(1);
     expect(passwordInputWrapper.length).toBe(1);
 
-    const submitButton = component.find('button');
+    const submitButton = component.find('#login-submit-button button');
     expect(submitButton.length).toBe(1);
 
     submitButton.simulate('submit');

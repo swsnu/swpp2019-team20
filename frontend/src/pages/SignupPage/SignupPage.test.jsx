@@ -91,7 +91,7 @@ describe('SignUpPage', () => {
     expect(kakaoidInputWrapper.length).toBe(1);
     expect(phoneInputWrapper.length).toBe(1);
 
-    const submitButton = component.find('button');
+    const submitButton = component.find('#signup-submit-button button');
     expect(submitButton.length).toBe(1);
 
     submitButton.simulate('submit');
@@ -115,7 +115,7 @@ describe('SignUpPage', () => {
     expect(kakaoidInputWrapper.length).toBe(1);
     expect(phoneInputWrapper.length).toBe(1);
 
-    const submitButton = component.find('button');
+    const submitButton = component.find('#signup-submit-button button');
     expect(submitButton.length).toBe(1);
 
     submitButton.simulate('submit');

@@ -1,5 +1,5 @@
 import React from 'react';
-import Enzyme, { shallow, mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Header from './Header';
 import { AppContext } from '../../../App';
@@ -28,7 +28,16 @@ describe('Header', () => {
   });
 
   test('renders without errors', () => {
-    const component = shallow(<Header />);
+    const [user] = useStateSpy({
+      loggedIn: false,
+      username: '',
+    });
+
+    const component = mount(
+      <AppContext.Provider value={{ user }}>
+        <Header />
+      </AppContext.Provider>
+    );
     expect(component.length).toBe(1);
   });
 
@@ -64,5 +73,29 @@ describe('Header', () => {
     expect(signOutButtonWrapper.length).toBe(1);
 
     signOutButtonWrapper.simulate('click');
+  });
+
+  test('click navigation icon', () => {
+    const [user] = useStateSpy({
+      loggedIn: true,
+      username: '',
+    });
+
+    const element = mount(
+      <AppContext.Provider value={{ user }}>
+        <Header />
+      </AppContext.Provider>,
+    );
+    expect(element.length).toBe(1);
+
+    const navIconButton = element.find('#nav-icon button');
+    expect(navIconButton.length).toBe(1);
+
+    navIconButton.simulate('click');
+
+    const closeDrawerButton = element.find('.MuiDrawer-root .MuiPaper-root .makeStyles-drawerHeader-14 button');
+    expect(closeDrawerButton);
+
+    closeDrawerButton.simulate('click');
   });
 });
