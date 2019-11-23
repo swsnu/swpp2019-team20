@@ -68,8 +68,8 @@ const CreateLoan = () => {
   const [deadline, setDeadline] = useState(new Date());
   const [interestValid, setInterestValid] = useState(false);
   const [interestRate, setInterestRate] = useState(0);
-  const [interestType, setInterestType] = useState('');
-  const [alertFrequency, setAlertFrequency] = useState('');
+  const [interestType, setInterestType] = useState('day');
+  const [alertFrequency, setAlertFrequency] = useState('medium');
 
   /*----------------------------------------*/
   /* used for sending query */
@@ -95,7 +95,7 @@ const CreateLoan = () => {
     });
 
     if (response.status === 201) {
-      // window.alert("success");
+      // window.alert('success');
       history.push('/index');
       history.push('/main');
     } else {
@@ -130,14 +130,15 @@ const CreateLoan = () => {
       },
     ]);
   };
+
   /*
-  ** related to user id **
-  const change_user_id = (index, id) => {
+  const changeUserId = (index, id) => {
     let new_participants = [...participants];
     new_participants[index].id = id;
     setParticipants(new_participants);
   }
   */
+
 
   const changeUserMoney = (index, money) => {
     const newParticipants = [...participants];
@@ -149,42 +150,45 @@ const CreateLoan = () => {
   /* show participants list */
 
   const participantsList = participants.map(
-    (participant, index) => (
-      /*
-      ** related to user id **
+    (participant, index) =>
+    /*
       const setUser = (user) => {
+        console.log('called');
         if (user !== null) {
-          //console.log('got user (user id: ' + user.id + ')');
-          change_user_id(index, user.id);
+          console.log('got user (user id: ' + user.id + ')');
+          changeUserId(index, user.id);
+        } else {
+          console.log("null");
         }
       }
-      (
       */
-      <div key={participant.id}>
-        <h3>id: </h3>
-        {/*
-            ** related to user id **
-            <SearchBar setUser={setUser} />
-          */}
 
-        <h3>paid money: </h3>
-        <form className={classes.container} noValidate autoComplete="off">
-          <TextField
-            id="paid-money"
-            label="paid money"
-            type="number"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-            value={participant.paid_money}
-            onChange={(e) => changeUserMoney(index, e.target.value)}
-          />
-        </form>
-      </div>
-    )
-    ,
+      // erase disable line after fixing!!!
+      // eslint-disable-next-line
+      (
+        <div key={participant.id}>
+          <h3>id: </h3>
+          {/* <SearchBar setUser={setUser} /> */}
+
+
+          <h3>paid money: </h3>
+          <form className={classes.container} noValidate autoComplete="off">
+            <TextField
+              id="paid-money"
+              label="paid money"
+              type="number"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              margin="normal"
+              value={participant.paid_money}
+              onChange={(e) => changeUserMoney(index, e.target.value)}
+            />
+          </form>
+        </div>
+      ),
+
   );
 
   /*----------------------------------------*/
@@ -262,11 +266,11 @@ const CreateLoan = () => {
             className={classes.selectEmpty}
             disabled={!interestValid}
           >
-            <div id="hour"><MenuItem value="hour">hour</MenuItem></div>
-            <div id="day"><MenuItem value="day">day</MenuItem></div>
-            <div id="week"><MenuItem value="week">week</MenuItem></div>
-            <div id="month"><MenuItem value="month">month</MenuItem></div>
-            <div id="year"><MenuItem value="year">year</MenuItem></div>
+            <MenuItem value="hour">hour</MenuItem>
+            <MenuItem value="day">day</MenuItem>
+            <MenuItem value="week">week</MenuItem>
+            <MenuItem value="month">month</MenuItem>
+            <MenuItem value="year">year</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -285,11 +289,11 @@ const CreateLoan = () => {
             onChange={(event) => setAlertFrequency(event.target.value)}
             labelWidth={labelWidth}
           >
-            <div id="very-low"><MenuItem value="very low">very low</MenuItem></div>
-            <div id="low"><MenuItem value="low">low</MenuItem></div>
-            <div id="medium"><MenuItem value="medium">medium</MenuItem></div>
-            <div id="high"><MenuItem value="high">high</MenuItem></div>
-            <div id="very-high"><MenuItem value="very high">very high</MenuItem></div>
+            <MenuItem value="very low">very low</MenuItem>
+            <MenuItem value="low">low</MenuItem>
+            <MenuItem value="medium">medium</MenuItem>
+            <MenuItem value="high">high</MenuItem>
+            <MenuItem value="very high">very high</MenuItem>
           </Select>
         </FormControl>
       </div>
