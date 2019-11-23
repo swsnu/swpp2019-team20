@@ -18,6 +18,8 @@ function App() {
     username: '',
   });
 
+  console.log(user);
+
   function onLoggedIn() {
     setUser({ loggedIn: true, username: '' });
   }
@@ -39,27 +41,16 @@ function App() {
 
   const router = user.loggedIn ? (
     <Switch>
-      <Redirect exact from="/" to="/index" />
-      <Route
-        path="/signup"
-        exact
-        component={SignupPage}
-      />
-      <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
       <Route path="/main" exact component={MainPage} />
-      <Route
-        path="/index"
-        exact
-        component={IndexPage}
-      />
+      <Route exact path="/" exact component={MainPage} />
     </Switch>
   ) : (
     <Switch>
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />
-      <Redirect from="/" to="/signin" />
+      <Route exact path="/" exact component={IndexPage} />
     </Switch>
   );
 
