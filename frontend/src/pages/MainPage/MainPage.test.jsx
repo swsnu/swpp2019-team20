@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { AppContext } from '../../App';
 import MainPage from './MainPage';
 
@@ -23,7 +23,7 @@ describe('MainPage', () => {
     mainpage = (
       <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
         <BrowserRouter>
-          <Route path="/signin" exact component={MainPage} />
+          <MainPage />
         </BrowserRouter>
       </AppContext.Provider>
     );

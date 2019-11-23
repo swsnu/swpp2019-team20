@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import {
-  BrowserRouter, Route, Redirect, Switch,
+  BrowserRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
@@ -62,6 +62,7 @@ function App() {
       <Redirect from="/" to="/signin" />
     </Switch>
   );
+
   return (
     <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>

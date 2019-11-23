@@ -53,7 +53,7 @@ function LoginPage() {
 
     if (response.status === 204) {
       onLoggedIn();
-      history.push('/index');
+      history.push('/main');
     }
   };
 
