@@ -41,6 +41,13 @@ function Header(props) {
   const { user } = useContext(AppContext);
   const { classes } = props;
 
+  const onLogout = async () => {
+    await fetch('/account/signout', {
+      method: 'GET',
+      credentials: 'include',
+    });
+  };
+
   let label1 = (
     <Link
       color="inherit"
@@ -64,15 +71,18 @@ function Header(props) {
   );
   if (user.loggedIn) {
     label1 = (
-      <Link
-        color="inherit"
-        variant="h6"
-        underline="none"
-        className={classes.rightLink}
-        href="/signin/"
-      >
-        Sign Out
-      </Link>
+      <div id="signOutButton">
+        <Link
+          color="inherit"
+          variant="h6"
+          underline="none"
+          className={classes.rightLink}
+          href="/index/"
+          onClick={onLogout}
+        >
+          Sign Out
+        </Link>
+      </div>
     );
     label2 = (
       <Link
