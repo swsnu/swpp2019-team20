@@ -10,11 +10,11 @@ const Profile = () => {
     const res = await fetch(targetUrl, {
       method: 'GET',
       credential: 'include',
-    })
+    });
     const info = await res.json();
     setUserInfo(info);
     setLoading(false);
-  }
+  };
 
   useEffect(() => {
     fetchProfile();

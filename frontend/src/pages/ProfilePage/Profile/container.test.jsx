@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme'
-import Profile from './container'
+import { mount, shallow } from 'enzyme';
+import Profile from './container';
 
 describe('Profile', () => {
   const request = (
@@ -11,7 +11,7 @@ describe('Profile', () => {
       username: 'ming',
       id: 1,
     }
-  )
+  );
   test('renders without errors', () => {
     const component = shallow(<Profile />);
     expect(component.length).toEqual(1);

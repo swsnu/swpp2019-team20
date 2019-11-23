@@ -12,6 +12,6 @@ const ProfilePage = () => {
     </>
   );
   return render;
-}
+};
 
 export default Base(ProfilePage);

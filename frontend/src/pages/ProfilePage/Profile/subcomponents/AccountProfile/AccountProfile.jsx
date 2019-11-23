@@ -30,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 0,
   },
   progress: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   uploadButton: {
-    marginRight: theme.spacing(2)
-  }
+    marginRight: theme.spacing(2),
+  },
 }));
 
 const AccountProfile = (props) => {
@@ -43,7 +43,7 @@ const AccountProfile = (props) => {
   const classes = useStyles();
 
   const user = {
-    avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg'
+    avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
 
   const {

@@ -61,7 +61,7 @@ const Presenter = (props) => {
       </Completedloans>
     </Grid>
   );
-}
+};
 
 Presenter.propTypes = {
   loanlist: PropTypes.string.isRequired,

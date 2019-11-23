@@ -17,7 +17,7 @@ describe('AccountProfile', () => {
     <AccountProfile>
       {props}
     </AccountProfile>
-  )
+  );
   test('renders without errors', () => {
     const component = shallow(accountProfile);
     expect(component.length).toEqual(1);

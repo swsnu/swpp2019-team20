@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import {
-  BrowserRouter, Route, Redirect, Switch,
+  BrowserRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
@@ -37,22 +37,32 @@ function App() {
     getLogin();
   }, []);
 
-  console.log(user.loggedIn)
-
   const router = user.loggedIn ? (
     <Switch>
+      <Redirect exact from="/" to="/index" />
+      <Route
+        path="/signup"
+        exact
+        component={SignupPage}
+      />
+      <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
       <Route path="/main" exact component={MainPage} />
-      <Route exact path="/" component={MainPage} />
+      <Route
+        path="/index"
+        exact
+        component={IndexPage}
+      />
     </Switch>
   ) : (
     <Switch>
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />
-      <Route exact path="/" component={IndexPage} />
+      <Redirect from="/" to="/signin" />
     </Switch>
   );
+
   return (
     <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>
