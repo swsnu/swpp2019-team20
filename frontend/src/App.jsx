@@ -37,29 +37,20 @@ function App() {
     getLogin();
   }, []);
 
+  console.log(user.loggedIn)
+
   const router = user.loggedIn ? (
     <Switch>
-      <Redirect exact from="/" to="/index" />
-      <Route
-        path="/signup"
-        exact
-        component={SignupPage}
-      />
-      <Route path="/signin" exact component={LoginPage} />
       <Route path="/profile" exact component={ProfilePage} />
       <Route path="/main" exact component={MainPage} />
-      <Route
-        path="/index"
-        exact
-        component={IndexPage}
-      />
+      <Route exact path="/" component={MainPage} />
     </Switch>
   ) : (
     <Switch>
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />
-      <Redirect from="/" to="/signin" />
+      <Route exact path="/" component={IndexPage} />
     </Switch>
   );
   return (

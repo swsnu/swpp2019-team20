@@ -23,7 +23,7 @@ describe('MainPage', () => {
     mainpage = (
       <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
         <BrowserRouter>
-          <Route path="/signin" exact component={MainPage} />
+          <MainPage />
         </BrowserRouter>
       </AppContext.Provider>
     );
