@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Link from '@material-ui/core/Link';
@@ -11,14 +10,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Toolbar, { styles as toolbarStyles } from '../ToolBar';
 import { AppContext } from '../../../App';
-import './Header.css';
 import logo from './logo.png';
 import './Header.css';
 
 
 const drawerWidth = 430;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 24,
   },
@@ -94,10 +92,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// eslint-disable-next-line
 export default function Header({ children }) {
   const { user } = useContext(AppContext);
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -232,14 +230,7 @@ export default function Header({ children }) {
   );
 }
 
-const styleLink = document.createElement("link");
-styleLink.rel = "stylesheet";
-styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+const styleLink = document.createElement('link');
+styleLink.rel = 'stylesheet';
+styleLink.href = 'https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css';
 document.head.appendChild(styleLink);
-
-Header.propTypes = {
-  classes: PropTypes.object,
-};
-Header.defaultProps = {
-  classes: {},
-};

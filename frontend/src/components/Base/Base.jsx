@@ -8,9 +8,7 @@ import SearchBar from '../subcomponents/SearchBar/SearchBar';
 
 
 function Base(Component) {
-  const setUser = () => {
-    return 'user';
-  }
+  const setUser = () => 'user';
 
   function BaseBase(props) {
     return (

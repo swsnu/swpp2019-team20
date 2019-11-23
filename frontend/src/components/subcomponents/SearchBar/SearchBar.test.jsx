@@ -36,8 +36,8 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    //const mockData = { id: 1 }
-    fetchMock.mock('/account/by-name/username', {status: 200, id: 1});
+    // const mockData = { id: 1 }
+    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
     fetchMock.mock('/account/user/1', 200);
 
     const component = mount(searchBar);
@@ -63,7 +63,7 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', {status: 200, id: 1});
+    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
     fetchMock.mock('/account/user/1', 200);
 
     const component = mount(searchBar);
@@ -71,7 +71,7 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', {status: 200, id: 1});
+    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
     fetchMock.mock('/account/user/1', 200);
 
     const component = mount(searchBar);
@@ -80,7 +80,7 @@ describe('<SearchBar />', () => {
 
     searchInput.simulate('change', { target: { value: 'username' } });
 
-    //expect(setTimeout).toHaveBeenCalledTimes(1);
+    // expect(setTimeout).toHaveBeenCalledTimes(1);
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
 
     jest.useFakeTimers();
@@ -112,7 +112,7 @@ describe('<SearchBar />', () => {
 
   test('renders without errors', () => {
     fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { status: 200, body: {id: 1, username: 'username'}});
+    fetchMock.mock('/account/user/1', { status: 200, body: { id: 1, username: 'username' } });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
@@ -124,7 +124,7 @@ describe('<SearchBar />', () => {
     jest.useFakeTimers();
     setTimeout(() => {
       searchInput.simulate('keydown', { preventDefault() { }, keyCode: 40, which: 40 });
-      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 })
+      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 });
     }, 1000);
     jest.runAllTimers();
   });
@@ -143,7 +143,7 @@ describe('<SearchBar />', () => {
     jest.useFakeTimers();
     setTimeout(() => {
       searchInput.simulate('keydown', { preventDefault() { }, keyCode: 40, which: 40 });
-      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 })
+      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 });
     }, 1000);
     jest.runAllTimers();
   });
@@ -162,7 +162,7 @@ describe('<SearchBar />', () => {
     jest.useFakeTimers();
     setTimeout(() => {
       searchInput.simulate('keydown', { preventDefault() { }, keyCode: 40, which: 40 });
-      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 })
+      searchInput.simulate('keydown', { preventDefault() { }, keyCode: 13, which: 13 });
     }, 1000);
     jest.runAllTimers();
   });

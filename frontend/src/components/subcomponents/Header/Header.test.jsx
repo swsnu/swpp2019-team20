@@ -36,7 +36,7 @@ describe('Header', () => {
     const component = mount(
       <AppContext.Provider value={{ user }}>
         <Header />
-      </AppContext.Provider>
+      </AppContext.Provider>,
     );
     expect(component.length).toBe(1);
   });
