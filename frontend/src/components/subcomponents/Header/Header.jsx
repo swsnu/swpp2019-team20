@@ -161,7 +161,6 @@ export default function Header({ children }) {
     );
   }
 
-
   return (
     <div className={classes.root}>
       <AppBar
