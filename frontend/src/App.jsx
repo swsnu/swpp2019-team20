@@ -1,7 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import {
-  BrowserRouter, Route, Switch, Redirect,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -17,8 +15,6 @@ function App() {
     loggedIn: false,
     username: '',
   });
-
-  console.log(user);
 
   function onLoggedIn() {
     setUser({ loggedIn: true, username: '' });
@@ -43,6 +39,7 @@ function App() {
     <Switch>
       <Route path="/profile" exact component={ProfilePage} />
       <Route path="/main" exact component={MainPage} />
+      {/* eslint-disable-next-line */}
       <Route exact path="/" exact component={MainPage} />
     </Switch>
   ) : (
@@ -50,6 +47,7 @@ function App() {
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />
+      {/* eslint-disable-next-line */}
       <Route exact path="/" exact component={IndexPage} />
     </Switch>
   );

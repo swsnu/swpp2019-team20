@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import App, { AppContext } from '../../App';
 import LoginPage from './LoginPage';
@@ -85,7 +85,6 @@ describe('LoginPage', () => {
 
     submitButton.simulate('submit');
   });
-
 
 
   test('fetch success', () => {
