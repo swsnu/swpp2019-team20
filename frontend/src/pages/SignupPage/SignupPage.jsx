@@ -156,14 +156,16 @@ const SignUpPage = () => {
                   required
                 />
               </div>
-              <FormButton
-                className={classes.button}
-                disabled={submitting}
-                color="secondary"
-                fullWidth
-              >
-                Sign Up
-              </FormButton>
+              <div id="signup-submit-button">
+                <FormButton
+                  className={classes.button}
+                  disabled={submitting}
+                  color="secondary"
+                  fullWidth
+                >
+                  Sign Up
+                </FormButton>
+              </div>
               <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
           )}

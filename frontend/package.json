@@ -16,6 +16,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.4.3",
+    "fetch-mock": "^8.0.0",
     "final-form": "^4.18.5",
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
@@ -73,7 +74,8 @@
       "!src/serviceWorker.js",
       "src/**/*.{js,jsx}",
       "!src/setupProxy.js",
-      "!src/utils.js"
+      "!src/utils.js",
+      "!src/components/Base/*"
     ]
   }
 }
