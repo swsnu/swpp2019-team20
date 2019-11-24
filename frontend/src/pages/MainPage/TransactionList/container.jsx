@@ -6,6 +6,7 @@ const TransactionList = (props) => {
   const { loan } = props;
   const [TxList, setTxList] = useState([]);
   const [currTxId, setCurrTxId] = useState(1);
+  const [isBtnDisabled, setBtnDisabled] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const TransactionList = (props) => {
     fetchTransactionList();
   }, [isLoading]);
 
-  const onSubmit = async (id) => {
+  const confirm = async (id) => {
     setCurrTxId(id);
     await fetch('/account/token', {
       method: 'GET',
@@ -43,16 +44,19 @@ const TransactionList = (props) => {
       body: JSON.stringify(content), // body data type must match "Content-Type" header
     });
 
-    alert(response.status)
     if (response.status === 403) {
-      alert('you are not participant of this tx');
+      alert('you are not participant of this tx or already confirm');
+      setBtnDisabled(true);ㅎ
     }
-    else alert('confirm!');
+    else if (response.status === 200) {
+      alert('confirm! :D');
+      setBtnDisabled(true);
+    }
     setLoading(true);
   };
 
   const render = (
-    <Table TxList={TxList} onClickBtn={onSubmit}/>
+    <Table TxList={TxList} onClickBtn={confirm} isBtnDisabled={isBtnDisabled}/>
   );
   return render;
 };

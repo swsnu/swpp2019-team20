@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LatestOrders = (props) => {
-  const { className, TxList, onClickBtn, ...rest } = props;
+  const { className, TxList, onClickBtn, isBtnDisabled, ...rest } = props;
 
   const classes = useStyles();
 
@@ -80,7 +80,7 @@ const LatestOrders = (props) => {
                       }
                     </TableCell>
                     <TableCell>
-                      <button onClick={() => onClickBtn(tx.id)}>OK</button>
+                      <button onClick={() => onClickBtn(tx.id)} disabled={isBtnDisabled}>OK</button>
                       </TableCell>
                   </TableRow>
                 ))}
