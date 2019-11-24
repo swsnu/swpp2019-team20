@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import App, { AppContext } from '../../App';
 import LoginPage from './LoginPage';
@@ -14,7 +14,7 @@ describe('LoginPage', () => {
 
   beforeEach(() => {
     const [user, setUser] = useStateSpy({
-      loggedIn: true,
+      loggedIn: false,
       username: '',
     });
 
@@ -25,7 +25,7 @@ describe('LoginPage', () => {
     login = (
       <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
         <BrowserRouter>
-          <Route path="/signin" exact component={LoginPage} />
+          <LoginPage />
         </BrowserRouter>
       </AppContext.Provider>
     );
@@ -85,6 +85,7 @@ describe('LoginPage', () => {
 
     submitButton.simulate('submit');
   });
+
 
   test('fetch success', () => {
     const component = mount(login);
