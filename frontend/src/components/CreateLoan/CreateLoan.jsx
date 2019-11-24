@@ -249,7 +249,6 @@ const CreateLoan = () => {
         </FormControl>
       </div>
       <br />
-      
 
       <div className="interest-valid">
         <h5>interest on/off</h5>
