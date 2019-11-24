@@ -1,5 +1,6 @@
 import json
 from json import JSONDecodeError
+
 from django.utils import timezone
 from django.http import (
     HttpResponse,
@@ -12,6 +13,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from dateutil.parser import isoparse
+
+from utils import twilio
 from .models import Loan, Transaction
 
 def loan_list(request):
@@ -207,10 +210,22 @@ def transaction(request, tx_id):
 
         tsx = get_object_or_404(Transaction, pk=tx_id)
 
-        if tsx.borrower == request.user:
+        if tsx.borrower == request.user and not tsx.borrower_confirm:
+            if tsx.lender.profile.phone:
+                twilio.send_message(
+                    tsx.lender.profile.phone,
+                    f'{tsx.borrower.username} just confirmed a transaction with you!',
+                )
+
             tsx.borrower_confirm = True
             tsx.save()
-        elif tsx.lender == request.user:
+        elif tsx.lender == request.user and not tsx.lender_confirm:
+            if tsx.borrower.profile.phone:
+                twilio.send_message(
+                    tsx.borrower.profile.phone,
+                    f'{tsx.lender.username} just confirmed a transaction with you!',
+                )
+
             tsx.lender_confirm = True
             tsx.save()
         else:
@@ -227,14 +242,14 @@ def transaction(request, tx_id):
                 tsx.loan.completed_date = timezone.now()
                 tsx.loan.save()
 
-        txdict = model_to_dict(tsx)
-        txdict['loan_id'] = txdict['loan']
-        del txdict['loan_id']
-        txdict['borrower_id'] = txdict['borrower']
-        txdict['borrower'] = tsx.borrower.username
-        txdict['lender_id'] = txdict['lender']
-        txdict['lender'] = tsx.lender.username
+        tx_dict = model_to_dict(tsx)
+        tx_dict['loan_id'] = tx_dict['loan']
+        del tx_dict['loan']
+        tx_dict['borrower_id'] = tx_dict['borrower']
+        tx_dict['borrower'] = tsx.borrower.username
+        tx_dict['lender_id'] = tx_dict['lender']
+        tx_dict['lender'] = tsx.lender.username
 
-        return JsonResponse(txdict)
+        return JsonResponse(tx_dict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
