@@ -67,7 +67,7 @@ describe('<CreateLoan/>', () => {
     const component = mount(createLoan);
     /* use component mocking */
 
-    const datePicker = component.find('#deadline button');
+    const datePicker = component.find('.deadline button');
     datePicker.simulate('click');
   });
 
@@ -75,10 +75,10 @@ describe('<CreateLoan/>', () => {
     const component = mount(createLoan);
 
     /* turn on interest */
-    const interestSwitch = component.find('#interest-valid input');
+    const interestSwitch = component.find('.interest-valid input');
     interestSwitch.simulate('change', { target: { checked: true } });
     /* change interest rate */
-    const interestRate = component.find('#interest-rate input');
+    const interestRate = component.find('.interest-rate input');
     interestRate.simulate('change', { target: { value: 5 } });
   });
 
@@ -86,11 +86,11 @@ describe('<CreateLoan/>', () => {
     const component = mount(createLoan);
 
     /* turn on interest */
-    const interestSwitch = component.find('#interest-valid input');
+    const interestSwitch = component.find('.interest-valid input');
     interestSwitch.simulate('change', { target: { checked: true } });
 
     /* use component mocking */
-    const interestType = component.find('#interest-type button');
+    const interestType = component.find('.interest-type button');
     interestType.simulate('click');
   });
 
@@ -98,7 +98,7 @@ describe('<CreateLoan/>', () => {
     const component = mount(createLoan);
     /* use component mocking */
 
-    const alertFrequency = component.find('#alert-frequency button');
+    const alertFrequency = component.find('.alert-frequency button');
     alertFrequency.simulate('click');
   });
 
@@ -148,10 +148,10 @@ describe('<CreateLoan/>', () => {
     registerButton.simulate('click');
 
     /* turn on interest */
-    const interestSwitch = component.find('#interest-valid input');
+    const interestSwitch = component.find('.interest-valid input');
     interestSwitch.simulate('change', { target: { checked: true } });
     /* change interest rate */
-    const interestRate = component.find('#interest-rate input');
+    const interestRate = component.find('.interest-rate input');
     interestRate.simulate('change', { target: { value: 5 } });
 
     registerButton.simulate('click');

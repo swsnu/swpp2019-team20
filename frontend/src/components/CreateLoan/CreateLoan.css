@@ -1,0 +1,40 @@
+.create-loan{
+    width: 1200px;
+    height: 500px;
+    overflow: auto;
+}
+
+.participants{
+    display: inline-block;
+    margin: 0px 20px;
+}
+
+.deadline{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 30px 20px;
+}
+
+.alert-frequency{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 30px 20px;
+}
+
+.interest-valid{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 10px 10px 10px;
+}
+
+.interest-rate{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 10px 10px 10px;
+}
+
+.interest-type{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 10px 10px 10px;
+}

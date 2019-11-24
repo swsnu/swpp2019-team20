@@ -20,7 +20,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import { getCookie } from '../../utils';
-// import SearchBar from '../subcomponents/SearchBar/SearchBar';
+import SearchBar from '../subcomponents/SearchBar/SearchBar';
+
+import './CreateLoan.css';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -167,25 +169,27 @@ const CreateLoan = () => {
       // eslint-disable-next-line
       (
         <div key={participant.id}>
-          <h3>id: </h3>
-          {/* <SearchBar setUser={setUser} /> */}
+          <div className="participants">
+            {/* <SearchBar setUser={setUser} /> */}
+            <SearchBar />
+          </div>
 
-
-          <h3>paid money: </h3>
-          <form className={classes.container} noValidate autoComplete="off">
-            <TextField
-              id="paid-money"
-              label="paid money"
-              type="number"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
-              value={participant.paid_money}
-              onChange={(e) => changeUserMoney(index, e.target.value)}
-            />
-          </form>
+          <div className="participants">
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="paid-money"
+                label="paid money"
+                type="number"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+                value={participant.paid_money}
+                onChange={(e) => changeUserMoney(index, e.target.value)}
+              />
+            </form>
+          </div>
         </div>
       ),
 
@@ -204,7 +208,7 @@ const CreateLoan = () => {
       </Button>
       <br />
 
-      <div id="deadline">
+      <div className="deadline">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="space-around">
             <KeyboardDatePicker
@@ -222,10 +226,33 @@ const CreateLoan = () => {
           </Grid>
         </MuiPickersUtilsProvider>
       </div>
-      <br />
 
-      <h5>interest on/off</h5>
-      <div id="interest-valid">
+      <div className="alert-frequency">
+        <FormControl variant="outlined" className={classes.formControl}>
+
+          <InputLabel ref={inputLabel} id="alert-frequency-label">
+            Alert Frequency
+          </InputLabel>
+
+          <Select
+            labelId="alert-frequency-label"
+            value={alertFrequency}
+            onChange={(event) => setAlertFrequency(event.target.value)}
+            labelWidth={labelWidth}
+          >
+            <MenuItem value="very low">very low</MenuItem>
+            <MenuItem value="low">low</MenuItem>
+            <MenuItem value="medium">medium</MenuItem>
+            <MenuItem value="high">high</MenuItem>
+            <MenuItem value="very high">very high</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <br />
+      
+
+      <div className="interest-valid">
+        <h5>interest on/off</h5>
         <Switch
           checked={interestValid}
           onChange={(event) => setInterestValid(event.target.checked)}
@@ -234,8 +261,8 @@ const CreateLoan = () => {
         />
       </div>
 
-      <form className={classes.container} noValidate autoComplete="off">
-        <div id="interest-rate">
+      <div className="interest-rate">
+        <form className={classes.container} noValidate autoComplete="off">
           <TextField
             label="Interest rate"
             type="number"
@@ -248,10 +275,10 @@ const CreateLoan = () => {
             value={interestRate}
             onChange={(e) => setInterestRate(e.target.value)}
           />
-        </div>
-      </form>
+        </form>
+      </div>
 
-      <div id="interest-type">
+      <div className="interest-type">
         <FormControl className={classes.formControl}>
 
           <InputLabel shrink id="interest-type-label">
@@ -271,29 +298,6 @@ const CreateLoan = () => {
             <MenuItem value="week">week</MenuItem>
             <MenuItem value="month">month</MenuItem>
             <MenuItem value="year">year</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <br />
-
-      <div id="alert-frequency">
-        <FormControl variant="outlined" className={classes.formControl}>
-
-          <InputLabel ref={inputLabel} id="alert-frequency-label">
-            Alert Frequency
-          </InputLabel>
-
-          <Select
-            labelId="alert-frequency-label"
-            value={alertFrequency}
-            onChange={(event) => setAlertFrequency(event.target.value)}
-            labelWidth={labelWidth}
-          >
-            <MenuItem value="very low">very low</MenuItem>
-            <MenuItem value="low">low</MenuItem>
-            <MenuItem value="medium">medium</MenuItem>
-            <MenuItem value="high">high</MenuItem>
-            <MenuItem value="very high">very high</MenuItem>
           </Select>
         </FormControl>
       </div>
