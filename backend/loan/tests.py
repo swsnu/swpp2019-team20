@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Loan
 
-
 class LoanTestCase(TestCase):
     def test_loan_list(self):
         client = Client()
@@ -269,7 +268,7 @@ class LoanTestCase(TestCase):
             {
                 'participants': [
                     {'id': user.id, 'paid_money': 50},
-                    {'id': user1.id, 'paid_money': 100}
+                    {'id': user1.id, 'paid_money': 100},
                 ],
                 'deadline': '2019-12-31T23:59:59Z',
                 'interest_rate': 1.5,
@@ -279,7 +278,18 @@ class LoanTestCase(TestCase):
             {
                 'participants': [
                     {'id': user2.id, 'paid_money': 50},
-                    {'id': user1.id, 'paid_money': 100}
+                    {'id': user1.id, 'paid_money': 100},
+                ],
+                'deadline': '2019-12-31T23:59:59Z',
+                'interest_rate': 1.5,
+                'interest_type': 'day',
+                'alert_frequency': 'high',
+            },
+            {
+                'participants': [
+                    {'id': user.id, 'paid_money': 100},
+                    {'id': user1.id, 'paid_money': 0},
+                    {'id': user2.id, 'paid_money': 0},
                 ],
                 'deadline': '2019-12-31T23:59:59Z',
                 'interest_rate': 1.5,
@@ -300,3 +310,24 @@ class LoanTestCase(TestCase):
 
         response = client.get('/loan/transaction/1')
         self.assertEqual(response.status_code, 200)
+
+        # test confirmation
+        response = client.put('/loan/transaction/1')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.put('/loan/transaction/2')
+        self.assertEqual(response.status_code, 403)
+
+        response = client.put('/loan/transaction/3')
+        self.assertEqual(response.status_code, 200)
+
+        client.login(username='user1', password='pass')
+        response = client.put('/loan/transaction/1')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.put('/loan/transaction/3')
+        self.assertEqual(response.status_code, 200)
+
+        client.logout()
+        response = client.put('/loan/transaction/1')
+        self.assertEqual(response.status_code, 401)

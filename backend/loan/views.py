@@ -1,6 +1,7 @@
 import json
-from datetime import datetime
 from json import JSONDecodeError
+
+from django.utils import timezone
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
@@ -12,6 +13,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from dateutil.parser import isoparse
+
+from utils import twilio
 from .models import Loan, Transaction
 
 def loan_list(request):
@@ -70,7 +73,7 @@ def loan_list(request):
             interest_type=interest_type if interest_rate == 0 else None,
             interest_rate=interest_rate,
             completed=False,
-            registered_date=datetime.now()
+            registered_date=timezone.now()
         )
         loan_data.save()
 
@@ -201,7 +204,52 @@ def transaction(request, tx_id):
 
         return JsonResponse(tx_dict)
 
-    #elif request.method == 'PUT':
-    #    raise NotImplementedError()
+    if request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+
+        tsx = get_object_or_404(Transaction, pk=tx_id)
+
+        if tsx.borrower == request.user and not tsx.borrower_confirm:
+            if tsx.lender.profile.phone:
+                twilio.send_message(
+                    tsx.lender.profile.phone,
+                    f'{tsx.borrower.username} just confirmed a transaction with you!',
+                )
+
+            tsx.borrower_confirm = True
+            tsx.save()
+        elif tsx.lender == request.user and not tsx.lender_confirm:
+            if tsx.borrower.profile.phone:
+                twilio.send_message(
+                    tsx.borrower.profile.phone,
+                    f'{tsx.lender.username} just confirmed a transaction with you!',
+                )
+
+            tsx.lender_confirm = True
+            tsx.save()
+        else:
+            return HttpResponseForbidden()
+
+        if tsx.borrower_confirm and tsx.lender_confirm and not tsx.completed:
+            tsx.completed = True
+            tsx.completed_date = timezone.now()
+            tsx.save()
+
+            txset = Transaction.objects.filter(loan=tsx.loan, completed=False)
+            if not txset.exists():
+                tsx.loan.completed = True
+                tsx.loan.completed_date = timezone.now()
+                tsx.loan.save()
+
+        tx_dict = model_to_dict(tsx)
+        tx_dict['loan_id'] = tx_dict['loan']
+        del tx_dict['loan']
+        tx_dict['borrower_id'] = tx_dict['borrower']
+        tx_dict['borrower'] = tsx.borrower.username
+        tx_dict['lender_id'] = tx_dict['lender']
+        tx_dict['lender'] = tsx.lender.username
+
+        return JsonResponse(tx_dict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
