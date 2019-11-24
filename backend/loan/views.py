@@ -1,6 +1,6 @@
 import json
-from datetime import datetime
 from json import JSONDecodeError
+from django.utils import timezone
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
@@ -70,7 +70,7 @@ def loan_list(request):
             interest_type=interest_type if interest_rate == 0 else None,
             interest_rate=interest_rate,
             completed=False,
-            registered_date=datetime.now()
+            registered_date=timezone.now()
         )
         loan_data.save()
 
@@ -201,7 +201,40 @@ def transaction(request, tx_id):
 
         return JsonResponse(tx_dict)
 
-    #elif request.method == 'PUT':
-    #    raise NotImplementedError()
+    if request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+
+        tsx = get_object_or_404(Transaction, pk=tx_id)
+
+        if tsx.borrower == request.user:
+            tsx.borrower_confirm = True
+            tsx.save()
+        elif tsx.lender == request.user:
+            tsx.lender_confirm = True
+            tsx.save()
+        else:
+            return HttpResponseForbidden()
+
+        if tsx.borrower_confirm and tsx.lender_confirm and not tsx.completed:
+            tsx.completed = True
+            tsx.completed_date = timezone.now()
+            tsx.save()
+
+            txset = Transaction.objects.filter(loan=tsx.loan, completed=False)
+            if not txset.exists():
+                tsx.loan.completed = True
+                tsx.loan.completed_date = timezone.now()
+                tsx.loan.save()
+
+        txdict = model_to_dict(tsx)
+        txdict['loan_id'] = txdict['loan']
+        del txdict['loan_id']
+        txdict['borrower_id'] = txdict['borrower']
+        txdict['borrower'] = tsx.borrower.username
+        txdict['lender_id'] = txdict['lender']
+        txdict['lender'] = tsx.lender.username
+
+        return JsonResponse(txdict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
