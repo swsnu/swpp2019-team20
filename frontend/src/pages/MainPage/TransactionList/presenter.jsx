@@ -17,7 +17,6 @@ import {
   TableRow,
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ButtonExampleInverted from './Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LatestOrders = (props) => {
-  const { className, TxList, ...rest } = props;
+  const { className, TxList, onClickBtn, ...rest } = props;
 
   const classes = useStyles();
 
@@ -80,7 +79,9 @@ const LatestOrders = (props) => {
                       tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
                       }
                     </TableCell>
-                    <TableCell><ButtonExampleInverted>OK</ButtonExampleInverted></TableCell>
+                    <TableCell>
+                      <button onClick={() => onClickBtn(tx.id)}>OK</button>
+                      </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

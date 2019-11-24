@@ -12,6 +12,7 @@ const Profile = () => {
       credential: 'include',
     });
     const info = await res.json();
+    console.log(info);
     setUserInfo(info);
     setLoading(false);
   };
