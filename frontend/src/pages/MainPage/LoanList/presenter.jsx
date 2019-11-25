@@ -15,8 +15,8 @@ import Budget from '../subcomponents/Budget/Budget';
 import TotalMoney from '../subcomponents/TotalMoney/TotalMoney';
 import TotalUsers from '../subcomponents/TotalUsers/TotalUsers';
 import TaskProgress from '../subcomponents/TasksProgress/TasksProgress';
+import CreateLoan from '../../../components/CreateLoan/CreateLoan';
 import './presenter.css';
-
 
 function TabPanel(props) {
   const {
@@ -96,6 +96,7 @@ export default function SimpleTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const addButtonLen = notCompletedLoanList.length;
 
   return (
     <div className={classes.root}>
@@ -200,6 +201,9 @@ export default function SimpleTabs(props) {
             <TransactionList loan={loan} />
           </TabPanel>
         ))}
+        <TabPanel value={value} index={addButtonLen}>
+          <CreateLoan />
+        </TabPanel>
       </div>
     </div>
   );
