@@ -1,19 +1,18 @@
 import json
 import os
+from json import JSONDecodeError
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
-    HttpResponseForbidden,
     JsonResponse,
 )
-from json import JSONDecodeError
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .models import Review
-from tensorflow.keras import models
+import tensorflow as tf
 from konlpy.tag import Okt
 import nltk
-from . import sentiment as sentiment
+from . import sentiment as sent
+from .models import Review
 
 
 def user_review(request, reviewee_id):
@@ -34,39 +33,36 @@ def user_review(request, reviewee_id):
 
 
         # when request.method == 'POST':
-        else:
-            # reviewee_user = User.objects.get(id=reviewee_id)
-            reviewee_user = get_object_or_404(User, pk=reviewee_id)
+        reviewee_user = get_object_or_404(User, pk=reviewee_id)
 
-            try:
-                req_data = json.loads(request.body.decode())
-                content = req_data['content']
-            except (KeyError, TypeError, ValueError, JSONDecodeError):
-                return HttpResponse(status=400)
+        try:
+            req_data = json.loads(request.body.decode())
+            content = req_data['content']
+        except (KeyError, TypeError, ValueError, JSONDecodeError):
+            return HttpResponse(status=400)
 
-            # sentiment analysis
-            model_path = os.path.join(os.getcwd(), 'review', 'nsmc', 'sentiment_model.h5')
-            model = models.load_model(model_path)
+        # sentiment analysis
+        model_path = os.path.join(os.getcwd(), 'review', 'nsmc', 'sentiment_model.h5')
+        model = tf.keras.models.load_model(model_path)
 
-            docs_path = os.path.join(os.getcwd(), 'review', 'nsmc', 'train_docs.json')
-            with open(docs_path) as f:
-                train_docs = json.load(f)
+        docs_path = os.path.join(os.getcwd(), 'review', 'nsmc', 'train_docs.json')
+        with open(docs_path) as file:
+            train_docs = json.load(file)
 
-            tokens = [t for d in train_docs for t in d[0]]
-            text = nltk.Text(tokens, name='NMSC')
-            okt = Okt()
-            selected_words = [f[0] for f in text.vocab().most_common(10000)]
-            rating = sentiment.predict_score(model, okt, selected_words, content)
+        tokens = [t for d in train_docs for t in d[0]]
+        text = nltk.Text(tokens, name='NMSC')
+        okt = Okt()
+        selected_words = [f[0] for f in text.vocab().most_common(10000)]
+        rating = sent.predict_score(model, okt, selected_words, content)
 
-            new_review = Review(reviewee=reviewee_user,
-                                rating=rating,
-                                content=content)
-            new_review.save()
-            return JsonResponse({'id': new_review.id,
-                                 'rating': rating,
-                                 'content': content},
-                                 status=201)
+        new_review = Review(reviewee=reviewee_user,
+                            rating=rating,
+                            content=content)
+        new_review.save()
+        return JsonResponse({'id': new_review.id,
+                             'rating': rating,
+                             'content': content},
+                            status=201)
 
     # If user is not logged in
-    else:
-        return HttpResponse(status=401)
+    return HttpResponse(status=401)

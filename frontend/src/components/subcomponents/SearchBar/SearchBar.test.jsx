@@ -38,7 +38,13 @@ describe('<SearchBar />', () => {
   test('renders without errors', () => {
     // const mockData = { id: 1 }
     fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { "kakao_id": "username123", "phone": "010-1234-5678", "bio": null, "username": "testname", "id": 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
@@ -64,7 +70,13 @@ describe('<SearchBar />', () => {
 
   test('renders without errors', () => {
     fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { "kakao_id": "username123", "phone": "010-1234-5678", "bio": null, "username": "testname", "id": 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     expect(component.length).toBe(1);
@@ -72,7 +84,13 @@ describe('<SearchBar />', () => {
 
   test('renders without errors', () => {
     fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { "kakao_id": "username123", "phone": "010-1234-5678", "bio": null, "username": "testname", "id": 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
@@ -112,7 +130,13 @@ describe('<SearchBar />', () => {
 
   test('renders without errors', () => {
     fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { status: 200, body: { "kakao_id": "username123", "phone": "010-1234-5678", "bio": null, "username": "testname", "id": 1 } });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');

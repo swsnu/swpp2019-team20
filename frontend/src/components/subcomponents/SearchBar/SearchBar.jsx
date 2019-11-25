@@ -43,10 +43,7 @@ class SearchBar extends Component {
       }
       const { id: userId } = await idResponse.json();
 
-      console.log("userId:" + userId );
-
-      const profileResponse = await fetch(`/account/user/${userId}`)
-      console.log(profileResponse);
+      const profileResponse = await fetch(`/account/user/${userId}`);
       if (profileResponse.status !== 200) {
         if (this.state.username === value) {
           this.setState({ isLoading: false });
@@ -66,7 +63,7 @@ class SearchBar extends Component {
         results: [{
           id: userId,
           title: state.username,
-          // content: user,
+          content: user,
           // TODO: display other user attributes
         }],
       }));

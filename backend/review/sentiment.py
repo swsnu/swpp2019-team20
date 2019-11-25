@@ -1,6 +1,3 @@
-from tensorflow.keras import models
-from konlpy.tag import Okt
-import nltk
 import numpy as np
 
 def tokenize(doc, okt):
@@ -11,8 +8,8 @@ def term_frequency(doc, selected_words):
 
 def predict_score(model, okt, selected_words, review):
     token = tokenize(review, okt)
-    tf = term_frequency(token, selected_words)
-    data = np.expand_dims(np.asarray(tf).astype('float32'), axis=0)
+    term_freq = term_frequency(token, selected_words)
+    data = np.expand_dims(np.asarray(term_freq).astype('float32'), axis=0)
     score = float(model.predict(data))
 
-    return round(score,2) * 10
+    return round(score, 2) * 10
