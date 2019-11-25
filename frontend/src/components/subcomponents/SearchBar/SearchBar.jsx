@@ -43,7 +43,9 @@ class SearchBar extends Component {
       }
       const { id: userId } = await idResponse.json();
 
-      /* const profileResponse = await fetch(`/account/user/${userId}`);
+      console.log("userId:" + userId );
+
+      const profileResponse = await fetch(`/account/user/${userId}`)
       console.log(profileResponse);
       if (profileResponse.status !== 200) {
         if (this.state.username === value) {

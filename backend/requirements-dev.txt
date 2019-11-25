@@ -3,3 +3,7 @@ pylint
 pylint-django
 coverage
 python-dateutil
+tensorflow
+konlpy
+nltk
+numpy
