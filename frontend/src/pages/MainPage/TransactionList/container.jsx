@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LatestOrders from './presenter';
-import { getCookie } from "../../../utils";
+import { getCookie } from '../../../utils';
 
 const TransactionList = (props) => {
   const { loan } = props;
@@ -20,15 +20,17 @@ const TransactionList = (props) => {
       const curTxList = await res.json();
       setTxList(curTxList);
     };
+
     const url = '/account/user/me';
     const fetchProfile = async () => {
-    const res = await fetch(url, {
-      method: 'GET',
-      credential: 'include',
-    });
-    const info = await res.json();
-    setUsername(info.username);
-  };
+      const res = await fetch(url, {
+        method: 'GET',
+        credential: 'include',
+      });
+      const info = await res.json();
+      setUsername(info.username);
+    };
+
     fetchProfile();
     fetchTransactionList();
     setLoading(false);
@@ -42,7 +44,7 @@ const TransactionList = (props) => {
 
     const csrftoken = getCookie('csrftoken');
     const targetUrl = `/loan/transaction/${id}`;
-    const content = { "confirm": true }
+    const content = { confirm: true };
     const response = await fetch(targetUrl, {
       method: 'PUT', // *GET, POST, PUT, DELETE, etc.
       credentials: 'include', // include, *same-origin, omit
@@ -53,14 +55,21 @@ const TransactionList = (props) => {
       body: JSON.stringify(content), // body data type must match "Content-Type" header
     });
 
-    if (response.status === 200) {
+    if (response.status === 403) alert('not your transaction! ;_;');
+    else {
+      alert('confirm! :)');
       setBtnDisabled(true);
     }
     setLoading(true);
   };
 
   const render = (
-    <LatestOrders TxList={TxList} onClickBtn={confirm} isBtnDisabled={isBtnDisabled} username={username} />
+    <LatestOrders
+      TxList={TxList}
+      onClickBtn={confirm}
+      isBtnDisabled={isBtnDisabled}
+      username={username}
+    />
   );
   return render;
 };

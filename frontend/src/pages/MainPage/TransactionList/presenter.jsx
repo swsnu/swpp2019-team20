@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LatestOrders = (props) => {
-  const { className, TxList, onClickBtn, isBtnDisabled, username, ...rest } = props;
+  const {
+    className, TxList, onClickBtn, isBtnDisabled, username, ...rest
+  } = props;
 
   const classes = useStyles();
 
@@ -76,14 +78,38 @@ const LatestOrders = (props) => {
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {
-                      tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
+                        tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
                       }
                     </TableCell>
                     <TableCell>
                       {
-                        tx.completed === true || (tx.lender_confirm === true && username === tx.lender) || (username === tx.borrower && tx.borrower_confirm === true) ? (<button onClick={() => onClickBtn(tx.id)} disabled={true}>OK</button>) : (<button onClick={() => onClickBtn(tx.id)} disabled={isBtnDisabled}>OK</button>)
+                        tx.completed === true
+                        || (tx.lender_confirm === true && username === tx.lender)
+                        || (username === tx.borrower && tx.borrower_confirm === true)
+                          ? (
+                            <div id="confirm-button">
+                              <button
+                                type="button"
+                                onClick={() => onClickBtn(tx.id)}
+                                disabled
+                              >
+                                DONE
+                              </button>
+                            </div>
+                          )
+                          : (
+                            <div id="confirm-button">
+                              <button
+                                type="button"
+                                onClick={() => onClickBtn(tx.id)}
+                                disabled={isBtnDisabled}
+                              >
+                                OK
+                              </button>
+                            </div>
+                          )
                       }
-                      </TableCell>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -109,11 +135,17 @@ const LatestOrders = (props) => {
 LatestOrders.propTypes = {
   className: PropTypes.string,
   TxList: PropTypes.string,
+  onClickBtn: PropTypes.string,
+  isBtnDisabled: PropTypes.string,
+  username: PropTypes.string,
 };
 
 LatestOrders.defaultProps = {
   className: null,
   TxList: null,
+  onClickBtn: null,
+  isBtnDisabled: null,
+  username: null,
 };
 
 export default LatestOrders;
