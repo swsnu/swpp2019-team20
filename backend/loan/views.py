@@ -17,6 +17,7 @@ from dateutil.parser import isoparse
 from utils import twilio
 from .models import Loan, Transaction
 
+
 def loan_list(request):
     if request.method == 'GET':
         if not request.user.is_authenticated:

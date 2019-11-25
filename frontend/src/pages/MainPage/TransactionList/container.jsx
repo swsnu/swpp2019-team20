@@ -36,14 +36,14 @@ const TransactionList = (props) => {
     setLoading(false);
   }, [isLoading]);
 
-  const confirm = async (id) => {
+  const confirm = async (tx) => {
     await fetch('/account/token', {
       method: 'GET',
       credentials: 'include',
     });
 
     const csrftoken = getCookie('csrftoken');
-    const targetUrl = `/loan/transaction/${id}`;
+    const targetUrl = `/loan/transaction/${tx.id}`;
     const content = { confirm: true };
     const response = await fetch(targetUrl, {
       method: 'PUT', // *GET, POST, PUT, DELETE, etc.
@@ -59,9 +59,35 @@ const TransactionList = (props) => {
     else {
       alert('confirm! :)');
       setBtnDisabled(true);
+      if (tx.lender === username) onWriteReivew();
     }
     setLoading(true);
   };
+
+  const onWriteReivew = async () => {
+    const temp = prompt('리뷰를 작성하세요.')
+    if (temp === null || temp.length === 0) {
+      alert('리뷰를 작성하지 않으셨습니다. 마이페이지에서 완료하세요!')
+    } else {
+      await fetch('/account/token', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const csrftoken = getCookie('csrftoken');
+
+      const targetUrl = '/review';
+      const response = await fetch(targetUrl, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        credentials: 'include', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({content: temp}), // body data type must match "Content-Type" header
+      });
+      setLoading(true)
+    }
+  }
 
   const render = (
     <LatestOrders

@@ -101,7 +101,7 @@ const LatestOrders = (props) => {
                             <div id="confirm-button">
                               <button
                                 type="button"
-                                onClick={() => onClickBtn(tx.id)}
+                                onClick={() => onClickBtn(tx)}
                                 disabled={isBtnDisabled}
                               >
                                 OK
