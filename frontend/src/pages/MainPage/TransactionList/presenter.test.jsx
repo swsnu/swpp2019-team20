@@ -19,7 +19,7 @@ describe('<LatestOrders />', () => {
           borrower_confirm: false,
           loan_id: 1,
           borrower_id: 2,
-          lender_id: 2,
+          lender_id: 3,
         }];
     });
     const component = shallow(<LatestOrders TxList={mockData} />);

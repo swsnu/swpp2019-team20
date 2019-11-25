@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LatestOrders = (props) => {
-  const { className, TxList, onClickBtn, isBtnDisabled, ...rest } = props;
+  const { className, TxList, onClickBtn, isBtnDisabled, username, ...rest } = props;
 
   const classes = useStyles();
 
@@ -71,8 +71,8 @@ const LatestOrders = (props) => {
                     hover
                     key={tx.id}
                   >
-                    <TableCell>{tx.lender}</TableCell>
-                    <TableCell>{tx.borrower}</TableCell>
+                    <TableCell>{username === tx.lender ? <p>ME</p> : tx.lender}</TableCell>
+                    <TableCell>{username === tx.borrower ? <p>ME</p> : tx.borrower}</TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {
@@ -80,7 +80,9 @@ const LatestOrders = (props) => {
                       }
                     </TableCell>
                     <TableCell>
-                      <button onClick={() => onClickBtn(tx.id)} disabled={isBtnDisabled}>OK</button>
+                      {
+                        tx.completed === true || (tx.lender_confirm === true && username === tx.lender) || (username === tx.borrower && tx.borrower_confirm === true) ? (<button onClick={() => onClickBtn(tx.id)} disabled={true}>OK</button>) : (<button onClick={() => onClickBtn(tx.id)} disabled={isBtnDisabled}>OK</button>)
+                      }
                       </TableCell>
                   </TableRow>
                 ))}

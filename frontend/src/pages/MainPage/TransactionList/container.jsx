@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Table from './presenter';
+import LatestOrders from './presenter';
 import { getCookie } from "../../../utils";
 
 const TransactionList = (props) => {
   const { loan } = props;
+  const [username, setUsername] = useState(1);
   const [TxList, setTxList] = useState([]);
-  const [currTxId, setCurrTxId] = useState(1);
   const [isBtnDisabled, setBtnDisabled] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
@@ -19,20 +19,29 @@ const TransactionList = (props) => {
       });
       const curTxList = await res.json();
       setTxList(curTxList);
-      setLoading(false);
     };
+    const url = '/account/user/me';
+    const fetchProfile = async () => {
+    const res = await fetch(url, {
+      method: 'GET',
+      credential: 'include',
+    });
+    const info = await res.json();
+    setUsername(info.username);
+  };
+    fetchProfile();
     fetchTransactionList();
+    setLoading(false);
   }, [isLoading]);
 
   const confirm = async (id) => {
-    setCurrTxId(id);
     await fetch('/account/token', {
       method: 'GET',
       credentials: 'include',
     });
 
     const csrftoken = getCookie('csrftoken');
-    const targetUrl = `/loan/transaction/${currTxId}`;
+    const targetUrl = `/loan/transaction/${id}`;
     const content = { "confirm": true }
     const response = await fetch(targetUrl, {
       method: 'PUT', // *GET, POST, PUT, DELETE, etc.
@@ -44,19 +53,14 @@ const TransactionList = (props) => {
       body: JSON.stringify(content), // body data type must match "Content-Type" header
     });
 
-    if (response.status === 403) {
-      alert('you are not participant of this tx or already confirm');
-      setBtnDisabled(true);ㅎ
-    }
-    else if (response.status === 200) {
-      alert('confirm! :D');
+    if (response.status === 200) {
       setBtnDisabled(true);
     }
     setLoading(true);
   };
 
   const render = (
-    <Table TxList={TxList} onClickBtn={confirm} isBtnDisabled={isBtnDisabled}/>
+    <LatestOrders TxList={TxList} onClickBtn={confirm} isBtnDisabled={isBtnDisabled} username={username} />
   );
   return render;
 };

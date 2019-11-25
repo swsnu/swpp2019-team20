@@ -5,14 +5,13 @@ const Profile = () => {
   const [isLoading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState('');
 
-  const targetUrl = 'account/user/me';
+  const targetUrl = '/account/user/me';
   const fetchProfile = async () => {
     const res = await fetch(targetUrl, {
       method: 'GET',
       credential: 'include',
     });
     const info = await res.json();
-    console.log(info);
     setUserInfo(info);
     setLoading(false);
   };

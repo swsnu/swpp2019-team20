@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
 import TransactionList from './container';
 
 const loan = {
@@ -32,13 +33,22 @@ const request = [
   }];
 
 describe('<TransactionList />', () => {
+  let txList;
+  beforeEach(() => {
+    txList = (
+      <BrowserRouter>
+        <TransactionList loan={loan}/>
+      </BrowserRouter>
+    );
+  });
   it('should render without error', () => {
-    const component = shallow(<TransactionList loan={loan} />);
+    const component = shallow(txList);
     expect(component.length).toEqual(1);
   });
   it('works with fetch', async () => {
     const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
-    mount(<TransactionList loan={loan} />);
-    expect(mockFn).toBeCalledTimes(1);
+    mount(txList);
+    expect(mockFn).toBeCalledTimes(4);
   });
+  
 });
