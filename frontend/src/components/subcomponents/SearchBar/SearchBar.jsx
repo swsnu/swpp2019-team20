@@ -31,9 +31,9 @@ class SearchBar extends Component {
 
     setTimeout(async () => {
       // simple debouncing
-      if (this.state.username !== value) {
+      /* if (this.state.username !== value) {
         return;
-      }
+      } */
 
       const idResponse = await fetch(`/account/by-name/${this.state.username}`);
       if (idResponse.status !== 200) {
@@ -54,9 +54,9 @@ class SearchBar extends Component {
       const user = await profileResponse.json();
 
       // it may all have been for naught
-      if (this.state.username !== value) {
+      /* if (this.state.username !== value) {
         return;
-      }
+      } */
 
       this.setState((state) => ({
         isLoading: false,

@@ -156,9 +156,9 @@ const CreateLoan = () => {
           changeUserId(index, user.id);
         }
       }
-
+      //key={participant.id}
       return (
-        <div key={participant.id}>
+        <div>
           <div className="participants">
             <SearchBar setUser={setUser} />
           </div>
