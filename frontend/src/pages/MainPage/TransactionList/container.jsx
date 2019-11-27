@@ -62,7 +62,7 @@ const TransactionList = (props) => {
     }
     setLoading(true);
   };
-/*
+  /*
   const onWriteReivew = async (tx) => {
     const temp = prompt('리뷰를 작성하세요.')
     if (temp === null || temp.length === 0) {
