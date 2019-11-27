@@ -58,12 +58,12 @@ const TransactionList = (props) => {
     if (response.status === 403) alert('not your transaction! ;_;');
     else {
       setBtnDisabled(true);
-      if (tx.lender === username) onWriteReivew();
+      // if (tx.lender === username) onWriteReivew(tx);
     }
     setLoading(true);
   };
-
-  const onWriteReivew = async () => {
+/*
+  const onWriteReivew = async (tx) => {
     const temp = prompt('리뷰를 작성하세요.')
     if (temp === null || temp.length === 0) {
       alert('리뷰를 작성하지 않으셨습니다. 마이페이지에서 완료하세요!')
@@ -74,11 +74,14 @@ const TransactionList = (props) => {
       });
       const csrftoken = getCookie('csrftoken');
 
-      const targetUrl = '/review';
+      const revieweeId = tx.borrower_id;
+      console.log(revieweeId)
+      const targetUrl = `/review/${revieweeId}`;
       const response = await fetch(targetUrl, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         credentials: 'include', // include, *same-origin, omit
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken,
         },
@@ -87,7 +90,7 @@ const TransactionList = (props) => {
       setLoading(true)
     }
   }
-
+*/
   const render = (
     <LatestOrders
       TxList={TxList}

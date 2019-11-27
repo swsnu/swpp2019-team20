@@ -37,8 +37,14 @@ describe('<SearchBar />', () => {
 
   test('renders without errors', () => {
     // const mockData = { id: 1 }
-    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', 200);
+    fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
@@ -56,29 +62,41 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', 404);
+    fetchMock.mock('/account/by-name/testname', 404);
     fetchMock.mock('/account/user/1', 404);
     const component = mount(searchBar);
     expect(component.length).toBe(1);
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', 200);
+    fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     expect(component.length).toBe(1);
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', 200);
+    fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
     expect(searchInput.length).toBe(1);
 
-    searchInput.simulate('change', { target: { value: 'username' } });
+    searchInput.simulate('change', { target: { value: 'testname' } });
 
     // expect(setTimeout).toHaveBeenCalledTimes(1);
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
@@ -92,14 +110,14 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', 404);
+    fetchMock.mock('/account/by-name/testname', 404);
     fetchMock.mock('/account/user/1', 404);
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
     expect(searchInput.length).toBe(1);
 
-    searchInput.simulate('change', { target: { value: 'username' } });
+    searchInput.simulate('change', { target: { value: 'testname' } });
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
 
     jest.useFakeTimers();
@@ -111,14 +129,20 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', { status: 200, id: 1 });
-    fetchMock.mock('/account/user/1', { status: 200, body: { id: 1, username: 'username' } });
+    fetchMock.mock('/account/by-name/testname', { status: 200, id: 1 });
+    fetchMock.mock('/account/user/1', {
+      kakao_id: 'username123',
+      phone: '010-1234-5678',
+      bio: null,
+      username: 'testname',
+      id: 1,
+    });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
     expect(searchInput.length).toBe(1);
 
-    searchInput.simulate('change', { target: { value: 'username' } });
+    searchInput.simulate('change', { target: { value: 'testname' } });
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
 
     jest.useFakeTimers();
@@ -130,14 +154,21 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', { status: 404, id: 1 });
-    fetchMock.mock('/account/user/1', { status: 200, body: { id: 1, username: 'username' } });
+    jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 400,
+        };
+        return Promise.resolve(result);
+      });
+    fetchMock.mock('/account/by-name/testname', { status: 404, id: 1 });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
     expect(searchInput.length).toBe(1);
 
-    searchInput.simulate('change', { target: { value: 'username' } });
+    searchInput.simulate('change', { target: { value: 'testname' } });
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
 
     jest.useFakeTimers();
@@ -149,14 +180,21 @@ describe('<SearchBar />', () => {
   });
 
   test('renders without errors', () => {
-    fetchMock.mock('/account/by-name/username', { status: 404, id: 1 });
-    fetchMock.mock('/account/user/1', { status: 200, body: { id: 1, username: 'username' } });
+    jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 200,
+        };
+        return Promise.resolve(result);
+      });
+    fetchMock.mock('/account/by-name/testname', { status: 404, id: 1 });
 
     const component = mount(searchBar);
     const searchInput = component.find('#search-bar input');
     expect(searchInput.length).toBe(1);
 
-    searchInput.simulate('change', { target: { value: 'username' } });
+    searchInput.simulate('change', { target: { value: 'testname' } });
     expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 300);
 
     jest.useFakeTimers();
