@@ -33,8 +33,7 @@ def user_review(request, reviewee_id):
 
 
         # when request.method == 'POST':
-        reviewee_user = User.get(pk=reviewee_id)
-        print('hello')
+        reviewee_user = get_object_or_404(User, pk=reviewee_id)
 
         try:
             req_data = json.loads(request.body.decode())
