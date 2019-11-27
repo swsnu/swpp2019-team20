@@ -57,7 +57,6 @@ const TransactionList = (props) => {
 
     if (response.status === 403) alert('not your transaction! ;_;');
     else {
-      alert('confirm! :)');
       setBtnDisabled(true);
       if (tx.lender === username) onWriteReivew();
     }

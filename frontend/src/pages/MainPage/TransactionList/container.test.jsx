@@ -50,7 +50,7 @@ describe('<TransactionList />', () => {
         lender_id: 2,
       }];
     mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
-    mount(
+    const c = await mount(
       <BrowserRouter>
         <TransactionList loan={loan} />
       </BrowserRouter>,
