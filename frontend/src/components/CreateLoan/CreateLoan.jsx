@@ -77,7 +77,7 @@ const CreateLoan = () => {
   /* used for sending query */
 
   const triggerLoanPost = async (data) => {
-    // console.log(data);
+    console.log(data);
     await fetch('/account/token', {
       method: 'GET',
       credential: 'include',
@@ -97,17 +97,17 @@ const CreateLoan = () => {
     });
 
     if (response.status === 201) {
-      // window.alert('success');
+      window.alert('success');
       history.push('/index');
       history.push('/main');
     } else {
-      // window.alert('error');
+      window.alert('error');
     }
   };
 
   const articlePostHandler = () => {
     if (participants.length < 2) {
-      // window.alert('It needs more participants.');
+      window.alert('It needs more participants.');
     } else {
       const data = {
         participants,
@@ -133,14 +133,11 @@ const CreateLoan = () => {
     ]);
   };
 
-  /*
   const changeUserId = (index, id) => {
     let new_participants = [...participants];
     new_participants[index].id = id;
     setParticipants(new_participants);
   }
-  */
-
 
   const changeUserMoney = (index, money) => {
     const newParticipants = [...participants];
@@ -152,26 +149,18 @@ const CreateLoan = () => {
   /* show participants list */
 
   const participantsList = participants.map(
-    (participant, index) =>
-    /*
+    (participant, index) => {
+
       const setUser = (user) => {
-        console.log('called');
         if (user !== null) {
-          console.log('got user (user id: ' + user.id + ')');
           changeUserId(index, user.id);
-        } else {
-          console.log("null");
         }
       }
-      */
 
-      // erase disable line after fixing!!!
-      // eslint-disable-next-line
-      (
+      return (
         <div key={participant.id}>
           <div className="participants">
-            {/* <SearchBar setUser={setUser} /> */}
-            <SearchBar />
+            <SearchBar setUser={setUser} />
           </div>
 
           <div className="participants">
@@ -191,8 +180,8 @@ const CreateLoan = () => {
             </form>
           </div>
         </div>
-      ),
-
+      )
+    }
   );
 
   /*----------------------------------------*/
