@@ -77,7 +77,7 @@ const CreateLoan = () => {
   /* used for sending query */
 
   const triggerLoanPost = async (data) => {
-    console.log(data);
+    // console.log(data);
     await fetch('/account/token', {
       method: 'GET',
       credential: 'include',
@@ -97,16 +97,19 @@ const CreateLoan = () => {
     });
 
     if (response.status === 201) {
+      // eslint-disable-next-line
       window.alert('success');
       history.push('/index');
       history.push('/main');
     } else {
+      // eslint-disable-next-line
       window.alert('error');
     }
   };
 
   const articlePostHandler = () => {
     if (participants.length < 2) {
+      // eslint-disable-next-line
       window.alert('It needs more participants.');
     } else {
       const data = {
@@ -134,10 +137,10 @@ const CreateLoan = () => {
   };
 
   const changeUserId = (index, id) => {
-    let new_participants = [...participants];
-    new_participants[index].id = id;
-    setParticipants(new_participants);
-  }
+    const newParticipants = [...participants];
+    newParticipants[index].id = id;
+    setParticipants(newParticipants);
+  };
 
   const changeUserMoney = (index, money) => {
     const newParticipants = [...participants];
@@ -150,14 +153,14 @@ const CreateLoan = () => {
 
   const participantsList = participants.map(
     (participant, index) => {
-
       const setUser = (user) => {
         if (user !== null) {
           changeUserId(index, user.id);
         }
-      }
-      //key={participant.id}
+      };
+
       return (
+        // eslint-disable-next-line
         <div>
           <div className="participants">
             <SearchBar setUser={setUser} />
@@ -180,8 +183,8 @@ const CreateLoan = () => {
             </form>
           </div>
         </div>
-      )
-    }
+      );
+    },
   );
 
   /*----------------------------------------*/

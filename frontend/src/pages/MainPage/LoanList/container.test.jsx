@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import LoanList from './container';
 import { BrowserRouter } from 'react-router-dom';
+import LoanList from './container';
 
 describe('<CompletedLoanList /> shallow', () => {
   it('should render without error', () => {
@@ -31,8 +31,8 @@ describe('<CompletedLoanList /> mount', () => {
     mount(
       <BrowserRouter>
         <LoanList />
-      </BrowserRouter>
-      );
+      </BrowserRouter>,
+    );
     expect(mockFn).toBeCalledTimes(1);
   });
 });

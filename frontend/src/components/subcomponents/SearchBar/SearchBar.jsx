@@ -17,7 +17,7 @@ class SearchBar extends Component {
   }
 
   onResultSelect(e, { result }) {
-    console.log("called!!");
+    // console.log("called!!");
     this.props.setUser(result.content);
   }
 
