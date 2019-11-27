@@ -13,13 +13,13 @@ class SearchBar extends Component {
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
-    // this.onResultSelect = this.onResultSelect.bind(this);
+    this.onResultSelect = this.onResultSelect.bind(this);
   }
 
-  /* onResultSelect(e, { result }) {
-    console.log("called!!");
+  onResultSelect(e, { result }) {
+    // console.log("called!!");
     this.props.setUser(result.content);
-  } */
+  }
 
   onSearchChange(e, { value }) {
     this.setState({
@@ -77,7 +77,7 @@ class SearchBar extends Component {
           <div id="search-bar">
             <Search
               loading={this.state.isLoading}
-              // onResultSelect={this.onResultSelect}
+              onResultSelect={this.onResultSelect}
               onSearchChange={this.onSearchChange}
               results={this.state.results}
               value={this.state.username}

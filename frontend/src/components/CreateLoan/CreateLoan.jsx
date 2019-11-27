@@ -97,17 +97,20 @@ const CreateLoan = () => {
     });
 
     if (response.status === 201) {
-      // window.alert('success');
+      // eslint-disable-next-line
+      window.alert('success');
       history.push('/index');
       history.push('/main');
     } else {
-      // window.alert('error');
+      // eslint-disable-next-line
+      window.alert('error');
     }
   };
 
   const articlePostHandler = () => {
     if (participants.length < 2) {
-      // window.alert('It needs more participants.');
+      // eslint-disable-next-line
+      window.alert('It needs more participants.');
     } else {
       const data = {
         participants,
@@ -133,14 +136,11 @@ const CreateLoan = () => {
     ]);
   };
 
-  /*
   const changeUserId = (index, id) => {
-    let new_participants = [...participants];
-    new_participants[index].id = id;
-    setParticipants(new_participants);
-  }
-  */
-
+    const newParticipants = [...participants];
+    newParticipants[index].id = id;
+    setParticipants(newParticipants);
+  };
 
   const changeUserMoney = (index, money) => {
     const newParticipants = [...participants];
@@ -152,26 +152,18 @@ const CreateLoan = () => {
   /* show participants list */
 
   const participantsList = participants.map(
-    (participant, index) =>
-    /*
+    (participant, index) => {
       const setUser = (user) => {
-        console.log('called');
         if (user !== null) {
-          console.log('got user (user id: ' + user.id + ')');
           changeUserId(index, user.id);
-        } else {
-          console.log("null");
         }
-      }
-      */
+      };
 
-      // erase disable line after fixing!!!
-      // eslint-disable-next-line
-      (
-        <div key={participant.id}>
+      return (
+        // eslint-disable-next-line
+        <div>
           <div className="participants">
-            {/* <SearchBar setUser={setUser} /> */}
-            <SearchBar />
+            <SearchBar setUser={setUser} />
           </div>
 
           <div className="participants">
@@ -191,8 +183,8 @@ const CreateLoan = () => {
             </form>
           </div>
         </div>
-      ),
-
+      );
+    },
   );
 
   /*----------------------------------------*/
