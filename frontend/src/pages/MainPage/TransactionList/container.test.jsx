@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
 import TransactionList from './container';
 
 const loan = {
@@ -16,29 +17,44 @@ const loan = {
   completed_date: null,
 };
 
-const request = [
-  {
-    id: 1,
-    lender: 'h',
-    borrower: 'h',
-    money: '1.00',
-    completed: false,
-    completed_date: null,
-    lender_confirm: false,
-    borrower_confirm: false,
-    loan_id: 1,
-    borrower_id: 2,
-    lender_id: 2,
-  }];
-
 describe('<TransactionList />', () => {
+  let txList;
+  let request;
+  let mockFn;
+  beforeEach(() => {
+    txList = (
+      <BrowserRouter>
+        <TransactionList loan={loan} />
+      </BrowserRouter>
+    );
+  });
+
   it('should render without error', () => {
-    const component = shallow(<TransactionList loan={loan} />);
+    const component = shallow(txList);
     expect(component.length).toEqual(1);
   });
-  it('works with fetch', async () => {
-    const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
-    mount(<TransactionList loan={loan} />);
-    expect(mockFn).toBeCalledTimes(1);
+
+  it('works with get tx_list fetch', async () => {
+    request = [
+      {
+        id: 1,
+        lender: 'h',
+        borrower: 'h',
+        money: '1.00',
+        completed: false,
+        completed_date: null,
+        lender_confirm: false,
+        borrower_confirm: false,
+        loan_id: 1,
+        borrower_id: 2,
+        lender_id: 2,
+      }];
+    mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
+    await mount(
+      <BrowserRouter>
+        <TransactionList loan={loan} />
+      </BrowserRouter>,
+    );
+    expect(mockFn).toBeCalledTimes(4);
   });
 });

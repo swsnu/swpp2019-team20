@@ -17,7 +17,6 @@ import {
   TableRow,
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ButtonExampleInverted from './Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LatestOrders = (props) => {
-  const { className, TxList, ...rest } = props;
+  const {
+    className, TxList, onClickBtn, isBtnDisabled, username, ...rest
+  } = props;
 
   const classes = useStyles();
 
@@ -72,15 +73,43 @@ const LatestOrders = (props) => {
                     hover
                     key={tx.id}
                   >
-                    <TableCell>{tx.lender}</TableCell>
-                    <TableCell>{tx.borrower}</TableCell>
+                    <TableCell>{username === tx.lender ? <p>ME</p> : tx.lender}</TableCell>
+                    <TableCell>{username === tx.borrower ? <p>ME</p> : tx.borrower}</TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {
-                      tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
+                        tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
                       }
                     </TableCell>
-                    <TableCell><ButtonExampleInverted>OK</ButtonExampleInverted></TableCell>
+                    <TableCell>
+                      {
+                        tx.completed === true
+                        || (tx.lender_confirm === true && username === tx.lender)
+                        || (username === tx.borrower && tx.borrower_confirm === true)
+                          ? (
+                            <div id="confirm-button">
+                              <button
+                                type="button"
+                                onClick={() => onClickBtn(tx.id)}
+                                disabled
+                              >
+                                DONE
+                              </button>
+                            </div>
+                          )
+                          : (
+                            <div id="confirm-button">
+                              <button
+                                type="button"
+                                onClick={() => onClickBtn(tx)}
+                                disabled={isBtnDisabled}
+                              >
+                                OK
+                              </button>
+                            </div>
+                          )
+                      }
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -106,11 +135,17 @@ const LatestOrders = (props) => {
 LatestOrders.propTypes = {
   className: PropTypes.string,
   TxList: PropTypes.string,
+  onClickBtn: PropTypes.string,
+  isBtnDisabled: PropTypes.string,
+  username: PropTypes.string,
 };
 
 LatestOrders.defaultProps = {
   className: null,
   TxList: null,
+  onClickBtn: null,
+  isBtnDisabled: null,
+  username: null,
 };
 
 export default LatestOrders;
