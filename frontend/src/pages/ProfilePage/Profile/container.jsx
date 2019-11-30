@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import Presenter from './presenter';
 
 const Profile = () => {
   const [isLoading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState('');
 
-  const targetUrl = '/account/user/me';
+  const { userID } = useParams();
+
+  const targetUrl = `/account/user/${userID}`;
   const fetchProfile = async () => {
     const res = await fetch(targetUrl, {
       method: 'GET',
