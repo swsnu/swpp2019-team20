@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -73,8 +74,16 @@ const LatestOrders = (props) => {
                     hover
                     key={tx.id}
                   >
-                    <TableCell>{username === tx.lender ? <p>ME</p> : tx.lender}</TableCell>
-                    <TableCell>{username === tx.borrower ? <p>ME</p> : tx.borrower}</TableCell>
+                    <TableCell>
+                      {
+                        username === tx.lender ? <Link to="/profile">ME</Link> : <Link to={`/profile/${tx.lender_id}`}>{tx.lender}</Link>
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        username === tx.borrower ? <Link to="/profile">ME</Link> : <Link to={`/profile/${tx.borrower_id}`}>{tx.borrower}</Link>
+                      }
+                    </TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {

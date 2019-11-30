@@ -13,10 +13,10 @@ function Base(Component) {
     const history = useHistory();
 
     const setUser = (user) => {
-      if ( user !== null ) {
+      if (user !== null) {
         history.push(`/profile/${user.id}`);
       }
-    }
+    };
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
