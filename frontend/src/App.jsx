@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import {
+  BrowserRouter, Route, Redirect, Switch,
+} from 'react-router-dom';
 import IndexPage from './pages/IndexPage/IndexPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
@@ -15,13 +17,13 @@ function App() {
     loggedIn: false,
     username: '',
   });
-  const [userID, setUserID ] = useState(0);
+  const [userID, setUserID] = useState(0);
 
-  function onLoggedIn() {   //set if current user is logged in
+  function onLoggedIn() { // set if current user is logged in
     setUser({ loggedIn: true, username: '' });
   }
 
-  async function getID() {  //set current user(logged in)'s ID
+  async function getID() { // set current user(logged in)'s ID
     const res = await fetch('/account/user/me', {
       method: 'GET',
       credential: 'include',
@@ -49,7 +51,7 @@ function App() {
   const router = user.loggedIn ? (
     <Switch>
       <Route path="/profile/:userID" exact component={ProfilePage} />
-      <Redirect exact from='/profile' to={`/profile/${userID}`} />
+      <Redirect exact from="/profile" to={`/profile/${userID}`} />
       <Route path="/main" exact component={MainPage} />
       {/* eslint-disable-next-line */}
       <Route exact path="/" exact component={MainPage} />
