@@ -8,3 +8,4 @@ konlpy
 nltk
 numpy
 twilio
+channels_redis
