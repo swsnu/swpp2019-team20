@@ -17,6 +17,10 @@ from dateutil.parser import isoparse
 from utils import twilio
 from .models import Loan, Transaction
 
+# chatroom test
+from django.shortcuts import render
+from django.utils.safestring import mark_safe
+
 
 def loan_list(request):
     if request.method == 'GET':
@@ -254,3 +258,10 @@ def transaction(request, tx_id):
         return JsonResponse(tx_dict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
+
+# chatroom test
+def room(request, lm_name):
+    context = {
+        'lm_name': mark_safe(json.dumps(lm_name))
+    }
+    return render(request, 'loan/room.html', context)
