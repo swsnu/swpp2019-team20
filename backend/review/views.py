@@ -2,6 +2,7 @@
 import json
 from json import JSONDecodeError
 import os
+import random
 import nltk
 import tensorflow as tf
 from konlpy.tag import Okt
@@ -25,13 +26,17 @@ def user_review(request, reviewee_id):
     if request.user.is_authenticated:
         if request.method == 'GET':
             reviewee_user = get_object_or_404(User, pk=reviewee_id)
-            review_list = Review.objects.filter(reviewee=reviewee_user)[:10]
+            review_list = Review.objects.filter(reviewee=reviewee_user)
 
             json_review_list = []
             for review in review_list:
                 json_review_list.append({'rating': review.rating,
                                          'content': review.content})
-            return JsonResponse(json_review_list, status=200, safe=False)
+            return JsonResponse(
+                random.shuffle(json_review_list),
+                status=200,
+                safe=False
+            )
 
 
         # when request.method == 'POST':
