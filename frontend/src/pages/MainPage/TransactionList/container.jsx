@@ -58,11 +58,11 @@ const TransactionList = (props) => {
     if (response.status === 403) alert('not your transaction! ;_;');
     else {
       setBtnDisabled(true);
-      // if (tx.lender === username) onWriteReivew(tx);
+      if (tx.lender === username) onWriteReivew(tx);
     }
     setLoading(true);
   };
-  /*
+
   const onWriteReivew = async (tx) => {
     const temp = prompt('리뷰를 작성하세요.')
     if (temp === null || temp.length === 0) {
@@ -90,7 +90,7 @@ const TransactionList = (props) => {
       setLoading(true)
     }
   }
-*/
+
   const render = (
     <LatestOrders
       TxList={TxList}
