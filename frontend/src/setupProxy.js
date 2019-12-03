@@ -7,4 +7,7 @@ module.exports = function setupProxy(app) {
   app.use(proxy('/loan', {
     target: 'http://localhost:8000',
   }));
+  app.use(proxy('/review', {
+    target: 'http://localhost:8000',
+  }));
 };
