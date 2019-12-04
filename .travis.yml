@@ -16,7 +16,7 @@ matrix:
         - cd ../
         - cd backend
         - source ~/virtualenv/python3.7/bin/activate
-        - pip install -r requirements-dev.txt
+        - pip install -r requirements.txt
         - pip install coveralls
         - cd ..
       script:
