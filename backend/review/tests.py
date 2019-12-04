@@ -7,25 +7,25 @@ class ReviewTestCase(TestCase):
         client = Client()
 
         # no such api
-        response = client.delete('/review/1')
+        response = client.delete('/review/1/')
         self.assertEqual(response.status_code, 405)
 
         # test not logged in
-        response = client.get('/review/1')
+        response = client.get('/review/1/')
         self.assertEqual(response.status_code, 401)
-        response = client.post('/review/1', {}, content_type='application/json')
+        response = client.post('/review/1/', {}, content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         User.objects.create_user(username='user1', password='pass')
         client.login(username='user1', password='pass')
 
-        response = client.get('/review/10')
+        response = client.get('/review/10/')
         self.assertEqual(response.status_code, 404)
 
-        response = client.post('/review/10', {'content': '리뷰'}, content_type='application/json')
+        response = client.post('/review/10/', {'content': '리뷰'}, content_type='application/json')
         self.assertEqual(response.status_code, 404)
 
-        response = client.post('/review/1', {}, content_type='application/json')
+        response = client.post('/review/1/', {}, content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         valid_data = [
@@ -35,8 +35,8 @@ class ReviewTestCase(TestCase):
         ]
 
         for data in valid_data:
-            response = client.post('/review/1', data, content_type='application/json')
+            response = client.post('/review/1/', data, content_type='application/json')
             self.assertEqual(response.status_code, 201)
 
-        response = client.get('/review/1')
+        response = client.get('/review/1/')
         self.assertEqual(response.status_code, 200)
