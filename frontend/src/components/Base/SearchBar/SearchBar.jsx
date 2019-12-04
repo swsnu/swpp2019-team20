@@ -7,7 +7,7 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      loading: false,
       results: [],
       username: '',
     };
@@ -24,34 +24,47 @@ class SearchBar extends Component {
 
   onSearchChange(e, { value }) {
     this.setState({
-      isLoading: true,
+      loading: true,
       username: value,
       results: [],
     });
 
     setTimeout(async () => {
+      // simple debouncing
+      /* if (this.state.username !== value) {
+        return;
+      } */
+
       const idResponse = await fetch(`/account/by-name/${this.state.username}`);
       if (idResponse.status !== 200) {
-        this.setState({ isLoading: false });
+        this.setState({ loading: false });
+        // TODO: report error to user
         return;
       }
       const { id: userId } = await idResponse.json();
 
-      const profileResponse = await fetch(`/account/user/${userId}`);
-      if (profileResponse.status !== 200) {
+      const profile = await fetch(`/account/user/${userId}`);
+      if (profile.status !== 200) {
         if (this.state.username === value) {
-          this.setState({ isLoading: false });
+          this.setState({ loading: false });
         }
+        // TODO: report error to user
         return;
       }
-      const user = await profileResponse.json();
+      const user = await profile.json();
+
+      // it may all have been for naught
+      /* if (this.state.username !== value) {
+        return;
+      } */
 
       this.setState((state) => ({
-        isLoading: false,
+        loading: false,
         results: [{
           id: userId,
           title: state.username,
           content: user,
+          // TODO: display other user attributes
         }],
       }));
     }, 300);
@@ -63,7 +76,7 @@ class SearchBar extends Component {
         <Grid.Column width={8}>
           <div id="search-bar">
             <Search
-              loading={this.state.isLoading}
+              loading={this.state.loading}
               onResultSelect={this.onResultSelect}
               onSearchChange={this.onSearchChange}
               results={this.state.results}
