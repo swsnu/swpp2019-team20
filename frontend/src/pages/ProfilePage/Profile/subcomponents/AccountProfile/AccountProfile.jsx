@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,10 @@ import {
   Divider,
   Button,
   LinearProgress,
+  Input,
+  TextField,
+  Paper,
+  Box,
 } from '@material-ui/core';
 import './AccountProfile.css';
 
@@ -21,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   details: {
     display: 'flex',
+  },
+  information: {
+    marginBottom: theme.spacing(1),
   },
   avatar: {
     marginLeft: 'auto',
@@ -35,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   uploadButton: {
     marginRight: theme.spacing(2),
   },
+  paper: {
+    padding: theme.spacing(2, 2),
+  },
 }));
 
 const AccountProfile = (props) => {
@@ -45,10 +55,22 @@ const AccountProfile = (props) => {
   const user = {
     avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
+  
+  const [edit, setEdit] = useState(false);
 
   const {
-    username, kakao_id: kakaoID, phone, bio,
+    mine, username, kakao_id: kakaoID, phone, bio, twilio_msg,
   } = children.userInfo;
+
+  const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
+  const [phoneState, setPhoneState] = useState(phone);
+  const [messageState, setMessageState] = useState(twilio_msg);
+
+  useEffect(() => {
+    setKakaoIDState(kakaoID);
+    setPhoneState(phone);
+    setMessageState(twilio_msg);
+  }, [kakaoID !== null, phone !== null, twilio_msg !== null]);
 
   return (
     <Card
@@ -64,50 +86,87 @@ const AccountProfile = (props) => {
             >
               {username}
             </Typography>
+
             <MessageIcon />
-            {' '}
-            KakaoTalk:
-            {
-              kakaoID
-            }
+            {' '}KakaoTalk:{' '}
+            {edit ? (
+              <Input
+                value={kakaoIDState}
+                onChange={(e)=>setKakaoIDState(e.target.value)}
+                className={classes.input}
+              />
+            ) : kakaoIDState}
             <br />
+
             <PhoneIphoneIcon />
-            {' '}
-            Phone:
-            {
-              phone
-            }
+            {' '}Phone:{' '}
+            {edit ? (
+              <Input
+                value={phoneState}
+                onChange={(e)=>setPhoneState(e.target.value)}
+                className={classes.input}
+              />
+            ) : phoneState}
           </div>
+
           <Avatar
             className={classes.avatar}
             src={user.avatar}
           />
         </div>
-        <Typography variant="body2">
-          <RecordVoiceOverIcon />
-          {' '}
-          {
-            bio
-          }
-        </Typography>
+
+        <RecordVoiceOverIcon />
+        {' '}Phone message<br />
+        {edit ? (
+          <TextField
+            placeholder="Write a message"
+            value={messageState}
+            onChange={(e)=>setMessageState(e.target.value)}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            variant="outlined"
+          />
+        ) : (
+            <Paper className={classes.paper}>
+              <Typography component="p">
+                {messageState}
+              </Typography>
+            </Paper>
+          )}
+
         <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
           <LinearProgress
-            value={90}
+            value={70}
             variant="determinate"
           />
         </div>
+
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          className={classes.uploadButton}
-          color="primary"
-          variant="text"
-        >
+        <Button className={classes.uploadButton} disabled = {edit} color="primary" variant="text">
           Upload picture
         </Button>
-        <Button variant="text">Remove picture</Button>
+        <Button className={classes.uploadButton} disabled = {edit} variant="text">
+          Remove picture
+        </Button>
+        {mine &&
+          (
+            edit ? (
+              <Button className={classes.uploadButton} variant="contained" onClick={() => setEdit(!edit)}>
+                Submit
+              </Button>
+            ) : (
+              <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
+                Edit profile
+              </Button>
+            )
+          )
+        }
+
       </CardActions>
     </Card>
   );
