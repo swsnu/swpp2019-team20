@@ -3,7 +3,7 @@ import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
 
 const TransactionList = (props) => {
-  const {loan} = props;
+  const { loan } = props;
   const [username, setUsername] = useState(1);
   const [TxList, setTxList] = useState([]);
   const [isBtnDisabled, setBtnDisabled] = useState(false);
@@ -11,6 +11,10 @@ const TransactionList = (props) => {
   const [review, setReview] = useState('');
   const [disable, setDisable] = useState(true);
   const [isLoading, setLoading] = useState(true);
+
+  const onWriteReview = () => {
+    setIsOpen(true);
+  };
 
   useEffect(() => {
     const loanId = loan.id;
@@ -66,15 +70,11 @@ const TransactionList = (props) => {
     setLoading(true);
   };
 
-  const onWriteReview = () => {
-    setIsOpen(true);
-  }
-
   const handleChange = async (e) => {
     const r = e.target.value;
     setReview(r);
     if (r.length !== 0) setDisable(false);
-  }
+  };
 
   const onSubmit = async (tx) => {
     setIsOpen(false);
@@ -86,7 +86,7 @@ const TransactionList = (props) => {
 
     const revieweeId = tx.borrower_id;
     const targetUrl = `/review/${revieweeId}/`;
-    const response = await fetch(targetUrl, {
+    await fetch(targetUrl, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       credentials: 'include', // include, *same-origin, omit
       headers: {
@@ -94,7 +94,7 @@ const TransactionList = (props) => {
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken,
       },
-      body: JSON.stringify({content: review}), // body data type must match "Content-Type" header
+      body: JSON.stringify({ content: review }), // body data type must match "Content-Type" header
     });
   };
 
