@@ -354,12 +354,11 @@ class LoanTestCase(TestCase):
         response = client.put('/loan/transaction/1')
         self.assertEqual(response.status_code, 401)
 
-    def test_room(self):
-        client = Client()
-
         response = client.get('/loan/chatroom/55886609')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
 
+        response = client.get('/loan/chatroom/5588660900')
+        self.assertEqual(response.status_code, 404)
 
 class ConsumerTestCase(TestCase):
     def test_connect(self):

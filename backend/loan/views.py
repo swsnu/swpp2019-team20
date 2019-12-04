@@ -260,7 +260,7 @@ def transaction(request, tx_id):
 # chatroom
 def room(request, hashed_loan_id):
     loan_id = int(hashed_loan_id / 55886609)
-    current_loan = Loan.objects.get(id=loan_id)
+    current_loan = get_object_or_404(Loan, pk=loan_id)
     transaction_list = Transaction.objects.filter(loan=current_loan)
 
     participant_list = []
