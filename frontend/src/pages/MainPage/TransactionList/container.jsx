@@ -77,8 +77,6 @@ const TransactionList = (props) => {
   }
 
   const onSubmit = async (tx) => {
-    console.log('......!?')
-    console.log(review)
     setIsOpen(false);
     await fetch('/account/token', {
       method: 'GET',
@@ -87,9 +85,6 @@ const TransactionList = (props) => {
     const csrftoken = getCookie('csrftoken');
 
     const revieweeId = tx.borrower_id;
-    console.log('reviewee')
-    console.log(tx.borrower)
-    console.log(tx.borrower_id)
     const targetUrl = `/review/${revieweeId}/`;
     const response = await fetch(targetUrl, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
