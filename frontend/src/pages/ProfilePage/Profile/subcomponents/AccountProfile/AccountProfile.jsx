@@ -19,6 +19,7 @@ import {
   Paper,
   Box,
 } from '@material-ui/core';
+import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,7 @@ const AccountProfile = (props) => {
   const [edit, setEdit] = useState(false);
 
   const {
-    mine, username, kakao_id: kakaoID, phone, bio, twilio_msg,
+    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg,
   } = children.userInfo;
 
   const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
@@ -70,7 +71,48 @@ const AccountProfile = (props) => {
     setKakaoIDState(kakaoID);
     setPhoneState(phone);
     setMessageState(twilio_msg);
-  }, [kakaoID !== null, phone !== null, twilio_msg !== null]);
+  }, [kakaoID, phone, twilio_msg]);
+
+  /* --- submit changes --- */
+
+  const triggerProfilePost = async (data) => {
+    // console.log(data);
+    await fetch('/account/token', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    const csrftoken = getCookie('csrftoken');
+
+    const response = await fetch(`/account/user/${id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status === 200) {
+      // eslint-disable-next-line
+      window.alert('profile change success');
+    } else {
+      // eslint-disable-next-line
+      window.alert('profile change error');
+    }
+  };
+
+  const profilePostHandler = () => {
+    const data = {
+      kakao_id: kakaoIDState,
+      phone: phoneState,
+      bio: bio,
+      twilio_msg: messageState
+    };
+    triggerProfilePost(data);
+  };
 
   return (
     <Card
@@ -156,7 +198,7 @@ const AccountProfile = (props) => {
         {mine &&
           (
             edit ? (
-              <Button className={classes.uploadButton} variant="contained" onClick={() => setEdit(!edit)}>
+              <Button className={classes.uploadButton} variant="contained" onClick={() => {setEdit(!edit); profilePostHandler();}}>
                 Submit
               </Button>
             ) : (
