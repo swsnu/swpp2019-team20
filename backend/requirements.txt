@@ -1,3 +1,11 @@
+coverage
 django
-python-datetutil
+konlpy
+nltk
+numpy
+psycopg2-binary
+pylint
+pylint-django
+python-dateutil
+tensorflow
 twilio
