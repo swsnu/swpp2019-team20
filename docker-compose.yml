@@ -1,0 +1,21 @@
+version: '3'
+services:
+  front:
+    image: nevivurn/payback-frontend:latest
+    ports:
+      - '8000:80'
+  back:
+    image: nevivurn/payback-backend:latest
+    depends_on:
+      - db
+    ports:
+      - '8001:8080'
+    volumes:
+      - './backend_settings.py:/opt/payback-backend/backend/settings.py'
+  db:
+    image: postgres:12-alpine
+    # MODIFY THESE VALUES
+    environment:
+      - 'POSTGRES_DB=payback'
+      - 'POSTGRES_USER=payback'
+      - 'POSTGRES_PASSWORD=payback'
