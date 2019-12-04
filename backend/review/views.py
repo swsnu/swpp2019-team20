@@ -1,6 +1,11 @@
+#-*- coding:utf-8 -*-
 import json
-import os
 from json import JSONDecodeError
+import os
+import random
+import nltk
+import tensorflow as tf
+from konlpy.tag import Okt
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
@@ -8,11 +13,10 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-import tensorflow as tf
-from konlpy.tag import Okt
-import nltk
-from . import sentiment as sent
+
+from account.models import Profile
 from .models import Review
+from . import sentiment as sent
 
 
 def user_review(request, reviewee_id):
@@ -22,14 +26,17 @@ def user_review(request, reviewee_id):
     if request.user.is_authenticated:
         if request.method == 'GET':
             reviewee_user = get_object_or_404(User, pk=reviewee_id)
-            # reviewee_user = User.objects.get(id=reviewee_id)
             review_list = Review.objects.filter(reviewee=reviewee_user)
 
             json_review_list = []
             for review in review_list:
                 json_review_list.append({'rating': review.rating,
                                          'content': review.content})
-            return JsonResponse(json_review_list, status=200, safe=False)
+            return JsonResponse(
+                random.shuffle(json_review_list),
+                status=200,
+                safe=False
+            )
 
 
         # when request.method == 'POST':
@@ -59,6 +66,16 @@ def user_review(request, reviewee_id):
                             rating=rating,
                             content=content)
         new_review.save()
+
+        # Apply new rating to corresponding user
+        review_list_len = Review.objects.filter(reviewee=reviewee_user).count()
+        reviewee_user_profile = Profile.objects.get(user=reviewee_user)
+
+        prev_rating = reviewee_user_profile.rating
+        new_rating = (prev_rating * review_list_len + rating) / (review_list_len + 1)
+        reviewee_user_profile.rating = round(new_rating, 2)
+        reviewee_user_profile.save()
+
         return JsonResponse({'id': new_review.id,
                              'rating': rating,
                              'content': content},

@@ -3,7 +3,7 @@ import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
 
 const TransactionList = (props) => {
-  const { loan } = props;
+  const {loan} = props;
   const [username, setUsername] = useState(1);
   const [TxList, setTxList] = useState([]);
   const [isBtnDisabled, setBtnDisabled] = useState(false);
@@ -55,7 +55,7 @@ const TransactionList = (props) => {
       body: JSON.stringify(content), // body data type must match "Content-Type" header
     });
 
-    if (response.status === 403) alert('not your transaction! ;_;');
+    if (response.status === 403) alert('not your transaction! >.ㅜ');
     else {
       setBtnDisabled(true);
       if (tx.lender === username) onWriteReivew(tx);
@@ -75,7 +75,6 @@ const TransactionList = (props) => {
       const csrftoken = getCookie('csrftoken');
 
       const revieweeId = tx.borrower_id;
-      console.log(revieweeId)
       const targetUrl = `/review/${revieweeId}`;
       const response = await fetch(targetUrl, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -101,5 +100,6 @@ const TransactionList = (props) => {
   );
   return render;
 };
+
 
 export default TransactionList;

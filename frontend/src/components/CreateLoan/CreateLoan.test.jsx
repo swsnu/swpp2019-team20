@@ -25,6 +25,12 @@ jest.mock('@material-ui/core/Select', () => (
   )
 ));
 
+jest.mock('../subcomponents/SearchBar/SearchBar', () => (
+  ({ setUser }) => (
+    <input type="text" onChange={(event) => setUser(event.target.value)} />
+  )
+));
+
 describe('<CreateLoan/>', () => {
   let createLoan;
   // eslint-disable-next-line
@@ -55,6 +61,14 @@ describe('<CreateLoan/>', () => {
     // participants = component.find('SearchBar');
     participants = component.find('#paid-money input');
     expect(participants.length).toBe(2);
+  });
+
+  it('write user name', () => {
+    const component = mount(createLoan);
+
+    const searchBar = component.find('.participants input').at(0);
+    searchBar.simulate('change', { target: { value: null } });
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
   });
 
   it('write paid money', () => {

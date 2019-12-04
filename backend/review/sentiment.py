@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 import numpy as np
 
 def tokenize(doc, okt):
@@ -12,4 +13,4 @@ def predict_score(model, okt, selected_words, review):
     data = np.expand_dims(np.asarray(term_freq).astype('float32'), axis=0)
     score = float(model.predict(data))
 
-    return round(score, 2) * 10
+    return round(score, 3) * 10

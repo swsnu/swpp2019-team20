@@ -1,8 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
 import LoanList from './container';
 
-describe('<CompletedLoanList />', () => {
+describe('<CompletedLoanList /> shallow', () => {
   it('should render without error', () => {
     const component = shallow(<LoanList />);
     expect(component.length).toEqual(1);
@@ -24,10 +25,14 @@ const request = [
     completed_date: null,
   }];
 
-describe('<CompletedLoanList />', () => {
+describe('<CompletedLoanList /> mount', () => {
   it('works with fetch', async () => {
     const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
-    mount(<LoanList />);
+    mount(
+      <BrowserRouter>
+        <LoanList />
+      </BrowserRouter>,
+    );
     expect(mockFn).toBeCalledTimes(1);
   });
 });

@@ -19,22 +19,11 @@ describe('<App />', () => {
   // eslint-disable-next-line
   let getLoginSpy;
 
-  beforeEach(() => {
-    getLoginSpy = jest.spyOn(window, 'fetch')
-      // eslint-disable-next-line
-      .mockImplementation((url) => {
-        const result = {
-          status: 204,
-        };
-        return Promise.resolve(result);
-      });
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test('when loggedIn is true', () => {
+  test('when loggedIn is false', () => {
     getLoginSpy = jest.spyOn(window, 'fetch')
       // eslint-disable-next-line
       .mockImplementation((url) => {
@@ -57,7 +46,16 @@ describe('<App />', () => {
     expect(component.length).toBe(1);
   });
 
-  test('when loggedIn is false', () => {
+  test('when loggedIn is true', () => {
+    getLoginSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 204,
+        };
+        return Promise.resolve(result);
+      });
+
     const [user, setUser] = useStateSpy({
       loggedIn: false,
       username: '',
@@ -69,5 +67,28 @@ describe('<App />', () => {
       </AppContext.Provider>,
     );
     expect(component.length).toBe(1);
+  });
+
+  test('redirect profile page', () => {
+    getLoginSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 204,
+          json: () => ({ id: 7 }),
+        };
+        return Promise.resolve(result);
+      });
+
+    const [user, setUser] = useStateSpy({
+      loggedIn: false,
+      username: '',
+    });
+
+    mount(
+      <AppContext.Provider value={{ user, setUser }}>
+        <App />
+      </AppContext.Provider>,
+    );
   });
 });
