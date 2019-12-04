@@ -29,9 +29,7 @@ class SearchBar extends Component {
       results: [],
     });
 
-
     setTimeout(async () => {
-
       const idResponse = await fetch(`/account/by-name/${this.state.username}`);
       if (idResponse.status !== 200) {
         this.setState({ isLoading: false });
