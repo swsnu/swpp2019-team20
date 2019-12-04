@@ -1,6 +1,7 @@
+import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-import json
+
 
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
@@ -15,7 +16,7 @@ class ChatConsumer(WebsocketConsumer):
 
         self.accept()
 
-    def disconnect(self, close_code):
+    def disconnect(self, close_code):   # pylint: disable=unused-argument,arguments-differ
         # Leave room group
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name,
@@ -23,7 +24,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    def receive(self, text_data):
+    def receive(self, text_data):       # pylint: disable=arguments-differ
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
         name = text_data_json['name']

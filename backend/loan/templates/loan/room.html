@@ -8,162 +8,162 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 <head>
-    <meta charset="utf-8" />
-    <title>chatroom</title>
+  <meta charset="utf-8" />
+  <title>chatroom</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">            <!--rendering properly in mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">            <!--rendering properly in mobile devices-->
 
-    <!--Google font family link-->
-    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Lobster|Poor+Story|Sunflower:300&display=swap" rel="stylesheet">
+  <!--Google font family link-->
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Lobster|Poor+Story|Sunflower:300&display=swap" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <style>
-      .main_section {
-        width: 100%;
-        height: 0px;
-      }
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    .main_section {
+      width: 100%;
+      height: 0px;
+    }
 
-      .main_section .container {
-        width: 100%;
-        height: 700px;
-        font-family: 'Sunflower', sans-serif;
-      }
+    .main_section .container {
+      width: 100%;
+      height: 700px;
+      font-family: 'Sunflower', sans-serif;
+    }
 
-      .main_section .container .chat_container {
-        height: 100%;
-      }
+    .main_section .container .chat_container {
+      height: 100%;
+    }
 
-      .new_message_head button {
-        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-        border: medium none;
-      }
+    .new_message_head button {
+      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+      border: medium none;
+    }
 
-      .new_message_head {
-        background: #f5f3f3 none repeat scroll 0 0;
-        float: left;
-        font-size: 13px;
-        font-weight: 600;
-        padding: 18px 10px;
-        width: 100%;
-      }
+    .new_message_head {
+      background: #f5f3f3 none repeat scroll 0 0;
+      float: left;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 18px 10px;
+      width: 100%;
+    }
 
-      .message_section {
-        float: none;
-        height: 100%;
-        margin: auto;
-        border: 1px solid #dddddd;
-      }
+    .message_section {
+      float: none;
+      height: 100%;
+      margin: auto;
+      border: 1px solid #dddddd;
+    }
 
-      #chat_area {
-        float: left;
-        height: 72%;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 100%;
-        font-family: 'Poor Story', cursive;
-      }
+    #chat_area {
+      float: left;
+      height: 72%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      font-family: 'Poor Story', cursive;
+    }
 
-      #chat_area li {
-        padding: 14px 14px 0;
-      }
+    #chat_area li {
+      padding: 14px 14px 0;
+    }
 
-      #chat_area li .chat-img1 img {
-        height: 40px;
-        width: 40px;
-      }
+    #chat_area li .chat-img1 img {
+      height: 40px;
+      width: 40px;
+    }
 
-      #chat_area .chat-body1 {
-        text-align: right;
-        margin-left: 50px;
-      }
+    #chat_area .chat-body1 {
+      text-align: right;
+      margin-left: 50px;
+    }
 
-      .chat-body1 p {
-        background: #b0ebeb none repeat scroll 0 0;
-        padding: 10px 15px;
-        border-radius: 7px;
-        display: inline-block;
-        margin: 3px 0px 4px 0px;
-      }
+    .chat-body1 p {
+      background: #b0ebeb none repeat scroll 0 0;
+      padding: 10px 15px;
+      border-radius: 7px;
+      display: inline-block;
+      margin: 3px 0px 4px 0px;
+    }
 
-      .chat-body1 .chat_time {
-        margin-right: 7px;
-      }
+    .chat-body1 .chat_time {
+      margin-right: 7px;
+    }
 
-      #chat_area .admin_chat .chat-body1 {
-        margin-left: 0;
-        margin-right: 50px;
-      }
+    #chat_area .admin_chat .chat-body1 {
+      margin-left: 0;
+      margin-right: 50px;
+    }
 
-      #chat_area .chat-body2 {
-        text-align: left;
-        margin-left: 50px;
-      }
+    #chat_area .chat-body2 {
+      text-align: left;
+      margin-left: 50px;
+    }
 
-      .chat-body2 p {
-        background: #45acac none repeat scroll 0 0;
-        padding: 10px 15px;
-        border-radius: 7px;
-        display: inline-block;
-        margin: 3px 0px 4px 0px;
-      }
+    .chat-body2 p {
+      background: #45acac none repeat scroll 0 0;
+      padding: 10px 15px;
+      border-radius: 7px;
+      display: inline-block;
+      margin: 3px 0px 4px 0px;
+    }
 
-      .chat-body2 .chat_time {
-        margin-left: 7px;
-      }
+    .chat-body2 .chat_time {
+      margin-left: 7px;
+    }
 
-      #chat_area li:last-child {
-        padding-bottom: 10px;
-      }
+    #chat_area li:last-child {
+      padding-bottom: 10px;
+    }
 
-      .message_write {
-        background: #f5f3f3 none repeat scroll 0 0;
-        float: left;
-        padding: 15px;
-        width: 100%;
-        font-family: 'Sunflower', sans-serif;
-      }
+    .message_write {
+      background: #f5f3f3 none repeat scroll 0 0;
+      float: left;
+      padding: 15px;
+      width: 100%;
+      font-family: 'Sunflower', sans-serif;
+    }
 
-      .message_write textarea.form-control {
-        height: 70px;
-        padding: 10px;
-      }
+    .message_write textarea.form-control {
+      height: 70px;
+      padding: 10px;
+    }
 
-      .chat_bottom {
-        float: left;
-        margin-top: 13px;
-        width: 100%;
-      }
+    .chat_bottom {
+      float: left;
+      margin-top: 13px;
+      width: 100%;
+    }
 
-      .upload_btn {
-        color: #777777;
-      }
+    .upload_btn {
+      color: #777777;
+    }
 
-      .sub_menu_>li a,
-      .sub_menu_>li {
-        float: left;
-        width: 100%;
-      }
+    .sub_menu_>li a,
+    .sub_menu_>li {
+      float: left;
+      width: 100%;
+    }
 
-      .member_list li:hover {
-        background: #428bca none repeat scroll 0 0;
-        color: #fff;
-        cursor: pointer;
-      }
+    .member_list li:hover {
+      background: #428bca none repeat scroll 0 0;
+      color: #fff;
+      cursor: pointer;
+    }
 
-      #chat-log {
-        border: none;
-        padding: 30px;
-      }
+    #chat-log {
+      border: none;
+      padding: 30px;
+    }
 
-      #chat_area .init_chat {
-        text-align: center;
-        margin: 20px;
-      }
-    </style>
+    #chat_area .init_chat {
+      text-align: center;
+      margin: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -185,15 +185,17 @@
                     </div>
                   </div>
                 </div>
+
                 <div id="chat_area">
                   <p class="init_chat">
-                    {% if lm_name %}
-                        context로 loan_id에 해당하는 멤버 아이디 보내줄 것 {{ lm_name }}
+                    {% if participants %}
+                      {{participants}} 님이 참여하셨습니다.
                     {% else %}
                         access error
                     {% endif %}
                   </p>
                   <ul id="chat-log" class="list-unstyled">
+                    <!-- list will be appended here -->
                   </ul>
                 </div>
 
@@ -212,21 +214,16 @@
       </div>
     </main>
   </div>
-
-  <div id="invisible" style="display:none"></div>
-
 </body>
 
 <script>
   let id = "{{ user.get_username }}";
-  console.log("id is.." + id);
   let timer;
-  let roomName = {{ lm_name }};
+  let roomName = {{ hashed_loan_id }};
+  let participants = {{ participants }};
 
-  console.log(window.location.host);
   /* Web socket for chatroom conversation */
   let chatSocket = new WebSocket('ws://localhost:8000/ws/loan/chatroom/' + roomName + '/');
-  console.log(chatSocket);
 
   /* Add user side speech bubble into chat-area */
   function addLog(message, name) {
@@ -250,7 +247,6 @@
   }
 
   chatSocket.onmessage = function(e) {
-    console.log(e);
     let data = JSON.parse(e.data);
     let message = data['message'];
     let name = data['name'];
