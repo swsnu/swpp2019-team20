@@ -357,7 +357,7 @@ class LoanTestCase(TestCase):
     def test_room(self):
         client = Client()
 
-        response = client.post('/loan/chatroom/test', {}, content_type='application/json')
+        response = client.get('/loan/chatroom/55886609')
         self.assertEqual(response.status_code, 404)
 
 
