@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import fetchMock from 'fetch-mock';
-import { AppContext } from '../../../App';
 import { BrowserRouter } from 'react-router-dom';
+import { AppContext } from '../../../App';
 import SearchBar from './SearchBar';
 
 describe('<SearchBar />', () => {

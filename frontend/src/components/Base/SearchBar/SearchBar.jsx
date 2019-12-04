@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Search, Grid } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import './SearchBar.css';
 
 class SearchBar extends Component {
@@ -18,6 +18,7 @@ class SearchBar extends Component {
 
   onResultSelect(e, { result }) {
     // console.log("called!!");
+    // eslint-disable-next-line
     this.props.history.push(`/profile/${result.content.id}`);
   }
 
@@ -27,7 +28,7 @@ class SearchBar extends Component {
       username: value,
       results: [],
     });
-    
+
 
     setTimeout(async () => {
       // simple debouncing
