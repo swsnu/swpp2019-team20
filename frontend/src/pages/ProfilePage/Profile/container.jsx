@@ -21,7 +21,7 @@ const Profile = () => {
 
   useEffect(() => {
     fetchProfile();
-  }, [isLoading]);
+  }, [isLoading, userID]);
 
   const render = (
     <Presenter
