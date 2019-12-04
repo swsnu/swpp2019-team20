@@ -31,15 +31,10 @@ class SearchBar extends Component {
 
 
     setTimeout(async () => {
-      // simple debouncing
-      /* if (this.state.username !== value) {
-        return;
-      } */
 
       const idResponse = await fetch(`/account/by-name/${this.state.username}`);
       if (idResponse.status !== 200) {
         this.setState({ isLoading: false });
-        // TODO: report error to user
         return;
       }
       const { id: userId } = await idResponse.json();
@@ -49,15 +44,9 @@ class SearchBar extends Component {
         if (this.state.username === value) {
           this.setState({ isLoading: false });
         }
-        // TODO: report error to user
         return;
       }
       const user = await profileResponse.json();
-
-      // it may all have been for naught
-      /* if (this.state.username !== value) {
-        return;
-      } */
 
       this.setState((state) => ({
         isLoading: false,
@@ -65,7 +54,6 @@ class SearchBar extends Component {
           id: userId,
           title: state.username,
           content: user,
-          // TODO: display other user attributes
         }],
       }));
     }, 300);
