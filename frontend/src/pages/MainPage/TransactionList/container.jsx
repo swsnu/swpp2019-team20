@@ -65,7 +65,7 @@ const TransactionList = (props) => {
     if (response.status === 403) alert('not your transaction! ㅜ.ㅜ');
     else {
       setBtnDisabled(true);
-      if (tx.lender === username) onWriteReview(tx);
+      if (tx.lender === username) onWriteReview();
     }
     setLoading(true);
   };
