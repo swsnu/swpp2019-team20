@@ -17,7 +17,6 @@ import {
   Input,
   TextField,
   Paper,
-  Box,
 } from '@material-ui/core';
 import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
@@ -56,22 +55,22 @@ const AccountProfile = (props) => {
   const user = {
     avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
-  
+
   const [edit, setEdit] = useState(false);
 
   const {
-    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg,
+    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
   } = children.userInfo;
 
   const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
   const [phoneState, setPhoneState] = useState(phone);
-  const [messageState, setMessageState] = useState(twilio_msg);
+  const [messageState, setMessageState] = useState(twilioMsg);
 
   useEffect(() => {
     setKakaoIDState(kakaoID);
     setPhoneState(phone);
-    setMessageState(twilio_msg);
-  }, [kakaoID, phone, twilio_msg]);
+    setMessageState(twilioMsg);
+  }, [kakaoID, phone, twilioMsg]);
 
   /* --- submit changes --- */
 
@@ -108,8 +107,8 @@ const AccountProfile = (props) => {
     const data = {
       kakao_id: kakaoIDState,
       phone: phoneState,
-      bio: bio,
-      twilio_msg: messageState
+      bio,
+      twilio_msg: messageState,
     };
     triggerProfilePost(data);
   };
@@ -129,26 +128,33 @@ const AccountProfile = (props) => {
               {username}
             </Typography>
 
-            <MessageIcon />
-            {' '}KakaoTalk:{' '}
-            {edit ? (
-              <Input
-                value={kakaoIDState}
-                onChange={(e)=>setKakaoIDState(e.target.value)}
-                className={classes.input}
-              />
-            ) : kakaoIDState}
-            <br />
+            <div className="kakaoID">
+              <MessageIcon />
+              {' '}
+            KakaoTalk:
+              {' '}
+              {edit ? (
+                <Input
+                  value={kakaoIDState}
+                  onChange={(e) => setKakaoIDState(e.target.value)}
+                  className={classes.input}
+                />
+              ) : kakaoIDState}
+            </div>
 
-            <PhoneIphoneIcon />
-            {' '}Phone:{' '}
-            {edit ? (
-              <Input
-                value={phoneState}
-                onChange={(e)=>setPhoneState(e.target.value)}
-                className={classes.input}
-              />
-            ) : phoneState}
+            <div className="phone">
+              <PhoneIphoneIcon />
+              {' '}
+            Phone:
+              {' '}
+              {edit ? (
+                <Input
+                  value={phoneState}
+                  onChange={(e) => setPhoneState(e.target.value)}
+                  className={classes.input}
+                />
+              ) : phoneState}
+            </div>
           </div>
 
           <Avatar
@@ -158,25 +164,29 @@ const AccountProfile = (props) => {
         </div>
 
         <RecordVoiceOverIcon />
-        {' '}Phone message<br />
+        {' '}
+        Phone message
+        <br />
         {edit ? (
-          <TextField
-            placeholder="Write a message"
-            value={messageState}
-            onChange={(e)=>setMessageState(e.target.value)}
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-            variant="outlined"
-          />
+          <div className="message">
+            <TextField
+              placeholder="Write a message"
+              value={messageState}
+              onChange={(e) => setMessageState(e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+            />
+          </div>
         ) : (
-            <Paper className={classes.paper}>
-              <Typography component="p">
-                {messageState}
-              </Typography>
-            </Paper>
-          )}
+          <Paper className={classes.paper}>
+            <Typography component="p">
+              {messageState}
+            </Typography>
+          </Paper>
+        )}
 
         <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
@@ -189,25 +199,30 @@ const AccountProfile = (props) => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button className={classes.uploadButton} disabled = {edit} color="primary" variant="text">
+        <Button className={classes.uploadButton} disabled={edit} color="primary" variant="text">
           Upload picture
         </Button>
-        <Button className={classes.uploadButton} disabled = {edit} variant="text">
+        <Button className={classes.uploadButton} disabled={edit} variant="text">
           Remove picture
         </Button>
-        {mine &&
-          (
+
+        {mine
+          && (
             edit ? (
-              <Button className={classes.uploadButton} variant="contained" onClick={() => {setEdit(!edit); profilePostHandler();}}>
-                Submit
-              </Button>
+              <div className="submit-button">
+                <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
+                  Submit
+                </Button>
+              </div>
             ) : (
-              <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
-                Edit profile
-              </Button>
+              <div className="edit-button">
+                <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
+                    Edit profile
+                </Button>
+              </div>
             )
-          )
-        }
+          )}
+
 
       </CardActions>
     </Card>

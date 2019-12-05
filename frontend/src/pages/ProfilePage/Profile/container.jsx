@@ -9,7 +9,7 @@ const Profile = () => {
 
   const { userID } = useParams();
 
-  const fetchProfile = async () => {    //get profile information of this user ID
+  const fetchProfile = async () => { // get profile information of this user ID
     const res = await fetch(`/account/user/${userID}`, {
       method: 'GET',
       credential: 'include',
@@ -19,14 +19,14 @@ const Profile = () => {
     setLoading(false);
   };
 
-  const isMine = async () => {    //set if this profile is Mine
+  const isMine = async () => { // set if this profile is Mine
     const res = await fetch('/account/user/me', {
       method: 'GET',
       credential: 'include',
     });
     const info = await res.json();
-    setMine(info.id == userID);
-  }
+    setMine(info.id === Number(userID));
+  };
 
   useEffect(() => {
     fetchProfile();
@@ -35,7 +35,7 @@ const Profile = () => {
 
   const render = (
     <Presenter
-      userInfo={{...userInfo, mine: mine}}
+      userInfo={{ ...userInfo, mine }}
     />
   );
   return render;
