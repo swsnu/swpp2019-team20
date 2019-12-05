@@ -138,7 +138,7 @@ const CreateLoan = () => {
   };
 
   const deleteUser = (index) => {
-    let newParticipants = [...participants];
+    const newParticipants = [...participants];
     newParticipants.splice(index, 1);
     setParticipants(newParticipants);
   };
@@ -160,7 +160,6 @@ const CreateLoan = () => {
 
   const participantsList = participants.map(
     (participant, index) => {
-
       const setUser = (user) => {
         if (user !== null) {
           changeUserId(index, user.id);
@@ -171,7 +170,7 @@ const CreateLoan = () => {
         // eslint-disable-next-line
         <div>
           <div className="participants">
-            <CloseIcon style={{ fontSize: 20 }} onClick={()=>deleteUser(index)}/>
+            <CloseIcon style={{ fontSize: 20 }} onClick={() => deleteUser(index)} />
           </div>
 
           <div className="participants">
