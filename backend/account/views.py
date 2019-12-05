@@ -32,6 +32,7 @@ def profile(request, user_pk):
             prof.kakao_id = str(req_data['kakao_id'])
             prof.phone = str(req_data['phone'])
             prof.bio = str(req_data['bio'])
+            prof.twilio_msg = str(req_data['twilio_msg'])
             if request.user.pk != prof.user_id:
                 return HttpResponse(status=403)
             prof.save()
