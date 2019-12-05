@@ -120,7 +120,7 @@ export default function SimpleTabs(props) {
                     <div className={classes.details}>
                       <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                          Totol Members:
+                          Total Members:
                           {loan.num_members}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import CloseIcon from '@material-ui/icons/Close';
 /* outlined box */
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
@@ -136,6 +137,12 @@ const CreateLoan = () => {
     ]);
   };
 
+  const deleteUser = (index) => {
+    let newParticipants = [...participants];
+    newParticipants.splice(index, 1);
+    setParticipants(newParticipants);
+  };
+
   const changeUserId = (index, id) => {
     const newParticipants = [...participants];
     newParticipants[index].id = id;
@@ -153,6 +160,7 @@ const CreateLoan = () => {
 
   const participantsList = participants.map(
     (participant, index) => {
+
       const setUser = (user) => {
         if (user !== null) {
           changeUserId(index, user.id);
@@ -162,6 +170,10 @@ const CreateLoan = () => {
       return (
         // eslint-disable-next-line
         <div>
+          <div className="participants">
+            <CloseIcon style={{ fontSize: 20 }} onClick={()=>deleteUser(index)}/>
+          </div>
+
           <div className="participants">
             <SearchBar setUser={setUser} />
           </div>
