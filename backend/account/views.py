@@ -29,7 +29,6 @@ def profile(request, user_pk):
 
         try:
             req_data = json.loads(request.body)
-            print(req_data)
             prof.kakao_id = str(req_data['kakao_id'])
             prof.phone = str(req_data['phone'])
             prof.bio = str(req_data['bio'])
