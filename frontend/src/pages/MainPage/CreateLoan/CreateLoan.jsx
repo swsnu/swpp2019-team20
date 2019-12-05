@@ -19,8 +19,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { getCookie } from '../../utils';
-import SearchBar from '../subcomponents/SearchBar/SearchBar';
+import { getCookie } from '../../../utils';
+import SearchBar from '../../../components/subcomponents/SearchBar/SearchBar';
 
 import './CreateLoan.css';
 

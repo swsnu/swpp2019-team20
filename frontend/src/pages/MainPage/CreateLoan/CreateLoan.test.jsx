@@ -25,7 +25,7 @@ jest.mock('@material-ui/core/Select', () => (
   )
 ));
 
-jest.mock('../subcomponents/SearchBar/SearchBar', () => (
+jest.mock('../../../components/subcomponents/SearchBar/SearchBar', () => (
   ({ setUser }) => (
     <input type="text" onChange={(event) => setUser(event.target.value)} />
   )

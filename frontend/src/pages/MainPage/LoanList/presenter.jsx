@@ -17,7 +17,7 @@ import Budget from '../subcomponents/Budget/Budget';
 import TotalMoney from '../subcomponents/TotalMoney/TotalMoney';
 import TotalUsers from '../subcomponents/TotalUsers/TotalUsers';
 import TaskProgress from '../subcomponents/TasksProgress/TasksProgress';
-import CreateLoan from '../../../components/CreateLoan/CreateLoan';
+import CreateLoan from '../CreateLoan/CreateLoan';
 import './presenter.css';
 
 function TabPanel(props) {
