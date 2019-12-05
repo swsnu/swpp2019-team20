@@ -223,7 +223,7 @@
   let participants = {{ participants }};
 
   /* Web socket for chatroom conversation */
-  let chatSocket = new WebSocket('ws://localhost:8000/ws/loan/chatroom/' + roomName + '/');
+  let chatSocket = new WebSocket(`ws://${window.location.host}/ws/loan/chatroom/${roomName}/`);
 
   /* Add user side speech bubble into chat-area */
   function addLog(message, name) {
