@@ -1,8 +1,30 @@
 #import json
+import json
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from channels.layers import get_channel_layer
 from .models import Loan
+from .consumers import ChatConsumer
+
+class MockClass():
+    def __init__(self):
+        self.scope = {
+            "url_route": {"kwargs":{"room_name": "test"}},
+            "http_version": "1.1",
+            "method": "POST",
+            "path": "/test/",
+        }
+        self.channel_layer = get_channel_layer()
+        self.room_group_name = "room"
+        self.channel_name = "channel_name"
+
+    def accept(self):
+        pass
+
+    def send(self, text_data):
+        pass
+
 
 class LoanTestCase(TestCase):
     def test_loan_list(self):
@@ -331,3 +353,23 @@ class LoanTestCase(TestCase):
         client.logout()
         response = client.put('/loan/transaction/1')
         self.assertEqual(response.status_code, 401)
+
+        response = client.get('/loan/chatroom/55886609')
+        self.assertEqual(response.status_code, 200)
+
+        response = client.get('/loan/chatroom/5588660900')
+        self.assertEqual(response.status_code, 404)
+
+class ConsumerTestCase(TestCase):
+    def test_connect(self):
+        mock_object = MockClass()
+        ChatConsumer.connect(mock_object)
+        ChatConsumer.disconnect(mock_object, 404)
+
+        text_data = json.dumps({'message': 'message', 'name': 'name'})
+        ChatConsumer.receive(mock_object, text_data)
+
+        event = {'message': 'message', 'name': 'name'}
+        ChatConsumer.chat_message(mock_object, event)
+
+        self.assertEqual(event, {'message': 'message', 'name': 'name'})

@@ -8,6 +8,10 @@ matrix:
           organization: "swsnu"
           token:
              secure: "eZqKGUpZLFKJlMXTSS6pS6kkveOPSY0opqBHpvHFP4vcS80ResQM43wenwKtDIYA2iOAC9pCDB274I8lsyITCNCEozV2dEZYCDBLB2vCX8MH6HmUql+17vaNsxOGqq7WGuV0bRb52tXeQh/L5UlIbR+DacWi1m3pe7XUTbz4FBTIyJFZIm1G/REIyN4xPnhJnl2UjXnhvK4L/nnf1e3iNElExTgxs7rwcKBSPwDdBuTOvkfVwbq8zhcMeVZicE3ydPTJTkCF6hMQ6HtI1ma9xgoaKMs1zTz6jgu0pPphlkRRRwHghBitaoExwOzZM1xskSv0m6XX9F8f2HmoDlnSxqzkhHwgpcC343NVPYIH24bjaAqkqZhIegRVJDwHZM5OoKUPbJ6knhP9Yww/5n7k1tcXKnwfnstIB49Fj58bPbD4LPbpQB/amV0pIbyel7XLuZDUc7u51/rCxDgnOuQ/FJBIPvQWdlRP4x77H/GmhaFBuk5RbpGIANxsU4LaPWZKT0qaWgGZi7d+z+JZK2i2+tLO+Z56sKq0lZADIIZzCO9ZAIflNADKBsQun1HUNikj2A+IcdT4/DLlsSWLcE9eGhD7BQY1updrfTg2AsIIvTiFF2WY2Mt6yHCWcuUh4fgk4WLVrMweO8q7niHUMd2xNbjk0z3mxUcm2+bjHEdru00="
+      services:
+        - docker
+      before_install:
+        - docker run -p 6379:6379 -d redis
       install:
         - cd frontend
         - yarn install
@@ -16,7 +20,7 @@ matrix:
         - cd ../
         - cd backend
         - source ~/virtualenv/python3.7/bin/activate
-        - pip install -r requirements-dev.txt
+        - pip install -r requirements.txt
         - pip install coveralls
         - cd ..
       script:
@@ -24,7 +28,7 @@ matrix:
         - yarn test --coverage --watchAll=false
         - cd ..
         - cd backend
-        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py' ./manage.py test
+        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
         - coverage xml
         - cd ..
         - sonar-scanner
@@ -37,7 +41,10 @@ matrix:
 
     - language: node_js
       node_js: 10
+      services:
+        - docker
       before_install:
+        - docker run -p 6379:6379 -d redis
         - cd frontend
       install:
         - yarn install
@@ -47,12 +54,15 @@ matrix:
 
     - language: python
       python: 3.7
+      services:
+        - docker
       before_install:
+        - docker run -p 6379:6379 -d redis
         - cd backend
       install:
-        - pip install -r requirements-dev.txt
+        - pip install -r requirements.txt
       script:
         - pylint --load-plugins pylint_django **/*.py
-        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','/utils/*','utils/*' ./manage.py test
+        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
         #- coverage report -m --fail-under=90
         - coverage report -m

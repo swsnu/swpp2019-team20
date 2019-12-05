@@ -1,3 +1,11 @@
+coverage
 django
-python-datetutil
+pylint
+pylint-django
+python-dateutil
+tensorflow
+konlpy
+nltk
+numpy
 twilio
+channels_redis
