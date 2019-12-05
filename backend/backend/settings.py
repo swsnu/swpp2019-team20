@@ -83,7 +83,8 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1' if os.getenv('REDIS_ADDR') == '' else os.getenv('REDIS_ADDR'), 6379)],
+            "hosts": [('127.0.0.1' if os.getenv('REDIS_ADDR') == '' else os.getenv('REDIS_ADDR'),
+                       6379)],
         },
     },
 }
