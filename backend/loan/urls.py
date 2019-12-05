@@ -7,6 +7,7 @@ urlpatterns = [
     path('loan/<int:loan_id>', views.loan, name='loan'),
     path('loan-transaction/<int:loan_id>', views.loan_transaction, name='loan-tranaction'),
     path('transaction/<int:tx_id>', views.transaction, name='transaction'),
+    path('chatroom/<int:hashed_loan_id>', views.room, name='room'),
 
     #path('deposit', views.deposit_list, name='deposit_list'),
     #path('deposit/<int:user_id>', views.deposit, name='deposit')

@@ -2,13 +2,14 @@ import json
 from json import JSONDecodeError
 
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
     HttpResponseForbidden,
     JsonResponse,
 )
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.forms.models import model_to_dict
@@ -16,6 +17,7 @@ from dateutil.parser import isoparse
 
 from utils import twilio
 from .models import Loan, Transaction
+
 
 
 def loan_list(request):
@@ -254,3 +256,21 @@ def transaction(request, tx_id):
         return JsonResponse(tx_dict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
+
+# chatroom
+def room(request, hashed_loan_id):
+    loan_id = int(hashed_loan_id / 55886609)
+    current_loan = get_object_or_404(Loan, pk=loan_id)
+    transaction_list = Transaction.objects.filter(loan=current_loan)
+
+    participant_list = []
+    for tx_obj in transaction_list:
+        participant_list.append(tx_obj.lender.username)
+        participant_list.append(tx_obj.borrower.username)
+    participant_set_list = list(set(participant_list))
+
+    context = {
+        'participants': mark_safe(participant_set_list),
+        'hashed_loan_id': mark_safe(json.dumps(hashed_loan_id))
+    }
+    return render(request, 'loan/room.html', context)

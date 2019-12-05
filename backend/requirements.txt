@@ -1,3 +1,4 @@
+channels_redis
 coverage
 django
 konlpy

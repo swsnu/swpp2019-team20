@@ -32,8 +32,9 @@ def user_review(request, reviewee_id):
             for review in review_list:
                 json_review_list.append({'rating': review.rating,
                                          'content': review.content})
+            random.shuffle(json_review_list)
             return JsonResponse(
-                random.shuffle(json_review_list),
+                json_review_list,
                 status=200,
                 safe=False
             )
