@@ -24,7 +24,9 @@ import './AccountProfile.css';
 import ImageUpload from '../../../ImageUpload/ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: { 
+    width: 510,
+  },
   details: {
     display: 'flex',
   },
@@ -42,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   uploadButton: {
+    width: 150,
     marginRight: theme.spacing(2),
   },
   paper: {
@@ -59,6 +62,7 @@ const AccountProfile = (props) => {
   };
 
   const [edit, setEdit] = useState(false);
+  const [image, setImage] = useState(false);
 
   const {
     mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
@@ -203,13 +207,14 @@ const AccountProfile = (props) => {
       <Divider />
 
       <CardActions>
-        <Button className={classes.uploadButton} disabled={edit} color="primary" variant="text">
-          Upload picture
+        <Button className={classes.uploadButton} disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
+          {image ? "Cancel" : "Upload picture"}
         </Button>
-        <Button className={classes.uploadButton} disabled={edit} variant="text">
+        <Button className={classes.uploadButton} disabled={edit || image} variant="text">
           Remove picture
         </Button>
 
+        {/* edit profile & submit button: only visible on my profile page */}
         {mine
           && (
             edit ? (
@@ -220,7 +225,7 @@ const AccountProfile = (props) => {
               </div>
             ) : (
               <div className="edit-button">
-                <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
+                <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
                     Edit profile
                 </Button>
               </div>
@@ -228,11 +233,14 @@ const AccountProfile = (props) => {
           )}
       </CardActions>
 
-      <Divider />
+      {image && <div>
+        <Divider />
 
-      <Card>
-        <ImageUpload />
-      </Card>
+        <Card>
+          <ImageUpload />
+        </Card>
+      </div>}
+
 
     </Card>
   );
