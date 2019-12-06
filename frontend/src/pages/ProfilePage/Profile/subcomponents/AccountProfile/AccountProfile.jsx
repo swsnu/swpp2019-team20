@@ -21,6 +21,8 @@ import {
 import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
 
+import ImageUpload from '../../../ImageUpload/ImageUpload';
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   details: {
@@ -197,7 +199,9 @@ const AccountProfile = (props) => {
         </div>
 
       </CardContent>
+      
       <Divider />
+
       <CardActions>
         <Button className={classes.uploadButton} disabled={edit} color="primary" variant="text">
           Upload picture
@@ -222,9 +226,14 @@ const AccountProfile = (props) => {
               </div>
             )
           )}
-
-
       </CardActions>
+
+      <Divider />
+
+      <Card>
+        <ImageUpload />
+      </Card>
+
     </Card>
   );
 };
