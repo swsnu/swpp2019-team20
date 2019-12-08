@@ -62,6 +62,7 @@ const TransactionList = (props) => {
       body: JSON.stringify(content), // body data type must match "Content-Type" header
     });
 
+    // eslint-disable-next-line
     if (response.status === 403) alert('not your transaction! ㅜ.ㅜ');
     else {
       setBtnDisabled(true);
