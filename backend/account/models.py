@@ -22,7 +22,7 @@ class Profile(models.Model):
     phone = models.CharField(max_length=13)
     bio = models.TextField(max_length=500, blank=True, null=True)
     twilio_msg = models.CharField(max_length=200, blank=True, null=True)
-    rating = models.FloatField(default=0, blank=True, null=True)
+    rating = models.FloatField(default=0)
     #profile_pic = ProcessedImageField(blank=True, null=True,
     #                            upload_to='profile_pics',
     #                            processors=[Thumbnail(300, 300)],
