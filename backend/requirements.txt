@@ -1,6 +1,6 @@
 channels_redis
 coverage
-django
+django==3.0
 konlpy
 nltk
 numpy
