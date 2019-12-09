@@ -143,3 +143,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/account/'
+
+# Media files (Image, Pdfs)
+# https://docs.djangoproject.com/en/2.2/ref/settings/#media-root
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

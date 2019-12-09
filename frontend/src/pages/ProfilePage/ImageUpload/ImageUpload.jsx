@@ -1,16 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './ImageUpload.css'
+import { getCookie } from '../../../utils';
 
-class ImageUpload extends React.Component {
+class ImageUpload extends Component {
   constructor(props) {
     super(props);
     this.state = { file: '', imagePreviewUrl: '' };
   }
 
+  triggerPutImage = async (formData) => {
+    await fetch('/account/token', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    const csrftoken = getCookie('csrftoken');
+
+    const response = await fetch(`/account/user/${this.props.userID}/image`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'X-CSRFToken': csrftoken,
+      },
+      body: formData,
+    });
+
+    if ( response.status === 200) {
+      window.alert('success image change');
+    } else {
+      window.alert('fail image change');
+    }
+  }
+
   imageSubmit(e) {
     e.preventDefault();
+
     // TODO: do something with -> this.state.file
-    console.log('handle uploading-', this.state.file);
+    let formData = new FormData();
+    formData.append('image', this.state.file)
+    
+    //console.log('handle uploading-', this.state.imagePreviewUrl);
+    this.triggerPutImage(formData);
   }
 
   imageChange(e) {

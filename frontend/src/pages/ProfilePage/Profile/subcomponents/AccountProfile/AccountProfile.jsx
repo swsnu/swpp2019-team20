@@ -237,7 +237,7 @@ const AccountProfile = (props) => {
         <Divider />
 
         <Card>
-          <ImageUpload />
+          <ImageUpload userID = {id}/>
         </Card>
       </div>}
 

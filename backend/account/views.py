@@ -20,6 +20,8 @@ def profile(request, user_pk):
         dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
         del dict_profile['user']
+        # dict_profile['image'] = 'http://127.0.0.1:8000' + prof.profile_img.url
+        del dict_profile['profile_img']
         return JsonResponse(dict_profile)
 
     if request.method == 'PUT':
@@ -42,6 +44,25 @@ def profile(request, user_pk):
             return HttpResponseBadRequest()
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
+
+def profile_image(request, user_pk):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        prof = get_object_or_404(Profile, pk=user_pk)
+
+        try:
+            prof.profile_img = request.FILES['image']
+            prof.save()
+            dict_image = {
+                'image': ''
+            }
+            return JsonResponse(dict_image)
+        except (KeyError, TypeError, json.JSONDecodeError):
+            print('\nboo1\n')
+            return HttpResponseBadRequest()  
+
+    return HttpResponseNotAllowed(['POST'])
 
 @ensure_csrf_cookie
 def token(request):

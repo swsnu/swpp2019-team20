@@ -23,8 +23,11 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True)
     twilio_msg = models.CharField(max_length=200, blank=True, null=True)
     rating = models.FloatField(default=0, blank=True, null=True)
-    #profile_pic = ProcessedImageField(blank=True, null=True,
-    #                            upload_to='profile_pics',
+    profile_img = models.ImageField(upload_to="profile_img", blank=True) #http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg
+    # 저장경로 : MEDIA_ROOT/blog/profile_img/xxxx.jpg 경로에 저장
+	# DB필드 : 'MEDIA_URL/blog/profile_img/xxxx.jpg' 문자열 저장
+    #profile_img = ProcessedImageField(blank=True, null=True,
+    #                            upload_to='profile_imgs',
     #                            processors=[Thumbnail(300, 300)],
     #                            format='JPEG',
     #                            options={'quality': 60}, )

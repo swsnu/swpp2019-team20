@@ -9,3 +9,4 @@ nltk
 numpy
 twilio
 channels_redis
+Pillow
