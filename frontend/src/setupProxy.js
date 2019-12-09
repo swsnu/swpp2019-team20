@@ -10,4 +10,7 @@ module.exports = function setupProxy(app) {
   app.use(proxy('/review', {
     target: 'http://localhost:8000',
   }));
+  app.use(proxy('/ws', {
+    target: 'http://localhost:8000',
+  }));
 };

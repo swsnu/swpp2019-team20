@@ -1,11 +1,12 @@
+channels_redis
 coverage
-django
+django==3.0
+konlpy
+nltk
+numpy
+psycopg2-binary
 pylint
 pylint-django
 python-dateutil
 tensorflow
-konlpy
-nltk
-numpy
 twilio
-channels_redis
