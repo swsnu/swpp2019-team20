@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import CloseIcon from '@material-ui/icons/Close';
 /* outlined box */
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
@@ -19,8 +20,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { getCookie } from '../../utils';
-import SearchBar from '../subcomponents/SearchBar/SearchBar';
+import { getCookie } from '../../../utils';
+import SearchBar from '../../../components/subcomponents/SearchBar/SearchBar';
 
 import './CreateLoan.css';
 
@@ -136,6 +137,12 @@ const CreateLoan = () => {
     ]);
   };
 
+  const deleteUser = (index) => {
+    const newParticipants = [...participants];
+    newParticipants.splice(index, 1);
+    setParticipants(newParticipants);
+  };
+
   const changeUserId = (index, id) => {
     const newParticipants = [...participants];
     newParticipants[index].id = id;
@@ -162,6 +169,10 @@ const CreateLoan = () => {
       return (
         // eslint-disable-next-line
         <div>
+          <div className="participants">
+            <CloseIcon style={{ fontSize: 20 }} onClick={() => deleteUser(index)} />
+          </div>
+
           <div className="participants">
             <SearchBar setUser={setUser} />
           </div>

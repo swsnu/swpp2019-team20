@@ -265,12 +265,23 @@ def room(request, hashed_loan_id):
 
     participant_list = []
     for tx_obj in transaction_list:
-        participant_list.append(tx_obj.lender.username)
-        participant_list.append(tx_obj.borrower.username)
-    participant_set_list = list(set(participant_list))
+        lender_info = {'username': tx_obj.lender.username,
+                       'id': tx_obj.lender.id,
+                       'rating': tx_obj.lender.profile.rating,
+                       'kakao_id': tx_obj.lender.profile.kakao_id,
+                       'phone': tx_obj.lender.profile.phone}
+        borrower_info = {'username': tx_obj.borrower.username,
+                         'id': tx_obj.borrower.id,
+                         'rating': tx_obj.borrower.profile.rating,
+                         'kakao_id': tx_obj.borrower.profile.kakao_id,
+                         'phone': tx_obj.borrower.profile.phone}
+        if lender_info not in participant_list:
+            participant_list.append(lender_info)
+        if borrower_info not in participant_list:
+            participant_list.append(borrower_info)
 
     context = {
-        'participants': mark_safe(participant_set_list),
+        'participants': participant_list,
         'hashed_loan_id': mark_safe(json.dumps(hashed_loan_id))
     }
     return render(request, 'loan/room.html', context)

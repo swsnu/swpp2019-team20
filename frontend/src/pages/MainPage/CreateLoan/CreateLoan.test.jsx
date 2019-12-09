@@ -20,12 +20,14 @@ jest.mock('@material-ui/pickers', () => ({
 }));
 
 jest.mock('@material-ui/core/Select', () => (
+  // eslint-disable-next-line
   ({ onChange }) => (
     <button type="button" onClick={() => onChange({ target: { value: 'testString' } })} aria-label="Mute volume" />
   )
 ));
 
-jest.mock('../subcomponents/SearchBar/SearchBar', () => (
+jest.mock('../../../components/subcomponents/SearchBar/SearchBar', () => (
+  // eslint-disable-next-line
   ({ setUser }) => (
     <input type="text" onChange={(event) => setUser(event.target.value)} />
   )
@@ -49,7 +51,7 @@ describe('<CreateLoan/>', () => {
     expect(component.length).toBe(1);
   });
 
-  it('add user', () => {
+  it('add user and delete user', () => {
     const component = mount(createLoan);
     // let participants = component.find('SearchBar');
     let participants = component.find('#paid-money input');
@@ -61,6 +63,12 @@ describe('<CreateLoan/>', () => {
     // participants = component.find('SearchBar');
     participants = component.find('#paid-money input');
     expect(participants.length).toBe(2);
+
+    const deleteButton = component.find('.participants svg').at(0);
+    deleteButton.simulate('click');
+
+    participants = component.find('#paid-money input');
+    expect(participants.length).toBe(1);
   });
 
   it('write user name', () => {
