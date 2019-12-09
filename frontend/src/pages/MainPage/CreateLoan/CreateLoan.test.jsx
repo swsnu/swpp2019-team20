@@ -20,12 +20,14 @@ jest.mock('@material-ui/pickers', () => ({
 }));
 
 jest.mock('@material-ui/core/Select', () => (
+  // eslint-disable-next-line
   ({ onChange }) => (
     <button type="button" onClick={() => onChange({ target: { value: 'testString' } })} aria-label="Mute volume" />
   )
 ));
 
 jest.mock('../../../components/subcomponents/SearchBar/SearchBar', () => (
+  // eslint-disable-next-line
   ({ setUser }) => (
     <input type="text" onChange={(event) => setUser(event.target.value)} />
   )
