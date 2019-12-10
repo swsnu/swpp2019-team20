@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SimpleTabs from './presenter';
-import Loading from '../../../components/subcomponents/Loading/Loading.jsx'
+import Loading from '../../../components/subcomponents/Loading/Loading';
 
 const LoanList = () => {
   const [completedLoanList, setCompletedLoanList] = useState([]);

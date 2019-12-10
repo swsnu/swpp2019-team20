@@ -7,7 +7,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import MainPage from './pages/MainPage/MainPage';
-import Loading from './components/subcomponents/Loading/Loading.jsx'
+import Loading from './components/subcomponents/Loading/Loading';
 import './App.css';
 
 
