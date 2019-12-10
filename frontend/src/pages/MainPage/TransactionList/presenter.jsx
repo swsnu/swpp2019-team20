@@ -9,7 +9,6 @@ import {
   CardActions,
   CardHeader,
   CardContent,
-  Button,
   Divider,
   Table,
   TableBody,
@@ -17,7 +16,6 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {
   Button as MyButton, Header, Image, Modal,
 } from 'semantic-ui-react';
@@ -80,18 +78,18 @@ const LatestOrders = (props) => {
                   >
                     <TableCell>
                       {
-                        username === tx.lender ? <Link to="/profile">ME</Link> : <Link to={`/profile/${tx.lender_id}`}>{tx.lender}</Link>
+                        username === tx.lender ? <Link to="/profile" style={{ textDecoration: 'none', color: '#1e1e1f' }}>ME</Link> : <Link to={`/profile/${tx.lender_id}`} style={{ textDecoration: 'none', color: '#1e1e1f' }}>{tx.lender}</Link>
                       }
                     </TableCell>
                     <TableCell>
                       {
-                        username === tx.borrower ? <Link to="/profile">ME</Link> : <Link to={`/profile/${tx.borrower_id}`}>{tx.borrower}</Link>
+                        username === tx.borrower ? <Link to="/profile" style={{ textDecoration: 'none', color: '#1e1e1f' }}>ME</Link> : <Link to={`/profile/${tx.borrower_id}`} style={{ textDecoration: 'none', color: '#1e1e1f' }}>{tx.borrower}</Link>
                       }
                     </TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {
-                        tx.completed === false ? (<div>PayMeBack!</div>) : (<div>Done</div>)
+                        tx.completed === false ? (<div style={{ color: '#ff2104' }}>Incomplete</div>) : (<div>Complete</div>)
                       }
                     </TableCell>
                     <TableCell>
@@ -161,16 +159,7 @@ const LatestOrders = (props) => {
         </PerfectScrollbar>
       </CardContent>
       <Divider />
-      <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
-          View all
-          <ArrowRightIcon />
-        </Button>
-      </CardActions>
+      <CardActions className={classes.actions} />
     </Card>
   );
 };
