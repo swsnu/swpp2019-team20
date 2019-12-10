@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import MainPage from './pages/MainPage/MainPage';
+import Loading from './components/subcomponents/Loading/Loading';
 import './App.css';
 
 
@@ -18,6 +19,7 @@ function App() {
     username: '',
   });
   const [userID, setUserID] = useState(0);
+  const [isLoading, setLoading] = useState(true);
 
   function onLoggedIn() { // set if current user is logged in
     setUser({ loggedIn: true, username: '' });
@@ -41,32 +43,35 @@ function App() {
     if (response.status === 204) {
       await getID();
       onLoggedIn();
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getLogin();
-  }, []);
+    if (!user.loggedIn){
+      getLogin();
+    }
+  }, [isLoading]);
 
   const router = user.loggedIn ? (
     <Switch>
-      <Route path="/profile/:userID" exact component={ProfilePage} />
-      <Redirect exact from="/profile" to={`/profile/${userID}`} />
-      <Route path="/main" exact component={MainPage} />
+      <Route path="/profile/:userID" exact component={ProfilePage}/>
+      <Redirect exact from="/profile" to={`/profile/${userID}`}/>
+      <Route path="/main" exact component={MainPage}/>
       {/* eslint-disable-next-line */}
-      <Route exact path="/" exact component={MainPage} />
+      <Route exact path="/" exact component={MainPage}/>
     </Switch>
   ) : (
     <Switch>
-      <Route path="/index" exact component={IndexPage} />
-      <Route path="/signin" exact component={LoginPage} />
-      <Route path="/signup" exact component={SignupPage} />
+      <Route path="/index" exact component={IndexPage}/>
+      <Route path="/signin" exact component={LoginPage}/>
+      <Route path="/signup" exact component={SignupPage}/>
       {/* eslint-disable-next-line */}
-      <Route exact path="/" exact component={IndexPage} />
+      <Route exact path="/" exact component={IndexPage}/>
     </Switch>
   );
 
-  return (
+  return isLoading ? <Loading/> : (
     <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>
         <div className="App">
