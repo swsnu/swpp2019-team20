@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Presenter = (props) => {
   const {
-    loanlist,
+    reviewList,
   } = props;
   return (
     <Grid
@@ -57,7 +57,7 @@ const Presenter = (props) => {
       alignItems="center"
     >
       <Completedloans>
-        {loanlist}
+        {reviewList}
       </Completedloans>
     </Grid>
   );
@@ -80,7 +80,7 @@ const Completedloans = (props) => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        title="Completed Loans"
+        title="Reviews"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -89,23 +89,7 @@ const Completedloans = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Loan ID</TableCell>
-                  <TableCell>Total Members</TableCell>
-                  <TableCell>Total Money</TableCell>
-                  <TableCell sortDirection="desc">
-                    <Tooltip
-                      enterDelay={300}
-                      title="Sort"
-                    >
-                      <TableSortLabel
-                        active
-                        direction="desc"
-                      >
-                        Date
-                      </TableSortLabel>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Content</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -116,17 +100,7 @@ const Completedloans = (props) => {
                       list.id
                     }
                   >
-                    <TableCell>{idx + 1}</TableCell>
-                    <TableCell>{list.num_members}</TableCell>
-                    <TableCell>{list.total_money}</TableCell>
-                    <TableCell>
-                      {moment(list.deadline).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        status
-                      </div>
-                    </TableCell>
+                    <TableCell>{list.content}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

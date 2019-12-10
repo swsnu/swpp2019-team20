@@ -21,7 +21,7 @@ const Loading = () => {
         alignItems: 'center',
       }}
       >
-        {/* eslint-disable*/}
+        {/* eslint-disable */}
         <img src={loadingString} align="center" className="center" />
       </div>
     </>

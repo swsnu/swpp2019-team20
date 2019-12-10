@@ -60,15 +60,13 @@ function App() {
       <Redirect exact from="/profile" to={`/profile/${userID}`} />
       <Route path="/main" exact component={MainPage} />
       <Route path="/" exact component={MainPage} />
-      <Route render={() => <h1>Not Found</h1>} />
+      <Route component={MainPage} />
     </Switch>
   ) : (
     <Switch>
-      <Route path="/" exact component={IndexPage} />
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />
-      <Route render={() => <h1>Not Found</h1>} />
     </Switch>
   );
 
