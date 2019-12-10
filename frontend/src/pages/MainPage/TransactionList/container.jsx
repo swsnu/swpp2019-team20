@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
-import Loading from "../../../components/subcomponents/Loading/Loading";
 
 const TransactionList = (props) => {
   const { loan } = props;

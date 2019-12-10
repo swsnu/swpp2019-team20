@@ -83,13 +83,13 @@ const LatestOrders = (props) => {
                     </TableCell>
                     <TableCell>
                       {
-                        username === tx.borrower ? <Link to="/profile" style={{ textDecoration: 'none' , color: '#1e1e1f' }}>ME</Link> : <Link to={`/profile/${tx.borrower_id}`} style={{ textDecoration: 'none', color: '#1e1e1f' }}>{tx.borrower}</Link>
+                        username === tx.borrower ? <Link to="/profile" style={{ textDecoration: 'none', color: '#1e1e1f' }}>ME</Link> : <Link to={`/profile/${tx.borrower_id}`} style={{ textDecoration: 'none', color: '#1e1e1f' }}>{tx.borrower}</Link>
                       }
                     </TableCell>
                     <TableCell>{tx.money}</TableCell>
                     <TableCell>
                       {
-                        tx.completed === false ? (<div style={{color:'#ff2104'}}>Incomplete</div>) : (<div>Complete</div>)
+                        tx.completed === false ? (<div style={{ color: '#ff2104' }}>Incomplete</div>) : (<div>Complete</div>)
                       }
                     </TableCell>
                     <TableCell>

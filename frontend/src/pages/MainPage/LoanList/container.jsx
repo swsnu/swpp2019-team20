@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SimpleTabs from './presenter';
-import Loading from "../../../components/subcomponents/Loading/Loading";
+import Loading from '../../../components/subcomponents/Loading/Loading.jsx'
 
 const LoanList = () => {
   const [completedLoanList, setCompletedLoanList] = useState([]);
   const [notCompletedLoanList, setNotCompletedLoanList] = useState([]);
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(true);
 
   const targetUrl = '/loan/loan';
   const fetchLoanList = async () => {
@@ -25,7 +25,7 @@ const LoanList = () => {
     fetchLoanList();
   }, [isLoading]);
 
-  const render = isLoading ? <Loading/> : (
+  const render = isLoading ? <Loading /> : (
     <SimpleTabs notCompletedLoanList={notCompletedLoanList} completedLoanList={completedLoanList} />
   );
   return render;

@@ -7,7 +7,7 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import MainPage from './pages/MainPage/MainPage';
-import Loading from './components/subcomponents/Loading/Loading';
+import Loading from './components/subcomponents/Loading/Loading.jsx'
 import './App.css';
 
 
@@ -48,7 +48,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (!user.loggedIn){
+    if (!user.loggedIn) {
       getLogin();
     }
     setLoading(false);
@@ -56,21 +56,21 @@ function App() {
 
   const router = user.loggedIn ? (
     <Switch>
-      <Route path="/profile/:userID" exact component={ProfilePage}/>
-      <Redirect exact from="/profile" to={`/profile/${userID}`}/>
-      <Route path="/main" exact component={MainPage}/>
-      <Route path="/" exact component={MainPage}/>
+      <Route path="/profile/:userID" exact component={ProfilePage} />
+      <Redirect exact from="/profile" to={`/profile/${userID}`} />
+      <Route path="/main" exact component={MainPage} />
+      <Route path="/" exact component={MainPage} />
     </Switch>
   ) : (
     <Switch>
-      <Route path="/" exact component={IndexPage}/>
-      <Route path="/index" exact component={IndexPage}/>
-      <Route path="/signin" exact component={LoginPage}/>
-      <Route path="/signup" exact component={SignupPage}/>
+      <Route path="/" exact component={IndexPage} />
+      <Route path="/index" exact component={IndexPage} />
+      <Route path="/signin" exact component={LoginPage} />
+      <Route path="/signup" exact component={SignupPage} />
     </Switch>
   );
 
-  return isLoading ? <Loading/> : (
+  return isLoading ? <Loading /> : (
     <AppContext.Provider value={{ user, setUser, onLoggedIn }}>
       <BrowserRouter>
         <div className="App">
