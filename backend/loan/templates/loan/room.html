@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<!--JQuery CDN must placed earlier than the other (such as bootstrap)-->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<head>
+  <meta charset="utf-8" />
+  <title>chatroom</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">            <!--rendering properly in mobile devices-->
+
+  <!--Google font family link-->
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Lobster|Poor+Story|Sunflower:300&display=swap" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    .mdl-layout__header {
+      background-color: #2f3542;
+    }
+    .mdl-layout-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    .mdl-layout__header-row .logo {
+      margin-left: -16px;
+      margin-bottom: 5px;
+    }
+    .mdl-layout__drawer-button:focus,
+    .mdl-layout__header-row .logo:focus {
+      outline: none;
+    }
+    .mdl-layout__header-row .logo img {
+      width: 80px;
+    }
+    .main_section {
+      width: 100%;
+      height: 0px;
+    }
+    .main_section .container {
+      width: 100%;
+      font-family: 'Sunflower', sans-serif;
+    }
+    #custom-search-input {
+      background: #e8e6e7 none repeat scroll 0 0;
+      margin: 0;
+      padding: 10px;
+    }
+    #custom-search-input .search-query {
+      background: #fff none repeat scroll 0 0 !important;
+      border-radius: 4px;
+      height: 33px;
+      margin-bottom: 0;
+      padding-left: 7px;
+      padding-right: 7px;
+      z-index: 0;
+    }
+    #custom-search-input button {
+      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+      border: 0 none;
+      border-radius: 3px;
+      color: #666666;
+      left: auto;
+      margin-bottom: 0;
+      margin-top: 7px;
+      padding: 2px 5px;
+      position: absolute;
+      right: 0;
+      z-index: 9;
+    }
+    .search-query:focus+button {
+        z-index: 3;
+    }
+    .all_conversation button {
+      background: #f5f3f3 none repeat scroll 0 0;
+      border: 1px solid #dddddd;
+      height: 38px;
+      text-align: left;
+      width: 100%;
+    }
+    .all_conversation i {
+      background: #e9e7e8 none repeat scroll 0 0;
+      border-radius: 100px;
+      color: #636363;
+      font-size: 17px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      width: 30px;
+    }
+    .all_conversation .caret {
+      bottom: 0;
+      margin: auto;
+      position: absolute;
+      right: 15px;
+      top: 0;
+    }
+    .all_conversation .dropdown-menu {
+      background: #f5f3f3 none repeat scroll 0 0;
+      border-radius: 0;
+      margin-top: 0;
+      padding: 0;
+      width: 100%;
+    }
+    .all_conversation ul li {
+      border-bottom: 1px solid #dddddd;
+      line-height: normal;
+      width: 100%;
+    }
+    .all_conversation ul li a:hover {
+      background: #dddddd none repeat scroll 0 0;
+      color: #333;
+    }
+    .all_conversation ul li a {
+      color: #333;
+      line-height: 30px;
+      padding: 3px 20px;
+    }
+
+    .member_list .chat-body {
+      margin-left: 47px;
+      margin-top: 0;
+    }
+    .top_nav {
+      overflow: visible;
+    }
+    .member_list .contact_sec {
+      margin-top: 3px;
+    }
+    .member_list li {
+      padding: 6px;
+    }
+    .member_list ul {
+      border: 1px solid #dddddd;
+    }
+    .chat-img img {
+      height: 34px;
+      width: 34px;
+    }
+    .member_list li {
+      border-bottom: 1px solid #dddddd;
+      padding: 6px;
+    }
+    .member_list li:last-child {
+      border-bottom: none;
+    }
+    .member_list {
+      height: 380px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .sub_menu_ {
+      background: #e8e6e7 none repeat scroll 0 0;
+      left: 100%;
+      max-width: 233px;
+      position: absolute;
+      width: 100%;
+    }
+    .sub_menu_ {
+      background: #f5f3f3 none repeat scroll 0 0;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      display: none;
+      left: 100%;
+      margin-left: 0;
+      max-width: 233px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+    .all_conversation ul li:hover .sub_menu_ {
+      display: block;
+    }
+
+    .new_message_head button {
+      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+      border: medium none;
+    }
+    .new_message_head {
+      background: #f5f3f3 none repeat scroll 0 0;
+      float: left;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 18px 10px;
+      width: 100%;
+    }
+    .message_section {
+      height: 800px;
+      border: 1px solid #dddddd;
+    }
+
+    #chat_area {
+      float: left;
+      height: 75%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 100%;
+      font-family: 'Poor Story', cursive;
+    }
+
+    #chat_area li {
+      padding: 14px 14px 0;
+    }
+
+    #chat_area li .chat-img1 img {
+      height: 40px;
+      width: 40px;
+    }
+
+    #chat_area .chat-body1 {
+      text-align: right;
+      margin-left: 50px;
+    }
+
+    .chat-body1 p {
+      background: #b0ebeb none repeat scroll 0 0;
+      padding: 10px 15px;
+      border-radius: 7px;
+      display: inline-block;
+      margin: 3px 0px 4px 0px;
+    }
+
+    .chat-body1 .chat_time {
+      margin-right: 7px;
+    }
+
+    #chat_area .admin_chat .chat-body1 {
+      margin-left: 0;
+        margin-right: 50px;
+    }
+
+    #chat_area .chat-body2 {
+      text-align: left;
+      margin-left: 50px;
+    }
+
+    .chat-body2 p {
+      background: #45acac none repeat scroll 0 0;
+      padding: 10px 15px;
+      border-radius: 7px;
+      display: inline-block;
+      margin: 3px 0px 4px 0px;
+    }
+
+    .chat-body2 .chat_time {
+      margin-left: 7px;
+    }
+
+    #chat_area li:last-child {
+      padding-bottom: 10px;
+    }
+
+    .message_write {
+      background: #f5f3f3 none repeat scroll 0 0;
+      float: left;
+      padding: 15px;
+      width: 100%;
+      font-family: 'Sunflower', sans-serif;
+    }
+
+    .message_write textarea.form-control {
+      height: 70px;
+      padding: 10px;
+    }
+
+    .chat_bottom {
+      float: left;
+      margin-top: 13px;
+      width: 100%;
+    }
+
+    .upload_btn {
+      color: #777777;
+    }
+
+    .sub_menu_>li a,
+    .sub_menu_>li {
+      float: left;
+      width: 100%;
+    }
+
+    .member_list li:hover {
+      background: #428bca none repeat scroll 0 0;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #chat-log {
+      border: none;
+      padding: 30px;
+    }
+
+    #chat_area .init_chat {
+      text-align: center;
+      margin: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <main class="mdl-layout__content">
+      <div class="page-content">
+        <div class="main_section">
+          <div class="container">
+            <div class="chat_container">
+              <div class="col-sm-3 chat_sidebar">
+                <div class="row">
+                  <div class="dropdown all_conversation">
+                    <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fa fa-weixin" aria-hidden="true"></i>
+                      Member List
+                      <span class="caret pull-right"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                      <li><a href="#"> Go to Memebr's Profile </a>  <ul class="sub_menu_ list-unstyled">
+                      {% if participants %}
+                        {% for member in participants %}
+                          <li><a href="/profile/{{member.id}}"> {{member.username}} </a></li>
+                        {% endfor %}
+                      {% else %}
+                        access error
+                      {% endif %}
+                    </ul>
+                  </div>
+
+                  <div class="member_list">
+                    <ul class="list-unstyled">
+                      {% if participants %}
+                        {% for member in participants %}
+                          <li class="left clearfix">
+                            <span class="chat-img pull-left">
+                              <img src="http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg" alt="user-profile" class="img-circle">
+                            </span>
+                            <div class="chat-body clearfix">
+                              <div class="header_sec">
+                              <strong class="primary-font">{{member.username}}</strong>
+                              <strong class="pull-right">KakaoTalk: {{member.kakao_id}}</strong>
+                            </div>
+
+                            <div class="contact_sec">
+                              <strong class="primary-font">phone: {{member.phone}}</strong>
+                              <span class="badge pull-right">rating: {{member.rating}}</span>
+                            </div>
+                          </li>
+                        {% endfor %}
+                      {% else %}
+                        access error
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!--chat_sidebar-->
+
+              <div class="col-sm-9 message_section">
+                <div class="row">
+                  <div class="new_message_head">
+                    <div class="pull-right">
+                      <div class="dropdown">
+                        <a href="/main">
+                            <input class="pull-right btn btn-success" type="button" value="End Conversation"/>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="chat_area">
+                  <p class="init_chat">
+                    {% if participants %}
+                      {% for participant in participants %}
+                        {{ participant.username }}
+                      {% endfor %}
+                      님이 참여하셨습니다.
+                    {% else %}
+                        access error
+                    {% endif %}
+                  </p>
+                  <ul id="chat-log" class="list-unstyled">
+                    <!-- list will be appended here -->
+                  </ul>
+                </div>
+
+                <div class="message_write" spellcheck="false">
+                    <!-- <textarea class="form-control" placeholder="Type a message"></textarea> -->
+                  <input id="chat-message-input" class="form-control" type="text" placeholder="type a message" autocomplete="off"/>
+                  <div class="clearfix"></div>
+                  <div class="chat_bottom">
+                    <input id="chat-message-submit" class="pull-right btn btn-success" type="button" value="Send"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+<script>
+  const id = "{{ user.get_username }}";
+  const roomName = {{ hashed_loan_id }};
+
+  /* Web socket for chatroom conversation */
+  cosnt chatSocket = new WebSocket(`ws://localhost:8000/ws/loan/chatroom/${roomName}/`);
+
+  /* Add user side speech bubble into chat-area */
+  function addLog(message, name) {
+    let today = new Date();
+    hours = today.getHours();
+    minutes = (today.getMinutes() < 10) ? ("0" + today.getMinutes()) : (today.getMinutes());
+    let time = hours + ":" + minutes;
+    if(name === id) {
+      $("#chat-log").append("<li class='left clearfix admin_chat'><div style='text-align:right; padding-right: 65px;'>나</div><div class='chat-body1 clearfix'><p style='text-align:right;''>" + message + "</p><br><div class='chat_time pull-right'>"+ time +"</div></div></li>");
+    }
+    else {
+      $("#chat-log").append("<li class='right clearfix'><span style='padding-left: 15px;'>" + name + "</span><span class='chat-img1 pull-left'><a class='button' href='#popup1'><img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' alt='User Avatar' class='img-circle'></a></span><div class='chat-body2 clearfix'><p>" + message + "</p><br/><div class='chat_time pull-left'>"+ time +"</div></div></li>");
+    }
+    $('#chat_area').animate({scrollTop: $('#chat_area').prop("scrollHeight")}, 500);
+  }
+
+
+  function gotoBottom(id){
+    let element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+  }
+
+  chatSocket.onmessage = function(e) {
+    let data = JSON.parse(e.data);
+    let message = data['message'];
+    let name = data['name'];
+    //document.querySelector('#chat-log').value += (message + '\n');
+
+    if(message.length > 0) {
+      addLog(message, name);
+    }
+  };
+
+  chatSocket.onclose = function(e) {
+    console.error('Chat socket ' + roomName + ' closed unexpectedly');
+  };
+
+
+  document.querySelector('#chat-message-input').focus();
+  document.querySelector('#chat-message-input').onkeyup = function(e) {
+    if (e.keyCode === 13) {  // enter, return
+      document.querySelector('#chat-message-submit').click();
+    }
+  };
+  document.querySelector('#chat-message-submit').onclick = function(e) {
+    let messageInputDom = document.querySelector('#chat-message-input');
+    let message = messageInputDom.value;
+    chatSocket.send(JSON.stringify({
+      'name' : id,
+      'message': message
+    }));
+
+    messageInputDom.value = '';
+  };
+</script>
+
+</html>

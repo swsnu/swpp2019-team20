@@ -200,6 +200,7 @@ class ProfileTest(TestCase):
             'kakao_id': 'newkaka',
             'phone': '010-2222-2222',
             'bio': "hello, I am bill",
+            'twilio_msg': "give me money",
         }
 
         # test - valid data

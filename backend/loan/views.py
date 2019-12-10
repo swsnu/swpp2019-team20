@@ -2,13 +2,14 @@ import json
 from json import JSONDecodeError
 
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.http import (
     HttpResponse,
     HttpResponseNotAllowed,
     HttpResponseForbidden,
     JsonResponse,
 )
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.forms.models import model_to_dict
@@ -16,6 +17,7 @@ from dateutil.parser import isoparse
 
 from utils import twilio
 from .models import Loan, Transaction
+
 
 
 def loan_list(request):
@@ -254,3 +256,32 @@ def transaction(request, tx_id):
         return JsonResponse(tx_dict)
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
+
+# chatroom
+def room(request, hashed_loan_id):
+    loan_id = int(hashed_loan_id / 55886609)
+    current_loan = get_object_or_404(Loan, pk=loan_id)
+    transaction_list = Transaction.objects.filter(loan=current_loan)
+
+    participant_list = []
+    for tx_obj in transaction_list:
+        lender_info = {'username': tx_obj.lender.username,
+                       'id': tx_obj.lender.id,
+                       'rating': tx_obj.lender.profile.rating,
+                       'kakao_id': tx_obj.lender.profile.kakao_id,
+                       'phone': tx_obj.lender.profile.phone}
+        borrower_info = {'username': tx_obj.borrower.username,
+                         'id': tx_obj.borrower.id,
+                         'rating': tx_obj.borrower.profile.rating,
+                         'kakao_id': tx_obj.borrower.profile.kakao_id,
+                         'phone': tx_obj.borrower.profile.phone}
+        if lender_info not in participant_list:
+            participant_list.append(lender_info)
+        if borrower_info not in participant_list:
+            participant_list.append(borrower_info)
+
+    context = {
+        'participants': participant_list,
+        'hashed_loan_id': mark_safe(json.dumps(hashed_loan_id))
+    }
+    return render(request, 'loan/room.html', context)

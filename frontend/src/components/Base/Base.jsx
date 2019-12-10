@@ -4,17 +4,15 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './theme';
 import Header from '../subcomponents/Header/Header';
 import Footer from '../subcomponents/Footer/Footer';
-import SearchBar from '../subcomponents/SearchBar/SearchBar';
-
+import SearchBar from './SearchBar/SearchBar';
 
 function Base(Component) {
   function BaseBase(props) {
-    const setUser = () => 'user';
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header>
-          <SearchBar setUser={setUser} />
+          <SearchBar />
         </Header>
         <Component {...props} />
         <Footer />

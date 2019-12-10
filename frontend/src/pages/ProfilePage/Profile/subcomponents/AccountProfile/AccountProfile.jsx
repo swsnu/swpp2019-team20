@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,13 +14,20 @@ import {
   Divider,
   Button,
   LinearProgress,
+  Input,
+  TextField,
+  Paper,
 } from '@material-ui/core';
+import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   details: {
     display: 'flex',
+  },
+  information: {
+    marginBottom: theme.spacing(1),
   },
   avatar: {
     marginLeft: 'auto',
@@ -35,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   uploadButton: {
     marginRight: theme.spacing(2),
   },
+  paper: {
+    padding: theme.spacing(2, 2),
+  },
 }));
 
 const AccountProfile = (props) => {
@@ -46,9 +56,62 @@ const AccountProfile = (props) => {
     avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
 
+  const [edit, setEdit] = useState(false);
+
   const {
-    username, kakao_id: kakaoID, phone, bio,
+    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
   } = children.userInfo;
+
+  const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
+  const [phoneState, setPhoneState] = useState(phone);
+  const [messageState, setMessageState] = useState(twilioMsg);
+
+  useEffect(() => {
+    setKakaoIDState(kakaoID);
+    setPhoneState(phone);
+    setMessageState(twilioMsg);
+  }, [kakaoID, phone, twilioMsg]);
+
+  /* --- submit changes --- */
+
+  const triggerProfilePost = async (data) => {
+    // console.log(data);
+    await fetch('/account/token', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    const csrftoken = getCookie('csrftoken');
+
+    const response = await fetch(`/account/user/${id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status === 200) {
+      // eslint-disable-next-line
+      window.alert('profile change success');
+    } else {
+      // eslint-disable-next-line
+      window.alert('profile change error');
+    }
+  };
+
+  const profilePostHandler = () => {
+    const data = {
+      kakao_id: kakaoIDState,
+      phone: phoneState,
+      bio,
+      twilio_msg: messageState,
+    };
+    triggerProfilePost(data);
+  };
 
   return (
     <Card
@@ -64,50 +127,103 @@ const AccountProfile = (props) => {
             >
               {username}
             </Typography>
-            <MessageIcon />
-            {' '}
+
+            <div className="kakaoID">
+              <MessageIcon />
+              {' '}
             KakaoTalk:
-            {
-              kakaoID
-            }
-            <br />
-            <PhoneIphoneIcon />
-            {' '}
+              {' '}
+              {edit ? (
+                <Input
+                  value={kakaoIDState}
+                  onChange={(e) => setKakaoIDState(e.target.value)}
+                  className={classes.input}
+                />
+              ) : kakaoIDState}
+            </div>
+
+            <div className="phone">
+              <PhoneIphoneIcon />
+              {' '}
             Phone:
-            {
-              phone
-            }
+              {' '}
+              {edit ? (
+                <Input
+                  value={phoneState}
+                  onChange={(e) => setPhoneState(e.target.value)}
+                  className={classes.input}
+                />
+              ) : phoneState}
+            </div>
           </div>
+
           <Avatar
             className={classes.avatar}
             src={user.avatar}
           />
         </div>
-        <Typography variant="body2">
-          <RecordVoiceOverIcon />
-          {' '}
-          {
-            bio
-          }
-        </Typography>
+
+        <RecordVoiceOverIcon />
+        {' '}
+        Phone message
+        <br />
+        {edit ? (
+          <div className="message">
+            <TextField
+              placeholder="Write a message"
+              value={messageState}
+              onChange={(e) => setMessageState(e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              variant="outlined"
+            />
+          </div>
+        ) : (
+          <Paper className={classes.paper}>
+            <Typography component="p">
+              {messageState}
+            </Typography>
+          </Paper>
+        )}
+
         <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
           <LinearProgress
-            value={90}
+            value={70}
             variant="determinate"
           />
         </div>
+
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          className={classes.uploadButton}
-          color="primary"
-          variant="text"
-        >
+        <Button className={classes.uploadButton} disabled={edit} color="primary" variant="text">
           Upload picture
         </Button>
-        <Button variant="text">Remove picture</Button>
+        <Button className={classes.uploadButton} disabled={edit} variant="text">
+          Remove picture
+        </Button>
+
+        {mine
+          && (
+            edit ? (
+              <div className="submit-button">
+                <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
+                  Submit
+                </Button>
+              </div>
+            ) : (
+              <div className="edit-button">
+                <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
+                    Edit profile
+                </Button>
+              </div>
+            )
+          )}
+
+
       </CardActions>
     </Card>
   );
