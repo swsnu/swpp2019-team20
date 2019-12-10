@@ -51,6 +51,7 @@ function App() {
     if (!user.loggedIn){
       getLogin();
     }
+    setLoading(false);
   }, [isLoading]);
 
   const router = user.loggedIn ? (
@@ -58,16 +59,14 @@ function App() {
       <Route path="/profile/:userID" exact component={ProfilePage}/>
       <Redirect exact from="/profile" to={`/profile/${userID}`}/>
       <Route path="/main" exact component={MainPage}/>
-      {/* eslint-disable-next-line */}
-      <Route exact path="/" exact component={MainPage}/>
+      <Route path="/" exact component={MainPage}/>
     </Switch>
   ) : (
     <Switch>
+      <Route path="/" exact component={IndexPage}/>
       <Route path="/index" exact component={IndexPage}/>
       <Route path="/signin" exact component={LoginPage}/>
       <Route path="/signup" exact component={SignupPage}/>
-      {/* eslint-disable-next-line */}
-      <Route exact path="/" exact component={IndexPage}/>
     </Switch>
   );
 

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Link from '@material-ui/core/Link';
@@ -8,8 +8,8 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Toolbar, { styles as toolbarStyles } from '../ToolBar';
-import { AppContext } from '../../../App';
+import Toolbar, {styles as toolbarStyles} from '../ToolBar';
+import {AppContext} from '../../../App';
 import logo from './logo.png';
 import './Header.css';
 
@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // eslint-disable-next-line
-export default function Header({ children }) {
-  const { user } = useContext(AppContext);
+export default function Header({children}) {
+  const {user} = useContext(AppContext);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -178,24 +178,32 @@ export default function Header({ children }) {
               edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
           </div>
           <span className="logoContainer">
             <a href="/">
-              <img className="logo" src={logo} alt="logo" />
+              <img className="logo" src={logo} alt="logo"/>
             </a>
           </span>
           <div className={classes.left}>
-            <Link
+            {user.loggedIn ? <Link
               variant="h6"
               underline="none"
               color="inherit"
               className={classes.title}
-              href="/"
+              href="/main"
             >
               <span className="pageTitle">Pay Me Back</span>
-            </Link>
+            </Link> : <Link
+              variant="h6"
+              underline="none"
+              color="inherit"
+              className={classes.title}
+              href="/index"
+            >
+              <span className="pageTitle">Pay Me Back</span>
+            </Link>}
           </div>
           <div className={classes.right}>
             {label1}
@@ -214,17 +222,17 @@ export default function Header({ children }) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon/>
           </IconButton>
         </div>
-        <Divider />
+        <Divider/>
         <h3>Who Are You Looking For?</h3>
-        <Divider />
+        <Divider/>
         <div className="searchBarContainer">
           {children}
         </div>
       </Drawer>
-      <div className={classes.placeholder} />
+      <div className={classes.placeholder}/>
     </div>
   );
 }
