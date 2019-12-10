@@ -12,7 +12,7 @@ const Loading = () => {
         alignItems: 'center',
       }}
       >
-        {/* eslint-disable global-require */}
+        {/* eslint-disable */}
         <img src={loadingImage} align="center" className="center" />
       </div>
       <div style={{
@@ -21,7 +21,7 @@ const Loading = () => {
         alignItems: 'center',
       }}
       >
-        {/* eslint-disable global-require */}
+        {/* eslint-disable*/}
         <img src={loadingString} align="center" className="center" />
       </div>
     </>

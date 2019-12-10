@@ -5,7 +5,7 @@ import Loading from './Loading';
 describe('<Loading />', () => {
   it('should render without errors', () => {
     const component = shallow(<Loading />);
-    const wrapper = component.find('div');
-    expect(wrapper.length).toBe(1);
+    const wrapper = component.find('img');
+    expect(wrapper.length).toBe(2);
   });
 });
