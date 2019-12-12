@@ -41,6 +41,7 @@ def profile(request, user_pk):
                 return HttpResponse(status=403)
             prof.save()
             dict_article = model_to_dict(prof)
+            del dict_article['profile_img']
             return JsonResponse(dict_article)
         except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
@@ -69,11 +70,9 @@ def profile_image(request, user_pk):
             return HttpResponse(status=401)
     
         prof = get_object_or_404(Profile, pk=user_pk)
-        try:
-            prof.profile_img.delete(save=True)
-            return HttpResponse(status=200)
-        except (KeyError, TypeError, json.JSONDecodeError):
-            return HttpResponseBadRequest()
+
+        prof.profile_img.delete(save=True)
+        return HttpResponse(status=200)
 
     return HttpResponseNotAllowed(['POST', 'DELETE'])
 
