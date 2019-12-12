@@ -228,6 +228,17 @@ class ProfileTest(TestCase):
                                    content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
+    def test_profile_image(self):
+        # test - no such api
+        response = self.client.get('/account/user/1')
+        self.assertEqual(response.status_code, 405)
+
+        # test - not logged in
+        response = self.client.delete('/account/user/1')
+        self.assertEqual(response.status_code, 401)
+
+
+
     def test_profile_me(self):
         client = Client()
 

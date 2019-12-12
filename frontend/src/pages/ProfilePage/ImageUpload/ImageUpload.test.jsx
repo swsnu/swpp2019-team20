@@ -7,40 +7,36 @@ describe('<ImageUpload/>', () => {
   // eslint-disable-next-line
   let onSubmitSpy;
 
-  it('change state', () => {
+
+  it('change state', async () => {
     
+    const component = mount(<ImageUpload />);
 
-    /*
-    const submitButton = component.find('.previewComponent .fileInput');
-    const blob = new Blob(['foo'], {type : 'text/plain'});
-    submitButton.simulate('change', {preventDefault: () => {}, target: { files: [blob] }});
-    */
-
-   const component = mount(<ImageUpload />);
-
-    const fileContents = 'file contents';
-    const expectedFinalState = {fileContents: fileContents};
-    const file  = new File([fileContents], 'TEST_FILE.png', {type : 'image/png'});
-    
-    const readAsDataURL = jest.fn();
-    const onloadend = jest.fn((_, evtHandler) => { evtHandler(); });
-    const dummyFileReader = {onloadend, readAsDataURL, result: fileContents};
-    window.FileReader = jest.fn(() => dummyFileReader);
-
-    spyOn(component, 'setState').and.callThrough();
-    // spyOn(component, 'changeHandler').and.callThrough(); // not yet working
-
-    
-    component.find('input').simulate('change', {target: {files: [file]}});
-
-    
+    let wrapper = component.find('input');
+    const file  = new File(['file contents'], 'TEST_FILE.png', {type : 'image/png'});
+    wrapper.simulate('change', { target: { files: [file] } });
   })
 
-  it('change state2', () => {
+  it('should call render.onloadend', async () => {
+    let mocked = jest.fn();
     const file  = new File(['file contents'], 'TEST_FILE.png', {type : 'image/png'});
+    //
+    const mockReader = {
+      onloadend: mocked,
+      readAsDataURL: mocked,
+      result: "TEST_RESULT,TEST_RESULT"
+    }
+    mockReader.readAsDataURL = jest.fn(() => {
+      return mockReader.onloadend()
+    });
+    window.FileReader = jest.fn(() => {
+      return mockReader
+    });
+
     const component = mount(<ImageUpload />);
-    let wrapper = component.find('input');
+    let wrapper = component.find('.previewComponent input');
     wrapper.simulate('change', { target: { files: [file] } });
+
   })
 
   it('upload image success', () => {
