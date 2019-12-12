@@ -80,7 +80,7 @@ const AccountProfile = (props) => {
     setMessageState(twilioMsg);
   }, [kakaoID, phone, twilioMsg, profile_img]);
 
-  /* --- submit changes --- */
+  /* --- submit profile changes --- */
 
   const triggerProfilePost = async (data) => {
     // console.log(data);
@@ -120,6 +120,37 @@ const AccountProfile = (props) => {
     };
     triggerProfilePost(data);
   };
+
+  /* --- delete profile image --- */
+
+  const triggerImageDelete = async () => {
+    // console.log(data);
+    await fetch('/account/token', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    const csrftoken = getCookie('csrftoken');
+    const response = await fetch(`/account/user/${id}/image`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'X-CSRFToken': csrftoken,
+      },
+    });
+
+    if (response.status === 200) {
+      // eslint-disable-next-line
+      window.alert('image delete success');
+      window.location.reload();
+    } else {
+      // eslint-disable-next-line
+      window.alert('image delete error');
+    }
+  }
+
+  /* --- render --- */
 
   return (
     <Card
@@ -212,7 +243,7 @@ const AccountProfile = (props) => {
         <Button className={classes.uploadButton} disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
           {image ? "Cancel" : "Upload picture"}
         </Button>
-        <Button className={classes.uploadButton} disabled={edit || image} variant="text">
+        <Button className={classes.uploadButton} disabled={edit || image} onClick={() => triggerImageDelete()} variant="text">
           Remove picture
         </Button>
 

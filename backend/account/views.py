@@ -16,6 +16,9 @@ def profile(request, user_pk):
             return HttpResponse(status=401)
         prof = get_object_or_404(Profile, pk=user_pk)
 
+        print('there:', request.get_host())
+        print('here:', request.build_absolute_uri('/'))
+
         dict_profile = model_to_dict(prof)
         dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
@@ -61,10 +64,20 @@ def profile_image(request, user_pk):
             }
             return JsonResponse(dict_image)
         except (KeyError, TypeError, json.JSONDecodeError):
-            print('\nboo1\n')
-            return HttpResponseBadRequest()  
+            return HttpResponseBadRequest()
 
-    return HttpResponseNotAllowed(['POST'])
+    if request.method == 'DELETE':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+    
+        prof = get_object_or_404(Profile, pk=user_pk)
+        try:
+            prof.profile_img.delete(save=True)
+            return HttpResponse(status=200)
+        except (KeyError, TypeError, json.JSONDecodeError):
+            return HttpResponseBadRequest()
+
+    return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 @ensure_csrf_cookie
 def token(request):
