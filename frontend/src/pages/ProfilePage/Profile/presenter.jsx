@@ -1,7 +1,8 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {Grid} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import AccountProfile from './subcomponents/AccountProfile/AccountProfile';
+import Rating from "../Rating/container";
 
 const Presenter = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -18,6 +19,9 @@ const Presenter = (props) => {
         <Grid
           container
           spacing={4}
+          alignItems="center"
+          justify="center"
+          alignContent='center'
         >
           <Grid
             item
@@ -36,7 +40,9 @@ const Presenter = (props) => {
             md={6}
             xl={8}
             xs={12}
-          />
+          >
+            <Rating/>
+          </Grid>
         </Grid>
       </div>
     </>

@@ -2473,6 +2473,11 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+beauty-stars@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/beauty-stars/-/beauty-stars-1.0.4.tgz#a7928bec4a71c7f33abb0fd5d8b63dbdb1063c2c"
+  integrity sha512-Srx2PB2c8dc04yQyTAYGjTRqBXV7wnWChhLy/0B2f4nYWGOm1M7WG4KVHXC5558HBqYxK+A0w9AahqHd/0eCVQ==
+
 better-assert@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/better-assert/-/better-assert-1.0.2.tgz#40866b9e1b9e0b55b481894311e68faffaebc522"

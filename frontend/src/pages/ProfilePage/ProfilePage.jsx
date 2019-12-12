@@ -3,7 +3,7 @@ import Profile from './Profile/container';
 import Base from '../../components/Base/Base';
 import './ProfilePage.css';
 import LoanList from './CompletedLoanList/container';
-import ReviewList from "./ReviewList/container";
+import ReviewList from './ReviewList/container';
 
 const ProfilePage = () => {
   const render = (
