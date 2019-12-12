@@ -4,7 +4,8 @@ WORKDIR /opt/payback-backend/
 
 COPY requirements.txt .
 RUN set -ex \
-	&& apt-get update && apt-get install -y python3-dev gcc \
+	&& mkdir -p /usr/share/man/man1 \
+	&& apt-get update && apt-get install -y python3-dev gcc default-jre-headless \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& pip3 install --no-cache-dir -r requirements.txt uvicorn
 

@@ -64,6 +64,7 @@ function App() {
     </Switch>
   ) : (
     <Switch>
+      <Route path="/" exact component={IndexPage} />
       <Route path="/index" exact component={IndexPage} />
       <Route path="/signin" exact component={LoginPage} />
       <Route path="/signup" exact component={SignupPage} />

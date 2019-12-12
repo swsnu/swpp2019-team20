@@ -412,7 +412,7 @@
   const roomName = {{ hashed_loan_id }};
 
   /* Web socket for chatroom conversation */
-  cosnt chatSocket = new WebSocket(`ws://localhost:8000/ws/loan/chatroom/${roomName}/`);
+  const chatSocket = new WebSocket(`ws://localhost:8000/ws/loan/chatroom/${roomName}/`);
 
   /* Add user side speech bubble into chat-area */
   function addLog(message, name) {
