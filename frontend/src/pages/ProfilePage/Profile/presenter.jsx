@@ -12,6 +12,7 @@ const Presenter = (props) => {
   }));
 
   const classes = useStyles();
+  const creditRating = require('../Rating/rating.gif');
 
   return (
     <>
@@ -25,9 +26,16 @@ const Presenter = (props) => {
         >
           <Grid
             item
-            lg={4}
+            lg={1}
             md={6}
-            xl={4}
+            xl={1}
+            xs={12}
+          />
+          <Grid
+            item
+            lg={3}
+            md={6}
+            xl={3}
             xs={12}
           >
             <AccountProfile>
@@ -36,17 +44,33 @@ const Presenter = (props) => {
           </Grid>
           <Grid
             item
-            lg={8}
+            lg={1}
             md={6}
-            xl={8}
+            xl={1.5}
+            xs={12}
+          />
+          <Grid
+            item
+            lg={7}
+            md={6}
+            xl={6.5}
             xs={12}
           >
+            <div style={{
+              display: 'flex',
+              margin: 10,
+            }}
+            >
+              {/* eslint-disable */}
+              <img src={creditRating} style={{blockSize: 50}}/>
+            </div>
             <Rating/>
           </Grid>
         </Grid>
       </div>
     </>
-  );
+  )
+    ;
 };
 
 export default Presenter;
