@@ -28,6 +28,7 @@ class ImageUpload extends Component {
 
     if ( response.status === 200) {
       window.alert('success image change');
+      window.location.reload();
     } else {
       window.alert('fail image change');
     }

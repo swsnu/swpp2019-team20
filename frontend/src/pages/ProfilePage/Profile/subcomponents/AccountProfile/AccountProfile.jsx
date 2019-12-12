@@ -57,15 +57,17 @@ const AccountProfile = (props) => {
 
   const classes = useStyles();
 
+  /*
   const user = {
     avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
+  */
 
   const [edit, setEdit] = useState(false);
   const [image, setImage] = useState(false);
 
   const {
-    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
+    mine, id, username, profile_img, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
   } = children.userInfo;
 
   const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
@@ -76,7 +78,7 @@ const AccountProfile = (props) => {
     setKakaoIDState(kakaoID);
     setPhoneState(phone);
     setMessageState(twilioMsg);
-  }, [kakaoID, phone, twilioMsg]);
+  }, [kakaoID, phone, twilioMsg, profile_img]);
 
   /* --- submit changes --- */
 
@@ -165,7 +167,7 @@ const AccountProfile = (props) => {
 
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={profile_img}
           />
         </div>
 

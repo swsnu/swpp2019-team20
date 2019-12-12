@@ -20,8 +20,10 @@ def profile(request, user_pk):
         dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
         del dict_profile['user']
-        # dict_profile['image'] = 'http://127.0.0.1:8000' + prof.profile_img.url
-        del dict_profile['profile_img']
+        if dict_profile['profile_img'] == '':
+            dict_profile['profile_img'] = 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg'
+        else:
+            dict_profile['profile_img'] = 'http://127.0.0.1:8000' + prof.profile_img.url
         return JsonResponse(dict_profile)
 
     if request.method == 'PUT':
@@ -55,7 +57,7 @@ def profile_image(request, user_pk):
             prof.profile_img = request.FILES['image']
             prof.save()
             dict_image = {
-                'image': ''
+                'image': 'http://127.0.0.1:8000' + prof.profile_img.url
             }
             return JsonResponse(dict_image)
         except (KeyError, TypeError, json.JSONDecodeError):
