@@ -16,15 +16,12 @@ def profile(request, user_pk):
             return HttpResponse(status=401)
         prof = get_object_or_404(Profile, pk=user_pk)
 
-        print('there:', request.get_host())
-        print('here:', request.build_absolute_uri('/'))
-
         dict_profile = model_to_dict(prof)
         dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
         del dict_profile['user']
         if dict_profile['profile_img'] == '':
-            dict_profile['profile_img'] = 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg'
+            dict_profile['profile_img'] = ''
         else:
             dict_profile['profile_img'] = 'http://127.0.0.1:8000' + prof.profile_img.url
         return JsonResponse(dict_profile)
@@ -57,6 +54,7 @@ def profile_image(request, user_pk):
         prof = get_object_or_404(Profile, pk=user_pk)
 
         try:
+            prof.profile_img.delete(save=True)
             prof.profile_img = request.FILES['image']
             prof.save()
             dict_image = {

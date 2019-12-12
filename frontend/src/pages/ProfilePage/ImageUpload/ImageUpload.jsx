@@ -8,6 +8,8 @@ class ImageUpload extends Component {
     this.state = { file: '', imagePreviewUrl: '' };
   }
 
+  /* ----- submit image ----- */
+
   triggerPutImage = async (formData) => {
     await fetch('/account/token', {
       method: 'GET',
@@ -45,6 +47,8 @@ class ImageUpload extends Component {
     this.triggerPutImage(formData);
   }
 
+  /* ----- select image ----- */
+
   imageChange(e) {
     e.preventDefault();
 
@@ -60,6 +64,8 @@ class ImageUpload extends Component {
 
     reader.readAsDataURL(file)
   }
+
+  /* ----- render ----- */
 
   render() {
     let { imagePreviewUrl } = this.state;

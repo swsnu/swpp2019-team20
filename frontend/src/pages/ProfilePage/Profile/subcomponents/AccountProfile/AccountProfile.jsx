@@ -227,48 +227,47 @@ const AccountProfile = (props) => {
           </Paper>
         )}
 
-        <div className={classes.progress}>
+        {mine && <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
           <LinearProgress
             value={70}
             variant="determinate"
           />
-        </div>
+        </div>}
 
       </CardContent>
       
-      <Divider />
+      {/* only visible on my profile page */}
+      {mine && <Divider />}
+      {mine && <CardActions>
 
-      <CardActions>
-        <Button className={classes.uploadButton} disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
+        {/* profile image upload button, delete button */}
+        <Button className={classes.uploadButton} id="image-upload" disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
           {image ? "Cancel" : "Upload picture"}
         </Button>
-        <Button className={classes.uploadButton} disabled={edit || image} onClick={() => triggerImageDelete()} variant="text">
+        <Button className={classes.uploadButton} id="image-delete" disabled={edit || image || profile_img === ''} onClick={() => triggerImageDelete()} variant="text">
           Remove picture
         </Button>
 
-        {/* edit profile & submit button: only visible on my profile page */}
-        {mine
-          && (
-            edit ? (
-              <div className="submit-button">
-                <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
-                  Submit
+        {/* edit profile & submit button */}
+        {edit ? (
+          <div className="submit-button">
+            <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
+              Submit
                 </Button>
-              </div>
-            ) : (
-              <div className="edit-button">
-                <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
-                    Edit profile
+          </div>
+        ) : (
+            <div className="edit-button">
+              <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
+                Edit profile
                 </Button>
-              </div>
-            )
-          )}
-      </CardActions>
+            </div>
+          )
+        }
+      </CardActions>}
 
       {image && <div>
         <Divider />
-
         <Card>
           <ImageUpload userID = {id}/>
         </Card>
