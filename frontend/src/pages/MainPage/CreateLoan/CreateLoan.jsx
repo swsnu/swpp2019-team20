@@ -203,15 +203,15 @@ const CreateLoan = () => {
       return (
         // eslint-disable-next-line
         <div>
-          <div className="delete-button">
+          <div className="delete-button participants">
             <CloseIcon style={{ fontSize: 20 }} onClick={() => deleteUser(index)} />
           </div>
 
-          <div className="participant">
+          <div className="participant participants">
             <SearchBar setUser={setUser} />
           </div>
 
-          <div className="paid-money">
+          <div className="paid-money participants">
             <form className={classes.container} noValidate autoComplete="off">
               <TextField
                 id="paid-money"

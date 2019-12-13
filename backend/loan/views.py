@@ -239,6 +239,12 @@ def transaction(request, tx_id):
             tsx.completed_date = timezone.now()
             tsx.save()
 
+            # Calculate loan progress rate
+            total_loan_tsx = Transaction.objects.filter(loan=tsx.loan).count()
+            num_completed_tsx = Transaction.objects.filter(loan=tsx.loan, completed=True).count()
+            tsx.loan.progress_rate = round(num_completed_tsx / total_loan_tsx * 100, 1)
+            tsx.loan.save()
+
             txset = Transaction.objects.filter(loan=tsx.loan, completed=False)
             if not txset.exists():
                 tsx.loan.completed = True

@@ -185,7 +185,7 @@ export default function SimpleTabs(props) {
                 xs={12}
               >
                 <TaskProgress>
-                  33.3
+                  {loan.progress_rate}
                 </TaskProgress>
               </Grid>
               <Grid
