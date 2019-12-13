@@ -20,16 +20,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontWeight: 700,
   },
-  avatar: {
-    backgroundColor: theme.palette.white,
-    color: theme.palette.primary.main,
-    height: 56,
-    width: 56,
-  },
-  icon: {
-    height: 32,
-    width: 32,
-  },
 }));
 
 const TotalMoney = (props) => {
@@ -54,21 +44,11 @@ const TotalMoney = (props) => {
               gutterBottom
               variant="body2"
             >
-              TOTAL MONEY
-            </Typography>
-            <Typography
-              color="inherit"
-              variant="h5"
-            >
-              {children}
-              {' '}
-              KRW
+              START CHATTING
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
-              <AttachMoneyIcon className={classes.icon} />
-            </Avatar>
+            {children}
           </Grid>
         </Grid>
       </CardContent>

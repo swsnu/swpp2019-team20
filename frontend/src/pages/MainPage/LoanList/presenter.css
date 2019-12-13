@@ -3,5 +3,12 @@
 }
 
 #enter-chatroom-button {
-    margin: 20px;
+    color: #ffffff;
+    margin: 3px 46px -9px 46px;
+}
+
+#enter-chatroom-button:hover {
+    color: #fbff00;
+    size: 100px;
+    margin: 3px 46px -9px 46px;
 }
