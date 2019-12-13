@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './ImageUpload.css'
+import PropTypes from 'prop-types';
+import './ImageUpload.css';
 import { getCookie } from '../../../utils';
 
 class ImageUpload extends Component {
@@ -10,7 +11,7 @@ class ImageUpload extends Component {
 
   /* ----- submit image ----- */
 
-  triggerPutImage = async (formData) => {
+  async triggerPutImage(formData) {
     await fetch('/account/token', {
       method: 'GET',
       credential: 'include',
@@ -28,7 +29,7 @@ class ImageUpload extends Component {
       body: formData,
     });
 
-    if ( response.status === 200) {
+    if (response.status === 200) {
       window.alert('success image change');
       window.location.reload();
     } else {
@@ -40,10 +41,10 @@ class ImageUpload extends Component {
     e.preventDefault();
 
     // TODO: do something with -> this.state.file
-    let formData = new FormData();
-    formData.append('image', this.state.file)
-    
-    //console.log('handle uploading-', this.state.imagePreviewUrl);
+    const formData = new FormData();
+    formData.append('image', this.state.file);
+
+    // console.log('handle uploading-', this.state.imagePreviewUrl);
     this.triggerPutImage(formData);
   }
 
@@ -52,26 +53,26 @@ class ImageUpload extends Component {
   imageChange(e) {
     e.preventDefault();
 
-    let reader = new FileReader();
-    let file = e.target.files[0];
+    const reader = new FileReader();
+    const file = e.target.files[0];
 
     reader.onloadend = () => {
       this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
+        file,
+        imagePreviewUrl: reader.result,
       });
-    }
+    };
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
   }
 
   /* ----- render ----- */
 
   render() {
-    let { imagePreviewUrl } = this.state;
+    const { imagePreviewUrl } = this.state;
     let imagePreview = null;
     if (imagePreviewUrl) {
-      imagePreview = (<img src={imagePreviewUrl} />);
+      imagePreview = (<img src={imagePreviewUrl} alt="preview" />);
     } else {
       imagePreview = (<div className="previewText">Please select an Image for Preview</div>);
     }
@@ -79,19 +80,33 @@ class ImageUpload extends Component {
     return (
       <div className="previewComponent">
         <form onSubmit={(e) => this.imageSubmit(e)}>
-          <input className="fileInput"
+          <input
+            className="fileInput"
             type="file"
-            onChange={(e) => this.imageChange(e)} />
-          <button className="submitButton"
+            onChange={(e) => this.imageChange(e)}
+          />
+          <button
+            className="submitButton"
             type="submit"
-            onClick={(e) => this.imageSubmit(e)}>Upload Image</button>
+            onClick={(e) => this.imageSubmit(e)}
+          >
+          Upload Image
+          </button>
         </form>
         <div className="imgPreview">
           {imagePreview}
         </div>
       </div>
-    )
+    );
   }
 }
+
+ImageUpload.propTypes = {
+  userID: PropTypes.string,
+};
+
+ImageUpload.defaultProps = {
+  userID: null,
+};
 
 export default ImageUpload;

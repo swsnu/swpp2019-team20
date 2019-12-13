@@ -24,7 +24,7 @@ import './AccountProfile.css';
 import ImageUpload from '../../../ImageUpload/ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
-  root: { 
+  root: {
     width: 510,
   },
   details: {
@@ -67,7 +67,8 @@ const AccountProfile = (props) => {
   const [image, setImage] = useState(false);
 
   const {
-    mine, id, username, profile_img, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
+    mine, id, username, profile_img: profileImg,
+    kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
   } = children.userInfo;
 
   const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
@@ -78,7 +79,7 @@ const AccountProfile = (props) => {
     setKakaoIDState(kakaoID);
     setPhoneState(phone);
     setMessageState(twilioMsg);
-  }, [kakaoID, phone, twilioMsg, profile_img]);
+  }, [kakaoID, phone, twilioMsg, profileImg]);
 
   /* --- submit profile changes --- */
 
@@ -148,7 +149,7 @@ const AccountProfile = (props) => {
       // eslint-disable-next-line
       window.alert('image delete error');
     }
-  }
+  };
 
   /* --- render --- */
 
@@ -198,7 +199,7 @@ const AccountProfile = (props) => {
 
           <Avatar
             className={classes.avatar}
-            src={profile_img}
+            src={profileImg}
           />
         </div>
 
@@ -227,25 +228,28 @@ const AccountProfile = (props) => {
           </Paper>
         )}
 
-        {mine && <div className={classes.progress}>
+        {mine && (
+        <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
           <LinearProgress
             value={70}
             variant="determinate"
           />
-        </div>}
+        </div>
+        )}
 
       </CardContent>
-      
+
       {/* only visible on my profile page */}
       {mine && <Divider />}
-      {mine && <CardActions>
+      {mine && (
+      <CardActions>
 
         {/* profile image upload button, delete button */}
         <Button className={classes.uploadButton} id="image-upload" disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
-          {image ? "Cancel" : "Upload picture"}
+          {image ? 'Cancel' : 'Upload picture'}
         </Button>
-        <Button className={classes.uploadButton} id="image-delete" disabled={edit || image || profile_img === ''} onClick={() => triggerImageDelete()} variant="text">
+        <Button className={classes.uploadButton} id="image-delete" disabled={edit || image || profileImg === ''} onClick={() => triggerImageDelete()} variant="text">
           Remove picture
         </Button>
 
@@ -254,24 +258,26 @@ const AccountProfile = (props) => {
           <div className="submit-button">
             <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
               Submit
-                </Button>
+            </Button>
           </div>
         ) : (
-            <div className="edit-button">
-              <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
+          <div className="edit-button">
+            <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
                 Edit profile
-                </Button>
-            </div>
-          )
-        }
-      </CardActions>}
+            </Button>
+          </div>
+        )}
+      </CardActions>
+      )}
 
-      {image && <div>
+      {image && (
+      <div>
         <Divider />
         <Card>
-          <ImageUpload userID = {id}/>
+          <ImageUpload userID={id} />
         </Card>
-      </div>}
+      </div>
+      )}
 
 
     </Card>

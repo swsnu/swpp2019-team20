@@ -13,7 +13,7 @@ describe('AccountProfile', () => {
         phone: '010-1111-1111',
         bio: 'bio',
         twilio_msg: 'message1',
-        profile_img: 'img'
+        profile_img: 'img',
       },
   });
 
@@ -79,7 +79,7 @@ describe('AccountProfile', () => {
     submitButton.simulate('click');
   });
 
-  test('click image upload button', ()=>{
+  test('click image upload button', () => {
     const component = mount(accountProfile);
 
     let wrapper = component.find('ImageUpload');
@@ -90,7 +90,7 @@ describe('AccountProfile', () => {
 
     wrapper = component.find('ImageUpload');
     expect(wrapper.length).toBe(1);
-  })
+  });
 
   test('delete profile image success', () => {
     onSubmitSpy = jest.spyOn(window, 'fetch')
@@ -122,5 +122,5 @@ describe('AccountProfile', () => {
 
     const deleteImageButton = component.find('.MuiPaper-root .MuiCardActions-root button#image-delete');
     deleteImageButton.simulate('click');
-  })
+  });
 });
