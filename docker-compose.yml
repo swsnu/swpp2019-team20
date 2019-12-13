@@ -19,3 +19,5 @@ services:
       - 'POSTGRES_DB=payback'
       - 'POSTGRES_USER=payback'
       - 'POSTGRES_PASSWORD=payback'
+  redis:
+    image: redis:5-alpine

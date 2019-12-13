@@ -12,7 +12,8 @@ def check_env():
 
 def send_message(recipient, msg):
     if not check_env():
+        print(f'would send "{msg}" to "{recipient}"')
         return
 
     client = Client(TWILIO_API_KEY, TWILIO_API_SECRET)
-    client.messages.create(from_=TWILIO_FROM_NUMBER, to=recipient, body=msg)
+    client.messages.create(from_=TWILIO_FROM_NUMBER, to='+82'+recipient, body=msg)

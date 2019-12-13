@@ -11,7 +11,7 @@ matrix:
       services:
         - docker
       before_install:
-        - docker run -p 6379:6379 -d redis
+        - docker run -p 6379:6379 -d redis:5-alpine
       install:
         - cd frontend
         - yarn install
@@ -20,6 +20,7 @@ matrix:
         - cd ../
         - cd backend
         - source ~/virtualenv/python3.7/bin/activate
+        - pip install -U pip setuptools wheel
         - pip install -r requirements.txt
         - pip install coveralls
         - cd ..
@@ -44,7 +45,6 @@ matrix:
       services:
         - docker
       before_install:
-        - docker run -p 6379:6379 -d redis
         - cd frontend
       install:
         - yarn install
@@ -57,12 +57,13 @@ matrix:
       services:
         - docker
       before_install:
-        - docker run -p 6379:6379 -d redis
+        - docker run -p 6379:6379 -d redis:5-alpine
         - cd backend
       install:
+        - pip install -U pip setuptools wheel
         - pip install -r requirements.txt
       script:
-        - pylint --load-plugins pylint_django **/*.py
+        - find -type f -name '*.py' | grep -v 'migrations' | xargs pylint --load-plugins pylint_django
         - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','*/asgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
         #- coverage report -m --fail-under=90
         - coverage report -m
