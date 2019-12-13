@@ -20,6 +20,10 @@ def profile(request, user_pk):
         dict_profile['username'] = prof.user.username
         dict_profile['id'] = dict_profile['user']
         del dict_profile['user']
+        if dict_profile['profile_img'] == '':
+            dict_profile['profile_img'] = ''
+        else:
+            dict_profile['profile_img'] = str(prof.profile_img.url)
         return JsonResponse(dict_profile)
 
     if request.method == 'PUT':
@@ -37,11 +41,40 @@ def profile(request, user_pk):
                 return HttpResponse(status=403)
             prof.save()
             dict_article = model_to_dict(prof)
+            del dict_article['profile_img']
             return JsonResponse(dict_article)
         except (KeyError, TypeError, json.JSONDecodeError):
             return HttpResponseBadRequest()
 
     return HttpResponseNotAllowed(['GET', 'PUT'])
+
+def profile_image(request, user_pk):
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        prof = get_object_or_404(Profile, pk=user_pk)
+
+        try:
+            prof.profile_img.delete(save=True)
+            prof.profile_img = request.FILES['image']
+            prof.save()
+            dict_image = {
+                'image': str(prof.profile_img.url)
+            }
+            return JsonResponse(dict_image)
+        except (KeyError, TypeError, json.JSONDecodeError):
+            return HttpResponseBadRequest()
+
+    if request.method == 'DELETE':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+
+        prof = get_object_or_404(Profile, pk=user_pk)
+
+        prof.profile_img.delete(save=True)
+        return HttpResponse(status=200)
+
+    return HttpResponseNotAllowed(['POST', 'DELETE'])
 
 @ensure_csrf_cookie
 def token(request):

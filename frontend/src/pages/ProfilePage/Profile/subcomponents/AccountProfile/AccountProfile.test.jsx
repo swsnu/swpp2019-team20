@@ -13,6 +13,7 @@ describe('AccountProfile', () => {
         phone: '010-1111-1111',
         bio: 'bio',
         twilio_msg: 'message1',
+        profile_img: 'img',
       },
   });
 
@@ -30,7 +31,7 @@ describe('AccountProfile', () => {
     expect(component.length).toEqual(1);
   });
 
-  test('submit with invalid input', () => {
+  test('submit profile with invalid input', () => {
     onSubmitSpy = jest.spyOn(window, 'fetch')
       // eslint-disable-next-line
       .mockImplementation((url) => {
@@ -50,7 +51,7 @@ describe('AccountProfile', () => {
     submitButton.simulate('click');
   });
 
-  test('submit with valid input', () => {
+  test('submit profile with valid input', () => {
     onSubmitSpy = jest.spyOn(window, 'fetch')
       // eslint-disable-next-line
       .mockImplementation((url) => {
@@ -76,5 +77,50 @@ describe('AccountProfile', () => {
 
     const submitButton = component.find('.submit-button button');
     submitButton.simulate('click');
+  });
+
+  test('click image upload button', () => {
+    const component = mount(accountProfile);
+
+    let wrapper = component.find('ImageUpload');
+    expect(wrapper.length).toBe(0);
+
+    const uploadImageButton = component.find('.MuiPaper-root .MuiCardActions-root button#image-upload');
+    uploadImageButton.simulate('click');
+
+    wrapper = component.find('ImageUpload');
+    expect(wrapper.length).toBe(1);
+  });
+
+  test('delete profile image success', () => {
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 200,
+        };
+        return Promise.resolve(result);
+      });
+
+    const component = mount(accountProfile);
+
+    const deleteImageButton = component.find('.MuiPaper-root .MuiCardActions-root button#image-delete');
+    deleteImageButton.simulate('click');
+  });
+
+  test('delete profile image fail', () => {
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 400,
+        };
+        return Promise.resolve(result);
+      });
+
+    const component = mount(accountProfile);
+
+    const deleteImageButton = component.find('.MuiPaper-root .MuiCardActions-root button#image-delete');
+    deleteImageButton.simulate('click');
   });
 });
