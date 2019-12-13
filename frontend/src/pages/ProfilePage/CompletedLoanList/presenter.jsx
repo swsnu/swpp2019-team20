@@ -108,7 +108,7 @@ const Completedloans = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {children.map((list, idx) => (
+                {children.map((list) => (
                   <TableRow
                     hover
                     key={
