@@ -19,7 +19,7 @@ from .models import Review
 from . import sentiment as sent
 
 
-def rating(request, reviewee_id):
+def user_rating(request, reviewee_id):
     if request.method not in ['GET']:
         return HttpResponseNotAllowed(['GET'])
 
@@ -38,6 +38,9 @@ def rating(request, reviewee_id):
             status=200,
             safe=False
         )
+
+    # If user is not logged in
+    return HttpResponse(status=401)
 
 
 def user_review(request, reviewee_id):
