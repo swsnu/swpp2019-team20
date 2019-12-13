@@ -60,5 +60,13 @@ class ReviewTestCase(TestCase):
         response = client.get('/review/rating/10/')
         self.assertEqual(response.status_code, 404)
 
+        valid_data = [
+            {'rating': 4.0, 'content': '전혀 믿을 수 없는 친구입니다.'}
+        ]
+
+        for data in valid_data:
+            response = client.post('/review/1/', data, content_type='application/json')
+            self.assertEqual(response.status_code, 201)
+
         response = client.get('/review/rating/1/')
         self.assertEqual(response.status_code, 200)
