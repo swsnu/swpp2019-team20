@@ -86,7 +86,7 @@ const Completedloans = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Loan ID</TableCell>
+                  <TableCell>LoanId</TableCell>
                   <TableCell>Total Members</TableCell>
                   <TableCell>Total Money</TableCell>
                   <TableCell sortDirection="desc">
@@ -102,7 +102,6 @@ const Completedloans = (props) => {
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -118,11 +117,6 @@ const Completedloans = (props) => {
                     <TableCell>{list.total_money}</TableCell>
                     <TableCell>
                       {moment(list.deadline).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        status
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
