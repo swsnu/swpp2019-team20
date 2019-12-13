@@ -28,8 +28,7 @@ matrix:
         - yarn test --coverage --watchAll=false
         - cd ..
         - cd backend
-        - coverage run --branch --source='.'
-        --omit='*/migrations/*','manage.py','*/wsgi.py','*/asgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
+        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','*/asgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
         - coverage xml
         - cd ..
         - sonar-scanner
@@ -64,7 +63,6 @@ matrix:
         - pip install -r requirements.txt
       script:
         - pylint --load-plugins pylint_django **/*.py
-        - coverage run --branch --source='.'
-        --omit='*/migrations/*','manage.py','*/wsgi.py','*/asgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
+        - coverage run --branch --source='.' --omit='*/migrations/*','manage.py','*/wsgi.py','*/asgi.py','/utils/*','utils/*','*/routing.py' ./manage.py test
         #- coverage report -m --fail-under=90
         - coverage report -m
