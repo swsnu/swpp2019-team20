@@ -1,6 +1,8 @@
 #-*- coding:utf-8 -*-
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from .models import Review
+
 
 class ReviewTestCase(TestCase):
     def test_review(self):
@@ -54,19 +56,16 @@ class ReviewTestCase(TestCase):
         response = client.post('/review/rating/1/', {}, content_type='application/json')
         self.assertEqual(response.status_code, 405)
 
-        User.objects.create_user(username='user1', password='pass')
+        user1 = User.objects.create_user(username='user1', password='pass')
         client.login(username='user1', password='pass')
 
         response = client.get('/review/rating/10/')
         self.assertEqual(response.status_code, 404)
 
-        valid_data = [
-            {'rating': 4.0, 'content': '전혀 믿을 수 없는 친구입니다.'}
-        ]
-
-        for data in valid_data:
-            response = client.post('/review/1/', data, content_type='application/json')
-            self.assertEqual(response.status_code, 201)
+        new_review = Review(reviewee=user1,
+                            rating=4.0,
+                            content='전혀 믿을 수 없는 친구입니다.')
+        new_review.save()
 
         response = client.get('/review/rating/1/')
         self.assertEqual(response.status_code, 200)

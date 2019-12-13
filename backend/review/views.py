@@ -27,10 +27,13 @@ def user_rating(request, reviewee_id):
         reviewee_user = get_object_or_404(User, pk=reviewee_id)
         review_list = Review.objects.filter(reviewee=reviewee_user)
 
-        my_rating = 0
-        for review in review_list:
-            my_rating += review.rating
-        my_rating /= 2 * len(review_list)
+        if len(review_list) != 0:
+            my_rating = 0
+            for review in review_list:
+                my_rating += review.rating
+            my_rating /= 2 * len(review_list)
+        else:
+            my_rating = 0
 
         content = {'rating': my_rating}
         return JsonResponse(
