@@ -23,7 +23,7 @@ def profile(request, user_pk):
         if dict_profile['profile_img'] == '':
             dict_profile['profile_img'] = ''
         else:
-            dict_profile['profile_img'] = 'http://127.0.0.1:8000' + prof.profile_img.url
+            dict_profile['profile_img'] = str(prof.profile_img.url)
         return JsonResponse(dict_profile)
 
     if request.method == 'PUT':
@@ -59,7 +59,7 @@ def profile_image(request, user_pk):
             prof.profile_img = request.FILES['image']
             prof.save()
             dict_image = {
-                'image': 'http://127.0.0.1:8000' + prof.profile_img.url
+                'image': str(prof.profile_img.url)
             }
             return JsonResponse(dict_image)
         except (KeyError, TypeError, json.JSONDecodeError):
@@ -68,7 +68,7 @@ def profile_image(request, user_pk):
     if request.method == 'DELETE':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-    
+
         prof = get_object_or_404(Profile, pk=user_pk)
 
         prof.profile_img.delete(save=True)

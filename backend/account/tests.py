@@ -244,8 +244,6 @@ class ProfileTest(TestCase):
             file = File(file_obj, name='test.png')
             return (img, file)
 
-        client = Client()
-
         # test - no such api
         response = self.client.get('/account/user/1/image')
         self.assertEqual(response.status_code, 405)
@@ -265,7 +263,7 @@ class ProfileTest(TestCase):
 
         # test - put valid image
         response = self.client.post('/account/user/1/image',
-                                   data={'image': make_image_file()[1]})
+                                    data={'image': make_image_file()[1]})
         self.assertEqual(response.status_code, 200)
 
         # I have image!
