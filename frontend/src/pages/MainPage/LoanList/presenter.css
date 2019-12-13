@@ -1,3 +1,7 @@
 .MuiTypography-root.MuiTypography-body1{
     width: 1000px;
 }
+
+#enter-chatroom-button {
+    margin: 20px;
+}

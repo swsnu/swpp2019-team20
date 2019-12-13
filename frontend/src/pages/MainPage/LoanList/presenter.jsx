@@ -202,7 +202,9 @@ export default function SimpleTabs(props) {
             </Grid>
             <TransactionList loan={loan} />
             <Link href={`/loan/chatroom/${loan.id * 55886609}`}>
-              <ChatIcon style={{ fontSize: 50 }} />
+              <div id="enter-chatroom-button">
+                <ChatIcon style={{ fontSize: 50 }} />
+              </div>
             </Link>
           </TabPanel>
         ))}

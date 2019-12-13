@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 class Loan(models.Model):
     num_members = models.PositiveSmallIntegerField()
     deadline = models.DateTimeField()
-    total_money = models.DecimalField(max_digits=8, decimal_places=2)
+    total_money = models.DecimalField(max_digits=10, decimal_places=0)
     alert_frequency = models.CharField(max_length=16)
     apply_interest = models.BooleanField()
     interest_type = models.CharField(max_length=16, null=True)
@@ -29,7 +29,7 @@ class Transaction(models.Model):
                                related_name='lended_transaction')
     borrower = models.ForeignKey(User, on_delete=models.CASCADE,
                                  related_name='borrowed_transaction')
-    money = models.DecimalField(max_digits=8, decimal_places=2)
+    money = models.DecimalField(max_digits=10, decimal_places=0)
     completed = models.BooleanField()
     completed_date = models.DateTimeField(null=True)
     lender_confirm = models.BooleanField()
