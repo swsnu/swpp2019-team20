@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: 550,
+    height: 700,
   },
   tabs: {
     width: 270,
@@ -196,16 +196,15 @@ export default function SimpleTabs(props) {
                 xs={12}
               >
                 <TotalMoney>
-                  {loan.total_money}
+                  <Link href={`/loan/chatroom/${loan.id * 55886609}`}>
+                    <div id="enter-chatroom-button">
+                      <ChatIcon style={{ fontSize: 80 }} />
+                    </div>
+                  </Link>
                 </TotalMoney>
               </Grid>
             </Grid>
             <TransactionList loan={loan} />
-            <Link href={`/loan/chatroom/${loan.id * 55886609}`}>
-              <div id="enter-chatroom-button">
-                <ChatIcon style={{ fontSize: 50 }} />
-              </div>
-            </Link>
           </TabPanel>
         ))}
         <TabPanel value={value} index={addButtonLen}>
