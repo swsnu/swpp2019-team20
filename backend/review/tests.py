@@ -52,7 +52,7 @@ class ReviewTestCase(TestCase):
         response = client.get('/review/rating/1/')
         self.assertEqual(response.status_code, 401)
         response = client.post('/review/rating/1/', {}, content_type='application/json')
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 405)
 
         User.objects.create_user(username='user1', password='pass')
         client.login(username='user1', password='pass')
@@ -60,6 +60,5 @@ class ReviewTestCase(TestCase):
         response = client.get('/review/rating/10/')
         self.assertEqual(response.status_code, 404)
 
-        content = {'rating': 4.0}
         response = client.get('/review/rating/1/')
         self.assertEqual(response.status_code, 200)
