@@ -60,6 +60,7 @@ function App() {
       <Redirect exact from="/profile" to={`/profile/${userID}`} />
       <Route path="/main" exact component={MainPage} />
       <Route path="/" exact component={MainPage} />
+      <Route component={MainPage} />
     </Switch>
   ) : (
     <Switch>

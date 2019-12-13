@@ -19,6 +19,30 @@ from .models import Review
 from . import sentiment as sent
 
 
+def user_rating(request, reviewee_id):
+    if request.method not in ['GET']:
+        return HttpResponseNotAllowed(['GET'])
+
+    if request.user.is_authenticated:
+        reviewee_user = get_object_or_404(User, pk=reviewee_id)
+        review_list = Review.objects.filter(reviewee=reviewee_user)
+
+        my_rating = 0
+        for review in review_list:
+            my_rating += review.rating
+        my_rating /= 2 * len(review_list)
+
+        content = {'rating': my_rating}
+        return JsonResponse(
+            content,
+            status=200,
+            safe=False
+        )
+
+    # If user is not logged in
+    return HttpResponse(status=401)
+
+
 def user_review(request, reviewee_id):
     if request.method not in ['GET', 'POST']:
         return HttpResponseNotAllowed(['GET', 'POST'])

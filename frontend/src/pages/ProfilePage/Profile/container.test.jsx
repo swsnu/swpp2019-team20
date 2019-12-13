@@ -31,6 +31,6 @@ describe('Profile', () => {
   it('works with fetch', async () => {
     const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
     mount(profile);
-    expect(mockFn).toBeCalledTimes(2);
+    expect(mockFn).toBeCalledTimes(3);
   });
 });
