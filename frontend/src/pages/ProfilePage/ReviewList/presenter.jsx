@@ -43,9 +43,9 @@ const Presenter = (props) => {
   return (
     <Grid
       item
-      lg={10}
+      lg={12}
       sm={10}
-      xl={10}
+      xl={12}
       xs={12}
       justify="center"
       alignItems="center"

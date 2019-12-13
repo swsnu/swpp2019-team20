@@ -25,7 +25,7 @@ import ImageUpload from '../../../ImageUpload/ImageUpload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 510,
+    width: 410,
   },
   details: {
     display: 'flex',
