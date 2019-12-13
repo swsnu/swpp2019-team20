@@ -130,6 +130,7 @@ pickle/
 
 # Django
 db.sqlite3
+backend/media/
 
 
 # vscode

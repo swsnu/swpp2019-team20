@@ -13,4 +13,7 @@ module.exports = function setupProxy(app) {
   app.use(proxy('/ws', {
     target: 'http://localhost:8000',
   }));
+  app.use(proxy('/media', {
+    target: 'http://localhost:8000',
+  }));
 };

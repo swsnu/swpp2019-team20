@@ -15,6 +15,10 @@
     margin: 30px 20px;
 }
 
+.MuiPickersBasePicker-container p.MuiTypography-root.MuiTypography-body1.MuiTypography-alignCenter {
+    width: auto;
+}
+
 .alert-frequency{
     display: inline-block;
     vertical-align: middle;

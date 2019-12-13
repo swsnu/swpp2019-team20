@@ -142,7 +142,7 @@ export default function Header({children}) {
           variant="h6"
           underline="none"
           className={classes.rightLink}
-          href="/index/"
+          href="/"
           onClick={onLogout}
         >
           Sign Out

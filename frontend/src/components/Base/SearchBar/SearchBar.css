@@ -6,3 +6,7 @@
 .searchBarContainer .ui.grid .eight.wide.column input{
     width: 350px;
 }
+
+.searchBarContainer .results.transition {
+    margin: 0px 40px;
+}
