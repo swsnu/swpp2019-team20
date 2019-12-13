@@ -99,7 +99,7 @@ const TransactionList = (props) => {
       },
       body: JSON.stringify({ content: review }), // body data type must match "Content-Type" header
     });
-    history.push('/index');
+    history.push('/profile/3');
     history.push('/main');
   };
 
