@@ -12,6 +12,9 @@ services:
       - '8001:8080'
     volumes:
       - './backend_settings.py:/opt/payback-backend/backend/settings.py'
+      - './room.html:/opt/payback-backend/loan/templates/loan/room.html'
+      - 'user-uploads:/opt/payback-backend/media'
+
   db:
     image: postgres:12-alpine
     # MODIFY THESE VALUES
@@ -21,3 +24,11 @@ services:
       - 'POSTGRES_PASSWORD=payback'
   redis:
     image: redis:5-alpine
+  static:
+    image: nginx:alpine
+    ports:
+      - '8002:80'
+    volumes:
+      - 'user-uploads:/usr/share/nginx/html/media:ro'
+volumes:
+  user-uploads:
