@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
 
@@ -12,7 +11,6 @@ const TransactionList = (props) => {
   const [review, setReview] = useState('');
   const [disable, setDisable] = useState(true);
   const [isLoading, setLoading] = useState(true);
-  const history = useHistory();
 
   const onWriteReview = () => {
     setIsOpen(true);
@@ -99,8 +97,6 @@ const TransactionList = (props) => {
       },
       body: JSON.stringify({ content: review }), // body data type must match "Content-Type" header
     });
-    history.push('/profile/3');
-    history.push('/main');
   };
 
   const render = (
