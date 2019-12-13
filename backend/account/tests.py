@@ -1,4 +1,7 @@
 import json
+from io import BytesIO
+from PIL import Image
+from django.core.files import File
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from .models import Profile
@@ -227,6 +230,50 @@ class ProfileTest(TestCase):
                                    valid_data,
                                    content_type='application/json')
         self.assertEqual(response.status_code, 403)
+
+    def test_profile_image(self):
+
+        def make_image_file():
+            '''
+                method that make fake image file
+            '''
+            file_obj = BytesIO()
+            img = Image.new('RGB', (60, 30), color='red')
+            img.save(file_obj, 'png')
+            file_obj.seek(0)
+            file = File(file_obj, name='test.png')
+            return (img, file)
+
+        # test - no such api
+        response = self.client.get('/account/user/1/image')
+        self.assertEqual(response.status_code, 405)
+
+        # test - not logged in
+        response = self.client.post('/account/user/1/image')
+        self.assertEqual(response.status_code, 401)
+        response = self.client.delete('/account/user/1/image')
+        self.assertEqual(response.status_code, 401)
+
+        # login
+        self.client.login(username='bill', password='evans')
+
+        # test - no request body
+        response = self.client.post('/account/user/1/image')
+        self.assertEqual(response.status_code, 400)
+
+        # test - put valid image
+        response = self.client.post('/account/user/1/image',
+                                    data={'image': make_image_file()[1]})
+        self.assertEqual(response.status_code, 200)
+
+        # I have image!
+        response = self.client.get('/account/user/1')
+        self.assertEqual(response.status_code, 200)
+
+        # test - delete image
+        response = self.client.delete('/account/user/1/image')
+        self.assertEqual(response.status_code, 200)
+
 
     def test_profile_me(self):
         client = Client()

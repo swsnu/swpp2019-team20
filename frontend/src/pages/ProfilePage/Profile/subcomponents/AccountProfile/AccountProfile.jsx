@@ -21,8 +21,12 @@ import {
 import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
 
+import ImageUpload from '../../../ImageUpload/ImageUpload';
+
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    width: 510,
+  },
   details: {
     display: 'flex',
   },
@@ -40,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   uploadButton: {
+    width: 150,
     marginRight: theme.spacing(2),
   },
   paper: {
@@ -52,14 +57,18 @@ const AccountProfile = (props) => {
 
   const classes = useStyles();
 
+  /*
   const user = {
     avatar: 'http://t1.kakaocdn.net/kakaofriends_global/common/SNS.jpg',
   };
+  */
 
   const [edit, setEdit] = useState(false);
+  const [image, setImage] = useState(false);
 
   const {
-    mine, id, username, kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
+    mine, id, username, profile_img: profileImg,
+    kakao_id: kakaoID, phone, bio, twilio_msg: twilioMsg,
   } = children.userInfo;
 
   const [kakaoIDState, setKakaoIDState] = useState(kakaoID);
@@ -70,9 +79,9 @@ const AccountProfile = (props) => {
     setKakaoIDState(kakaoID);
     setPhoneState(phone);
     setMessageState(twilioMsg);
-  }, [kakaoID, phone, twilioMsg]);
+  }, [kakaoID, phone, twilioMsg, profileImg]);
 
-  /* --- submit changes --- */
+  /* --- submit profile changes --- */
 
   const triggerProfilePost = async (data) => {
     // console.log(data);
@@ -112,6 +121,37 @@ const AccountProfile = (props) => {
     };
     triggerProfilePost(data);
   };
+
+  /* --- delete profile image --- */
+
+  const triggerImageDelete = async () => {
+    // console.log(data);
+    await fetch('/account/token', {
+      method: 'GET',
+      credential: 'include',
+    });
+
+    const csrftoken = getCookie('csrftoken');
+    const response = await fetch(`/account/user/${id}/image`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'X-CSRFToken': csrftoken,
+      },
+    });
+
+    if (response.status === 200) {
+      // eslint-disable-next-line
+      window.alert('image delete success');
+      window.location.reload();
+    } else {
+      // eslint-disable-next-line
+      window.alert('image delete error');
+    }
+  };
+
+  /* --- render --- */
 
   return (
     <Card
@@ -159,7 +199,7 @@ const AccountProfile = (props) => {
 
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={profileImg}
           />
         </div>
 
@@ -188,6 +228,7 @@ const AccountProfile = (props) => {
           </Paper>
         )}
 
+        {mine && (
         <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
           <LinearProgress
@@ -195,36 +236,50 @@ const AccountProfile = (props) => {
             variant="determinate"
           />
         </div>
+        )}
 
       </CardContent>
-      <Divider />
+
+      {/* only visible on my profile page */}
+      {mine && <Divider />}
+      {mine && (
       <CardActions>
-        <Button className={classes.uploadButton} disabled={edit} color="primary" variant="text">
-          Upload picture
+
+        {/* profile image upload button, delete button */}
+        <Button className={classes.uploadButton} id="image-upload" disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
+          {image ? 'Cancel' : 'Upload picture'}
         </Button>
-        <Button className={classes.uploadButton} disabled={edit} variant="text">
+        <Button className={classes.uploadButton} id="image-delete" disabled={edit || image || profileImg === ''} onClick={() => triggerImageDelete()} variant="text">
           Remove picture
         </Button>
 
-        {mine
-          && (
-            edit ? (
-              <div className="submit-button">
-                <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
-                  Submit
-                </Button>
-              </div>
-            ) : (
-              <div className="edit-button">
-                <Button className={classes.uploadButton} variant="text" onClick={() => setEdit(!edit)}>
-                    Edit profile
-                </Button>
-              </div>
-            )
-          )}
-
-
+        {/* edit profile & submit button */}
+        {edit ? (
+          <div className="submit-button">
+            <Button className={classes.uploadButton} variant="contained" onClick={() => { setEdit(!edit); profilePostHandler(); }}>
+              Submit
+            </Button>
+          </div>
+        ) : (
+          <div className="edit-button">
+            <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
+                Edit profile
+            </Button>
+          </div>
+        )}
       </CardActions>
+      )}
+
+      {image && (
+      <div>
+        <Divider />
+        <Card>
+          <ImageUpload userID={id} />
+        </Card>
+      </div>
+      )}
+
+
     </Card>
   );
 };
