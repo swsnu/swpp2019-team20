@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 
 class Loan(models.Model):
+    progress_rate = models.FloatField(default=0)
     num_members = models.PositiveSmallIntegerField()
     deadline = models.DateTimeField()
     total_money = models.DecimalField(max_digits=10, decimal_places=0)
