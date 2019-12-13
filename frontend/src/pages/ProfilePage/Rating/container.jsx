@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import Presenter from './presenter';
-import {useParams} from "react-router";
 
 const Rating = () => {
   const [rating, setRating] = useState([]);
 
   const { userID } = useParams();
-  const targetUrl = `/review/rating/${userID}`
+  const targetUrl = `/review/rating/${userID}`;
   const fetchRating = async () => {
     const res = await fetch(targetUrl, {
       method: 'GET',

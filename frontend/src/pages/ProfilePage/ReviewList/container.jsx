@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import Presenter from './presenter';
-import {useParams} from "react-router";
 
 const ReviewList = () => {
   const [reviewList, setReviewList] = useState([]);
 
   const { userID } = useParams();
-  const targetUrl = `/review/${userID}`
+  const targetUrl = `/review/${userID}`;
   const fetchReviewList = async () => {
     const res = await fetch(targetUrl, {
       method: 'GET',
       credential: 'include',
     });
-    const reviewList = await res.json();
-    setReviewList(reviewList);
+    const curReviewList = await res.json();
+    setReviewList(curReviewList);
   };
 
   useEffect(() => {

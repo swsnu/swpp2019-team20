@@ -1,8 +1,8 @@
 import React from 'react';
-import {Grid} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import AccountProfile from './subcomponents/AccountProfile/AccountProfile';
-import Rating from "../Rating/container";
+import Rating from '../Rating/container';
 
 const Presenter = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -12,6 +12,7 @@ const Presenter = (props) => {
   }));
 
   const classes = useStyles();
+  /* eslint-disable global-require */
   const creditRating = require('../Rating/rating.gif');
 
   return (
@@ -22,7 +23,7 @@ const Presenter = (props) => {
           spacing={4}
           alignItems="center"
           justify="center"
-          alignContent='center'
+          alignContent="center"
         >
           <Grid
             item

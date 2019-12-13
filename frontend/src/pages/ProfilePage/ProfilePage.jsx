@@ -9,10 +9,10 @@ const ProfilePage = () => {
   const render = (
     <>
       <Profile />
-      <div style={{padding: '10px'}}/>
+      <div style={{ padding: '10px' }} />
       <LoanList />
-      <div style={{padding: '20px'}}/>
-      <ReviewList/>
+      <div style={{ padding: '20px' }} />
+      <ReviewList />
     </>
   );
   return render;

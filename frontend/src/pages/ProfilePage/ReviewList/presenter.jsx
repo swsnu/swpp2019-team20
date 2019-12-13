@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -58,10 +57,6 @@ const Presenter = (props) => {
   );
 };
 
-Presenter.propTypes = {
-  loanlist: PropTypes.string.isRequired,
-};
-
 export default Presenter;
 
 const Completedloans = (props) => {
@@ -88,7 +83,7 @@ const Completedloans = (props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {children.map((list, idx) => (
+                {children.map((list) => (
                   <TableRow
                     hover
                     key={
@@ -111,9 +106,19 @@ const Completedloans = (props) => {
 Completedloans.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  reviewList: PropTypes.node,
 };
 
 Completedloans.defaultProps = {
   className: null,
   children: null,
+  reviewList: null,
+};
+
+Presenter.propTypes = {
+  reviewList: PropTypes.node,
+};
+
+Presenter.defaultProps = {
+  reviewList: null,
 };

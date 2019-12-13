@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount} from 'enzyme';
-import {BrowserRouter} from 'react-router-dom';
+import { mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
 import CompletedLoanList from './container';
 
 describe('<CompletedLoanList />', () => {
@@ -9,7 +9,7 @@ describe('<CompletedLoanList />', () => {
   beforeEach(() => {
     completedLoanList = (
       <BrowserRouter>
-        <CompletedLoanList/>
+        <CompletedLoanList />
       </BrowserRouter>
     );
   });
@@ -35,8 +35,8 @@ describe('<CompletedLoanList />', () => {
   });
 
   test('works with fetch', async () => {
-    const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({json: () => request}));
+    const mockFn = jest.spyOn(window, 'fetch').mockImplementation(() => ({ json: () => request }));
     mount(completedLoanList);
     expect(mockFn).toBeCalledTimes(1);
-  })
-})
+  });
+});
