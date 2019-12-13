@@ -1,7 +1,7 @@
 Pillow==6.2.1
 channels_redis==2.4.1
 coverage== 4.5.4
-django===2.2
+django===2.2.8
 konlpy==0.5.2
 nltk==3.4.5
 numpy==1.17.4
