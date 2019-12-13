@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Presenter from './presenter';
 
-const LoanList = () => {
+const CompletedLoanList = () => {
   const [completedLoanList, setCompletedLoanList] = useState([]);
 
   const targetUrl = '/loan/loan';
@@ -25,4 +25,4 @@ const LoanList = () => {
   return render;
 };
 
-export default LoanList;
+export default CompletedLoanList;
