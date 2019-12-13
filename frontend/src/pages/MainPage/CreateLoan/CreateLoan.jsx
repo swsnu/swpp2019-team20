@@ -109,12 +109,41 @@ const CreateLoan = () => {
   };
 
   const articlePostHandler = () => {
-    if (participants.length < 2) {
+    const all = participants.length;
+    let real = 0;
+    const realParticipants = [];
+
+    for (let i = 0; i < all; i += 1) {
+      const currentID = participants[i].id;
+      // currentID < 0 : do nothing
+      if (currentID === 0) {
+        // eslint-disable-next-line
+        window.alert(`username on row ${real+1} is empty!`);
+        return;
+      } if (currentID > 0) {
+        let exist = false;
+
+        for (let p = 0; p < real; p += 1) {
+          if (realParticipants[p].id === currentID) {
+            realParticipants[p].paid_money += participants[i].paid_money;
+            exist = true;
+            break;
+          }
+        }
+
+        if (!exist) {
+          realParticipants.push(participants[i]);
+          real += 1;
+        }
+      }
+    }
+
+    if (real < 2) {
       // eslint-disable-next-line
       window.alert('It needs more participants.');
     } else {
       const data = {
-        participants,
+        participants: realParticipants,
         deadline: `${DateToString(deadline)}T23:59:59Z`,
         interest_rate: interestValid ? interestRate : 0,
         interest_type: interestType,
@@ -137,16 +166,19 @@ const CreateLoan = () => {
     ]);
   };
 
-  const deleteUser = (index) => {
-    const newParticipants = [...participants];
-    newParticipants.splice(index, 1);
-    setParticipants(newParticipants);
-  };
-
   const changeUserId = (index, id) => {
     const newParticipants = [...participants];
     newParticipants[index].id = id;
     setParticipants(newParticipants);
+  };
+
+  const deleteUser = (index) => {
+    /*
+    const newParticipants = [...participants];
+    newParticipants.splice(index, 1);
+    setParticipants(newParticipants);
+    */
+    changeUserId(index, -1);
   };
 
   const changeUserMoney = (index, money) => {
@@ -166,18 +198,20 @@ const CreateLoan = () => {
         }
       };
 
+      if (participant.id < 0) return <div />;
+
       return (
         // eslint-disable-next-line
         <div>
-          <div className="participants">
+          <div className="delete-button">
             <CloseIcon style={{ fontSize: 20 }} onClick={() => deleteUser(index)} />
           </div>
 
-          <div className="participants">
+          <div className="participant">
             <SearchBar setUser={setUser} />
           </div>
 
-          <div className="participants">
+          <div className="paid-money">
             <form className={classes.container} noValidate autoComplete="off">
               <TextField
                 id="paid-money"
@@ -189,7 +223,7 @@ const CreateLoan = () => {
                 }}
                 margin="normal"
                 value={participant.paid_money}
-                onChange={(e) => changeUserMoney(index, e.target.value)}
+                onChange={(e) => changeUserMoney(index, Number(e.target.value))}
               />
             </form>
           </div>

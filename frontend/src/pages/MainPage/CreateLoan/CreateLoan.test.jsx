@@ -64,20 +64,25 @@ describe('<CreateLoan/>', () => {
     participants = component.find('#paid-money input');
     expect(participants.length).toBe(2);
 
-    const deleteButton = component.find('.participants svg').at(0);
+    const deleteButton = component.find('.delete-button svg').at(0);
     deleteButton.simulate('click');
 
     participants = component.find('#paid-money input');
     expect(participants.length).toBe(1);
+
+    /* register - fail */
+    const registerButton = component.find('#register-button button');
+    registerButton.simulate('click');
   });
 
   it('write user name', () => {
     const component = mount(createLoan);
 
-    const searchBar = component.find('.participants input').at(0);
+    const searchBar = component.find('.participant input').at(0);
     searchBar.simulate('change', { target: { value: null } });
     searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
   });
+
 
   it('write paid money', () => {
     const component = mount(createLoan);
@@ -129,7 +134,24 @@ describe('<CreateLoan/>', () => {
     const registerButton = component.find('#register-button button');
     registerButton.simulate('click');
   });
+  /*
+  it('empty user', () => {
+    const component = mount(createLoan);
+    // let participants = component.find('SearchBar');
 
+    const addUserButton = component.find('#add-user-button button');
+    addUserButton.simulate('click');
+    addUserButton.simulate('click');
+
+    let searchBar = component.find('.participant input').at(0);
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
+    let searchBar = component.find('.participant input').at(2);
+    searchBar.simulate('change', { target: { value: { username: 'user3', id: 3 } } });
+
+    const registerButton = component.find('#register-button button');
+    registerButton.simulate('click');
+  });
+*/
   it('click register button with invalid input', () => {
     onSubmitSpy = jest.spyOn(window, 'fetch')
       // eslint-disable-next-line
@@ -145,6 +167,54 @@ describe('<CreateLoan/>', () => {
     /* add user */
     const addUserButton = component.find('#add-user-button button');
     addUserButton.simulate('click');
+
+    /* write ID */
+    const searchBar = component.find('.participant input').at(0);
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
+
+    /* register - fail */
+    const registerButton = component.find('#register-button button');
+    registerButton.simulate('click');
+  });
+
+  it('click register button with invalid input2', () => {
+    const component = mount(createLoan);
+
+    /* add user */
+    // const addUserButton = component.find('#add-user-button button');
+
+    /* write ID */
+    const searchBar = component.find('.participant input').at(0);
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
+
+    /* register - success */
+    const registerButton = component.find('#register-button button');
+    registerButton.simulate('click');
+  });
+
+  it('click register button with invalid input3', () => {
+    onSubmitSpy = jest.spyOn(window, 'fetch')
+      // eslint-disable-next-line
+      .mockImplementation((url) => {
+        const result = {
+          status: 204,
+        };
+        return Promise.resolve(result);
+      });
+
+    const component = mount(createLoan);
+
+    /* add user */
+    const addUserButton = component.find('#add-user-button button');
+    addUserButton.simulate('click');
+
+    /* write ID */
+    let searchBar = component.find('.participant input').at(0);
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
+    searchBar = component.find('.participant input').at(1);
+    searchBar.simulate('change', { target: { value: { username: 'user2', id: 2 } } });
+
+    /* register - success */
     const registerButton = component.find('#register-button button');
     registerButton.simulate('click');
   });
@@ -164,10 +234,15 @@ describe('<CreateLoan/>', () => {
     /* add user */
     const addUserButton = component.find('#add-user-button button');
     addUserButton.simulate('click');
-    const registerButton = component.find('#register-button button');
-    registerButton.simulate('click');
+    addUserButton.simulate('click');
 
-    registerButton.simulate('click');
+    /* write ID */
+    let searchBar = component.find('.participant input').at(0);
+    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
+    searchBar = component.find('.participant input').at(1);
+    searchBar.simulate('change', { target: { value: { username: 'user2', id: 2 } } });
+    searchBar = component.find('.participant input').at(2);
+    searchBar.simulate('change', { target: { value: { username: 'user2', id: 2 } } });
 
     /* turn on interest */
     const interestSwitch = component.find('.interest-valid input');
@@ -176,6 +251,8 @@ describe('<CreateLoan/>', () => {
     const interestRate = component.find('.interest-rate input');
     interestRate.simulate('change', { target: { value: 5 } });
 
+    /* register - success */
+    const registerButton = component.find('#register-button button');
     registerButton.simulate('click');
   });
 });
