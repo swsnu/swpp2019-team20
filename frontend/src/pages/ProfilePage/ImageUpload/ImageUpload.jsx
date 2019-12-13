@@ -89,7 +89,7 @@ class ImageUpload extends Component {
             className="submitButton"
             type="submit"
             onClick={(e) => this.imageSubmit(e)}
-          >f
+          >
           Upload Image
           </button>
         </form>
