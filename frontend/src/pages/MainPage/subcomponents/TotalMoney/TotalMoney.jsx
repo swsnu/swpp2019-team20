@@ -3,9 +3,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card, CardContent, Grid, Typography, Avatar,
+  Card, CardContent, Grid, Typography,
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,16 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 700,
-  },
-  avatar: {
-    backgroundColor: theme.palette.white,
-    color: theme.palette.primary.main,
-    height: 56,
-    width: 56,
-  },
-  icon: {
-    height: 32,
-    width: 32,
   },
 }));
 
@@ -54,21 +43,11 @@ const TotalMoney = (props) => {
               gutterBottom
               variant="body2"
             >
-              TOTAL MONEY
-            </Typography>
-            <Typography
-              color="inherit"
-              variant="h5"
-            >
-              {children}
-              {' '}
-              KRW
+              START CHATTING
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
-              <AttachMoneyIcon className={classes.icon} />
-            </Avatar>
+            {children}
           </Grid>
         </Grid>
       </CardContent>

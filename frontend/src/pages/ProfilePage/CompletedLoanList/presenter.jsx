@@ -86,7 +86,6 @@ const Completedloans = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Loan ID</TableCell>
                   <TableCell>Total Members</TableCell>
                   <TableCell>Total Money</TableCell>
                   <TableCell sortDirection="desc">
@@ -98,22 +97,21 @@ const Completedloans = (props) => {
                         active
                         direction="desc"
                       >
-                        Date
+                        Deadline
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>End Date</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {children.map((list, idx) => (
+                {children.map((list) => (
                   <TableRow
                     hover
                     key={
                       list.id
                     }
                   >
-                    <TableCell>{idx + 1}</TableCell>
                     <TableCell>{list.num_members}</TableCell>
                     <TableCell>{list.total_money}</TableCell>
                     <TableCell>
@@ -121,7 +119,7 @@ const Completedloans = (props) => {
                     </TableCell>
                     <TableCell>
                       <div className={classes.statusContainer}>
-                        status
+                        {moment(list.completed_date).format('DD/MM/YYYY')}
                       </div>
                     </TableCell>
                   </TableRow>
