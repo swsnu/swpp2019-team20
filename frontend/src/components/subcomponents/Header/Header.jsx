@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // eslint-disable-next-line
-export default function Header({ children }) {
+export default function Header({children}) {
   const { user } = useContext(AppContext);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -187,15 +187,27 @@ export default function Header({ children }) {
             </a>
           </span>
           <div className={classes.left}>
-            <Link
-              variant="h6"
-              underline="none"
-              color="inherit"
-              className={classes.title}
-              href="/"
-            >
-              <span className="pageTitle">Pay Me Back</span>
-            </Link>
+            {user.loggedIn ? (
+              <Link
+                variant="h6"
+                underline="none"
+                color="inherit"
+                className={classes.title}
+                href="/main"
+              >
+                <span className="pageTitle">Pay Me Back</span>
+              </Link>
+            ) : (
+              <Link
+                variant="h6"
+                underline="none"
+                color="inherit"
+                className={classes.title}
+                href="/index"
+              >
+                <span className="pageTitle">Pay Me Back</span>
+              </Link>
+            )}
           </div>
           <div className={classes.right}>
             {label1}

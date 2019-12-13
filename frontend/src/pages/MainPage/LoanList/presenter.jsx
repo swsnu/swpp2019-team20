@@ -17,7 +17,7 @@ import Budget from '../subcomponents/Budget/Budget';
 import TotalMoney from '../subcomponents/TotalMoney/TotalMoney';
 import TotalUsers from '../subcomponents/TotalUsers/TotalUsers';
 import TaskProgress from '../subcomponents/TasksProgress/TasksProgress';
-import CreateLoan from '../../../components/CreateLoan/CreateLoan';
+import CreateLoan from '../CreateLoan/CreateLoan';
 import './presenter.css';
 
 function TabPanel(props) {
@@ -120,7 +120,7 @@ export default function SimpleTabs(props) {
                     <div className={classes.details}>
                       <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                          Totol Members:
+                          Total Members:
                           {loan.num_members}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
