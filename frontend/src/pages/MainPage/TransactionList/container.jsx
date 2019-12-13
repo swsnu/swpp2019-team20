@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
-import {useHistory} from "react-router";
 
 const TransactionList = (props) => {
   const { loan } = props;

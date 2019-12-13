@@ -132,7 +132,7 @@ const LatestOrders = (props) => {
                         <Modal.Description>
                           <Header>리뷰를 남겨서 마음을 표현해주세요.</Header>
                           <input
-                            style={{width: "200%", height:"80%"}}
+                            style={{ width: '200%', height: '80%' }}
                             placeholder="review"
                             onChange={handleChange}
                           />

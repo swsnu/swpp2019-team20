@@ -247,10 +247,10 @@ const AccountProfile = (props) => {
 
         {/* profile image upload button, delete button */}
         <Button className={classes.uploadButton} id="image-upload" disabled={edit} color="primary" onClick={() => setImage(!image)} variant="text">
-          {image ? 'Cancel' : 'Upload picture'}
+          {image ? 'Cancel' : 'Upload image'}
         </Button>
-        <Button className={classes.uploadButton} id="image-delete" disabled={edit || image || profileImg === ''} onClick={() => triggerImageDelete()} variant="text">
-          Remove picture
+        <Button  className={classes.uploadButton} id="image-delete" disabled={edit || image || profileImg === ''} onClick={() => triggerImageDelete()} variant="text">
+          Remove image
         </Button>
 
         {/* edit profile & submit button */}
@@ -262,7 +262,7 @@ const AccountProfile = (props) => {
           </div>
         ) : (
           <div className="edit-button">
-            <Button className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
+            <Button style={{width:100}} className={classes.uploadButton} disabled={image} variant="text" onClick={() => setEdit(!edit)}>
                 Edit profile
             </Button>
           </div>

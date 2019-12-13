@@ -1,10 +1,10 @@
 import React from 'react';
-import {Grid} from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import AccountProfile from './subcomponents/AccountProfile/AccountProfile';
 import Rating from '../Rating/container';
-import LoanList from "../CompletedLoanList/container";
-import ReviewList from "../ReviewList/container";
+import LoanList from '../CompletedLoanList/container';
+import ReviewList from '../ReviewList/container';
 
 const Presenter = (props) => {
   const useStyles = makeStyles((theme) => ({
