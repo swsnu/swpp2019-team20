@@ -1,12 +1,13 @@
-coverage
-django
-pylint
-pylint-django
-python-dateutil
-tensorflow
-konlpy
-nltk
-numpy
-twilio
-channels_redis
-Pillow
+Pillow==6.2.1
+channels_redis==2.4.1
+coverage== 4.5.4
+django===2.2
+konlpy==0.5.2
+nltk==3.4.5
+numpy==1.17.4
+psycopg2-binary==2.8.4
+pylint==2.4.4
+pylint-django==2.0.13
+python-dateutil==2.8.1
+tensorflow==1.14.0
+twilio==6.34.0
