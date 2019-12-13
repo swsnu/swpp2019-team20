@@ -46,9 +46,9 @@ const Presenter = (props) => {
   return (
     <Grid
       item
-      lg={10}
+      lg={12}
       sm={10}
-      xl={10}
+      xl={12}
       xs={12}
       justify="center"
       alignItems="center"
@@ -86,6 +86,7 @@ const Completedloans = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>LoanId</TableCell>
                   <TableCell>Total Members</TableCell>
                   <TableCell>Total Money</TableCell>
                   <TableCell sortDirection="desc">
@@ -97,30 +98,25 @@ const Completedloans = (props) => {
                         active
                         direction="desc"
                       >
-                        Deadline
+                        Date
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
-                  <TableCell>End Date</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {children.map((list) => (
+                {children.map((list, idx) => (
                   <TableRow
                     hover
                     key={
                       list.id
                     }
                   >
+                    <TableCell>{idx + 1}</TableCell>
                     <TableCell>{list.num_members}</TableCell>
                     <TableCell>{list.total_money}</TableCell>
                     <TableCell>
                       {moment(list.deadline).format('DD/MM/YYYY')}
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.statusContainer}>
-                        {moment(list.completed_date).format('DD/MM/YYYY')}
-                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

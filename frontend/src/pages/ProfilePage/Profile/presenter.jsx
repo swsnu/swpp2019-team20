@@ -3,6 +3,8 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountProfile from './subcomponents/AccountProfile/AccountProfile';
 import Rating from '../Rating/container';
+import LoanList from '../CompletedLoanList/container';
+import ReviewList from '../ReviewList/container';
 
 const Presenter = (props) => {
   const useStyles = makeStyles((theme) => ({
@@ -21,17 +23,7 @@ const Presenter = (props) => {
         <Grid
           container
           spacing={4}
-          alignItems="center"
-          justify="center"
-          alignContent="center"
         >
-          <Grid
-            item
-            lg={1}
-            md={6}
-            xl={1}
-            xs={12}
-          />
           <Grid
             item
             lg={3}
@@ -47,25 +39,32 @@ const Presenter = (props) => {
             item
             lg={1}
             md={6}
-            xl={1.5}
+            xl={1}
             xs={12}
           />
           <Grid
             item
-            lg={7}
+            lg={8}
             md={6}
-            xl={6.5}
+            xl={8}
             xs={12}
           >
             <div style={{
               display: 'flex',
-              margin: 10,
+              marginTop: 10,
+              marginBottom: 20,
+              marginLeft: 10,
+              marginRight: 10,
             }}
             >
               {/* eslint-disable */}
               <img src={creditRating} style={{blockSize: 50}}/>
             </div>
             <Rating/>
+            <div style={{padding: '40px'}}/>
+            <LoanList/>
+            <div style={{padding: '30px'}}/>
+            <ReviewList/>
           </Grid>
         </Grid>
       </div>
