@@ -228,16 +228,6 @@ const AccountProfile = (props) => {
           </Paper>
         )}
 
-        {mine && (
-        <div className={classes.progress}>
-          <Typography variant="body1">Profile Completeness: 70%</Typography>
-          <LinearProgress
-            value={70}
-            variant="determinate"
-          />
-        </div>
-        )}
-
       </CardContent>
 
       {/* only visible on my profile page */}
