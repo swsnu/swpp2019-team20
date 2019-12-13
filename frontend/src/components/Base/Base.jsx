@@ -14,7 +14,9 @@ function Base(Component) {
         <Header>
           <SearchBar />
         </Header>
-        <Component {...props} />
+        <div id="main-component-container">
+          <Component {...props} />
+        </div>
         <Footer />
       </ThemeProvider>
     );

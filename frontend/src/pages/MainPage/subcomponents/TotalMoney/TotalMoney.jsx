@@ -61,6 +61,8 @@ const TotalMoney = (props) => {
               variant="h5"
             >
               {children}
+              {' '}
+              KRW
             </Typography>
           </Grid>
           <Grid item>
