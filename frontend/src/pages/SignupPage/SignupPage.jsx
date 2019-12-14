@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Field, Form } from 'react-final-form';
+import swal from 'sweetalert';
 import Base from '../../components/Base/Base';
 import Typography from '../../components/subcomponents/Typography';
 import AppForm from '../../components/subcomponents/AppForm';
@@ -49,7 +50,7 @@ const SignUpPage = () => {
 
     if (response.status === 201) {
       history.push('/index');
-    }
+    } else swal('Please check your inputs');
   };
 
   return (

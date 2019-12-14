@@ -17,6 +17,7 @@ import {
   TextField,
   Paper,
 } from '@material-ui/core';
+import swal from 'sweetalert';
 import { getCookie } from '../../../../../utils';
 import './AccountProfile.css';
 
@@ -104,10 +105,10 @@ const AccountProfile = (props) => {
 
     if (response.status === 200) {
       // eslint-disable-next-line
-      window.alert('profile change success');
+      swal('profile change success');
     } else {
       // eslint-disable-next-line
-      window.alert('profile change error');
+      swal('profile change error');
     }
   };
 
@@ -142,11 +143,11 @@ const AccountProfile = (props) => {
 
     if (response.status === 200) {
       // eslint-disable-next-line
-      window.alert('image delete success');
+      swal('image delete success');
       window.location.reload();
     } else {
       // eslint-disable-next-line
-      window.alert('image delete error');
+      swal('image delete error');
     }
   };
 

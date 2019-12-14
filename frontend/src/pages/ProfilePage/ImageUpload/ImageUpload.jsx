@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ImageUpload.css';
+import swal from 'sweetalert';
 import { getCookie } from '../../../utils';
 
 class ImageUpload extends Component {
@@ -30,10 +31,10 @@ class ImageUpload extends Component {
     });
 
     if (response.status === 200) {
-      window.alert('success image change');
+      swal('success image change');
       window.location.reload();
     } else {
-      window.alert('fail image change');
+      swal('fail image change');
     }
   }
 

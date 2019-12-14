@@ -3,6 +3,7 @@ import { Field, Form } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
 import Link from '@material-ui/core/Link';
+import swal from 'sweetalert';
 import Base from '../../components/Base/Base';
 import Typography from '../../components/subcomponents/Typography';
 import AppForm from '../../components/subcomponents/AppForm';
@@ -54,7 +55,7 @@ function LoginPage() {
     if (response.status === 204) {
       onLoggedIn();
       history.push('/main');
-    }
+    } else swal('Please check your id or password');
   };
 
   return (
