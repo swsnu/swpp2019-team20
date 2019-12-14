@@ -69,10 +69,6 @@ describe('<CreateLoan/>', () => {
 
     participants = component.find('#paid-money input');
     expect(participants.length).toBe(1);
-
-    /* register - fail */
-    const registerButton = component.find('#register-button button');
-    registerButton.simulate('click');
   });
 
   it('write user name', () => {
@@ -123,50 +119,22 @@ describe('<CreateLoan/>', () => {
 
   it('change alert frequency', () => {
     const component = mount(createLoan);
-    /* use component mocking */
 
+    /* use component mocking */
     const alertFrequency = component.find('.alert-frequency button');
     alertFrequency.simulate('click');
   });
 
+  it('click register button with blank username', () => {
+    const component = mount(createLoan);
+
+    /* register - fail */
+    const registerButton = component.find('#register-button button');
+    registerButton.simulate('click');
+  });
+
   it('click register button with too less user', () => {
     const component = mount(createLoan);
-    const registerButton = component.find('#register-button button');
-    registerButton.simulate('click');
-  });
-  /*
-  it('empty user', () => {
-    const component = mount(createLoan);
-    // let participants = component.find('SearchBar');
-
-    const addUserButton = component.find('#add-user-button button');
-    addUserButton.simulate('click');
-    addUserButton.simulate('click');
-
-    let searchBar = component.find('.participant input').at(0);
-    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
-    let searchBar = component.find('.participant input').at(2);
-    searchBar.simulate('change', { target: { value: { username: 'user3', id: 3 } } });
-
-    const registerButton = component.find('#register-button button');
-    registerButton.simulate('click');
-  });
-*/
-  it('click register button with invalid input', () => {
-    onSubmitSpy = jest.spyOn(window, 'fetch')
-      // eslint-disable-next-line
-      .mockImplementation((url) => {
-        const result = {
-          status: 204,
-        };
-        return Promise.resolve(result);
-      });
-
-    const component = mount(createLoan);
-
-    /* add user */
-    const addUserButton = component.find('#add-user-button button');
-    addUserButton.simulate('click');
 
     /* write ID */
     const searchBar = component.find('.participant input').at(0);
@@ -177,22 +145,7 @@ describe('<CreateLoan/>', () => {
     registerButton.simulate('click');
   });
 
-  it('click register button with invalid input2', () => {
-    const component = mount(createLoan);
-
-    /* add user */
-    // const addUserButton = component.find('#add-user-button button');
-
-    /* write ID */
-    const searchBar = component.find('.participant input').at(0);
-    searchBar.simulate('change', { target: { value: { username: 'user1', id: 1 } } });
-
-    /* register - success */
-    const registerButton = component.find('#register-button button');
-    registerButton.simulate('click');
-  });
-
-  it('click register button with invalid input3', () => {
+  it('backend error happened', () => {
     onSubmitSpy = jest.spyOn(window, 'fetch')
       // eslint-disable-next-line
       .mockImplementation((url) => {
@@ -235,6 +188,11 @@ describe('<CreateLoan/>', () => {
     const addUserButton = component.find('#add-user-button button');
     addUserButton.simulate('click');
     addUserButton.simulate('click');
+    addUserButton.simulate('click');
+
+    /* delete one user */
+    const deleteButton = component.find('.delete-button svg').at(3);
+    deleteButton.simulate('click');
 
     /* write ID */
     let searchBar = component.find('.participant input').at(0);
