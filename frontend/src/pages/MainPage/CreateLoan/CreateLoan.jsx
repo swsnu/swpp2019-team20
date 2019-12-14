@@ -95,12 +95,10 @@ const CreateLoan = () => {
     });
 
     if (response.status === 201) {
-      // eslint-disable-next-line
-      swal("Good job!", 'Your loan is registered.', 'success')
+      swal('Good job!', 'Your loan is registered.', 'success')
         .then(() => window.location.reload());
     } else {
-      // eslint-disable-next-line
-      swal('Please do not leave the user input empty.');
+      swal('Cannot register the loan. Please contact with the administers.');
     }
   };
 
@@ -113,8 +111,7 @@ const CreateLoan = () => {
       const currentID = participants[i].id;
       // currentID < 0 : do nothing
       if (currentID === 0) {
-        // eslint-disable-next-line
-        swal(`username on row ${real+1} is empty!`);
+        swal(`username on row ${real + 1} is empty!`);
         return;
       }
 
@@ -137,7 +134,6 @@ const CreateLoan = () => {
     }
 
     if (real < 2) {
-      // eslint-disable-next-line
       swal('It needs more participants.');
     } else {
       const data = {
@@ -171,11 +167,6 @@ const CreateLoan = () => {
   };
 
   const deleteUser = (index) => {
-    /*
-    const newParticipants = [...participants];
-    newParticipants.splice(index, 1);
-    setParticipants(newParticipants);
-    */
     changeUserId(index, -1);
   };
 
