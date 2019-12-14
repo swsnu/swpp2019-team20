@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-
 import CloseIcon from '@material-ui/icons/Close';
 /* outlined box */
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router';
 import Button from '@material-ui/core/Button';
 /* date selecter */
 import 'date-fns';
@@ -19,7 +17,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
+import swal from 'sweetalert';
 import { getCookie } from '../../../utils';
 import SearchBar from '../../../components/subcomponents/SearchBar/SearchBar';
 
@@ -52,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateLoan = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
@@ -99,19 +96,18 @@ const CreateLoan = () => {
 
     if (response.status === 201) {
       // eslint-disable-next-line
-      window.alert('success');
-      history.push('/index');
-      history.push('/main');
+      swal("Good job!", 'Your loan is registered.', 'success')
+        .then(() => window.location.reload());
     } else {
       // eslint-disable-next-line
-      window.alert('error');
+      swal('Please do not leave the user input empty.');
     }
   };
 
   const articlePostHandler = () => {
     if (participants.length < 2) {
       // eslint-disable-next-line
-      window.alert('It needs more participants.');
+      swal('It needs more participants.');
     } else {
       const data = {
         participants,

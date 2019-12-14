@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import swal from 'sweetalert';
 import LatestOrders from './presenter';
 import { getCookie } from '../../../utils';
 
@@ -63,10 +64,11 @@ const TransactionList = (props) => {
     });
 
     // eslint-disable-next-line
-    if (response.status === 403) alert('not your transaction! ㅜ.ㅜ');
+    if (response.status === 403) swal('not your transaction! ㅜ.ㅜ');
     else {
       setBtnDisabled(true);
       if (tx.lender === username) onWriteReview();
+      else swal('Good job!', 'Better relationship with your acquaintances >.<', 'success').then(() => window.location.reload());
     }
     setLoading(true);
   };
@@ -96,7 +98,7 @@ const TransactionList = (props) => {
         'X-CSRFToken': csrftoken,
       },
       body: JSON.stringify({ content: review }), // body data type must match "Content-Type" header
-    });
+    }).then(() => swal('Good job!', 'Better relationship with your acquaintances >.<', 'success').then(() => window.location.reload()));
   };
 
   const render = (
