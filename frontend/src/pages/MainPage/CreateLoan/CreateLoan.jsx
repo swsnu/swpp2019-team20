@@ -114,7 +114,7 @@ const CreateLoan = () => {
       // currentID < 0 : do nothing
       if (currentID === 0) {
         // eslint-disable-next-line
-        window.alert(`username on row ${real+1} is empty!`);
+        swal(`username on row ${real+1} is empty!`);
         return;
       }
 
