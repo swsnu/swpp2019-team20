@@ -3,14 +3,9 @@ Define Models for account APIs
 """
 
 from django.db import models
-#from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-#from imagekit.models import ProcessedImageField
-#from imagekit.processors import Thumbnail
-
-#import datetime
 
 
 class Profile(models.Model):
@@ -24,11 +19,6 @@ class Profile(models.Model):
     twilio_msg = models.CharField(max_length=200, blank=True, null=True)
     rating = models.FloatField(default=0)
     profile_img = models.ImageField(upload_to="profile_img", blank=True)
-    #profile_img = ProcessedImageField(blank=True, null=True,
-    #                            upload_to='profile_imgs',
-    #                            processors=[Thumbnail(300, 300)],
-    #                            format='JPEG',
-    #                            options={'quality': 60}, )
 
     def __str__(self):
         return f'{self.user.username}'
